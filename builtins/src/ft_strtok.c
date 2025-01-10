@@ -3,8 +3,10 @@
 // Función auxiliar para verificar si un carácter es un delimitador
 static int ft_is_delimiter(char c, const char *delim)
 {
-    while (*delim) {
-        if (c == *delim) {
+    while (*delim)
+    {
+        if (c == *delim)
+        {
             return 1;  // Si encontramos el delimitador, devolvemos 1
         }
         delim++;

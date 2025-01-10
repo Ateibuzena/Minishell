@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:13:53 by azubieta          #+#    #+#             */
-/*   Updated: 2024/12/28 15:25:35 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:18:57 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,9 @@ char		*ft_strchr(const char *str, int c);
 char		*ft_strrchr(const char *str, int c);
 int			ft_strncmp(const char *s1, const char *s2, t_size n);
 char		*ft_strnstr(const char *hay, const char *need, t_size len);
+char 		*ft_strstr(const char *haystack, const char *needle);
 char		*ft_strdup(const char *s1);
+char 		*ft_strndup(const char *s1, size_t n);
 char		*ft_substr(char const *s, unsigned int start, t_size len);
 char		*ft_strjoin(const char *s1, const char *s2);
 char		*ft_strtrim(char const *s1, char const *set);

@@ -9,6 +9,7 @@ CFLAGS = -Wall -Werror -Wextra -fPIC -fPIE
 SRCS = src/d_ascii/ft_isspace.c src/d_ascii/ft_isalpha.c src/d_ascii/ft_isdigit.c src/d_ascii/ft_isalnum.c src/d_ascii/ft_isascii.c src/d_ascii/ft_isprint.c src/d_ascii/ft_toupper.c src/d_ascii/ft_tolower.c\
 	src/d_memory/ft_calloc.c src/d_memory/ft_memset.c src/d_memory/ft_bzero.c src/d_memory/ft_memcpy.c src/d_memory/ft_memmove.c src/d_memory/ft_memchr.c src/d_memory/ft_memcmp.c\
 	src/d_strings/ft_strtol.c src/d_strings/ft_strncpy.c src/d_strings/ft_strcmp.c src/d_strings/ft_strlen.c src/d_strings/ft_strlcpy.c src/d_strings/ft_strlcat.c  src/d_strings/ft_strchr.c src/d_strings/ft_strrchr.c src/d_strings/ft_strncmp.c src/d_strings/ft_strnstr.c src/d_strings/ft_strmapi.c src/d_strings/ft_striteri.c src/d_strings/ft_strdup.c src/d_strings/ft_substr.c src/d_strings/ft_strjoin.c src/d_strings/ft_strtrim.c\
+	src/d_strings/ft_strndup.c src/d_strings/ft_strstr.c \
 	src/ft_split.c src/ft_strlen_double.c src/ft_atoi.c src/ft_itoa.c  src/ft_printf.c src/ft_freedouble.c\
 	src/d_fds/ft_putchar_fd.c src/d_fds/ft_putstr_fd.c src/d_fds/ft_putendl_fd.c src/d_fds/ft_putnbr_fd.c\
 	src/d_get_next_line/get_next_line_utils.c src/d_get_next_line/get_next_line_utils_bonus.c src/d_get_next_line/get_next_line.c src/d_get_next_line/get_next_line_bonus.c\

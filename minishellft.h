@@ -10,36 +10,16 @@
 # include <signal.h>
 # include <fcntl.h>
 //history
-# include <readline/readline.h>
-# include <readline/history.h>
 # include "history/historyft.h"
+//builtins
+# include "builtins/builtinsft.h"
 //libf
 # include "libft/libft.h"
 //macros
 # define MAX_INPUT_SIZE 1024
 
-// Definición de la estructura para almacenar variables de entorno
-typedef struct s_env
-{
-    char *key;
-    char *value;
-    struct s_env *next;
-} t_env;
-
-// Funciones de manejo de tokens
-char			*ft_strtok(char *str, const char *delim);
-
-// Funciones de manejo de comandos
-int				ft_echo(char **args);
-int				ft_cd(char **args);
-int				ft_pwd(void);
-int				ft_export(t_env **env, char **args);
-void			ft_delete_env(t_env **head, const char *key);
-void			ft_add_env(t_env **env, const char *key, const char *value);
-int				ft_unset(t_env **env, char **args);
-int				ft_env(t_env *env, char **args);
-int				ft_exit(char **args);
 int 			ft_execute(char **args, t_History *history, t_env **env);
+int ft_is_builtin(char *cmd);
 
 /*// Funciones de manejo de procesos
 pid_t   create_child_process(char **args, t_env *env);
