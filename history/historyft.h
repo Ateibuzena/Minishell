@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:40:23 by azubieta          #+#    #+#             */
-/*   Updated: 2024/12/29 20:24:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:24:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
+#ifndef HISTORYFT_H
+# define HISTORYFT_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -21,7 +21,7 @@
 
 typedef struct s_HistoryEntry
 {
-	char				*line;
+	char					*line;
 	struct s_HistoryEntry	*next;
 }	t_HistoryEntry;
 
