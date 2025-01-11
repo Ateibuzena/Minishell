@@ -4,17 +4,17 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_SRC = $(LIBFT_DIR)/src/*.c  # Asumiendo que los archivos fuente están aquí
 
 HISTORY_DIR = ./history
 HISTORY_LIB = $(HISTORY_DIR)/history.a
-HISTORY_SRC = $(HISTORY_DIR)/src/*.c  # Asumiendo que los archivos fuente están aquí
 
 BUILTINS_DIR = ./builtins
 BUILTINS_LIB = $(BUILTINS_DIR)/builtins.a
-BUILTINS_SRC = $(BUILTINS_DIR)/src/*.c  # Asumiendo que los archivos fuente están aquí
 
-INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR)
+ENVIROMENT_DIR = ./enviroment
+ENVIROMENT_LIB = $(ENVIROMENT_DIR)/enviroment.a
+
+INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR) -I$(ENVIROMENT_DIR)
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/main.c \
@@ -39,9 +39,9 @@ RESET    = \033[0m
 # Reglas
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(LIBFT) $(HISTORY_LIB) $(BUILTINS_LIB) $(OBJS)
+$(NAME): $(OBJ_DIR) $(LIBFT) $(HISTORY_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(OBJS)
 	@printf "$(CYAN)[Building Main] Creating $(NAME)...\n$(RESET)"
-	@$(CC) $(OBJS) $(HISTORY_LIB) $(BUILTINS_LIB) $(LIBFT) -o $(NAME) -lreadline -lncurses
+	@$(CC) $(OBJS) $(HISTORY_LIB) $(ENVIROMENT_LIB) $(BUILTINS_LIB) $(LIBFT) -o $(NAME) -lreadline -lncurses
 	@printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -53,20 +53,26 @@ $(OBJ_DIR):
 	@printf "$(CYAN)[Directory] Creating object directory $(OBJ_DIR)...\n$(RESET)"
 	@mkdir -p $(OBJ_DIR)
 
-$(LIBFT): $(LIBFT_SRC)
-	@printf "$(CYAN)[Building Libft] Compiling libft...\n$(RESET)"
+$(LIBFT):
+	@printf "$(CYAN)[Building Libft] Compiling libft.a...\n$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 	@printf "$(GREEN)[Libft Ready] Libft compiled successfully!\n$(RESET)"
 
-$(HISTORY_LIB): $(HISTORY_SRC)
+$(HISTORY_LIB):
 	@printf "$(CYAN)[Building History] Compiling history.a...\n$(RESET)"
 	@$(MAKE) -C $(HISTORY_DIR)
 	@printf "$(GREEN)[History Ready] History library compiled successfully!\n$(RESET)"
 
-$(BUILTINS_LIB): $(BUILTINS_SRC)
+$(BUILTINS_LIB):
 	@printf "$(CYAN)[Building Builtins] Compiling builtins.a...\n$(RESET)"
 	@$(MAKE) -C $(BUILTINS_DIR)
 	@printf "$(GREEN)[Builtins Ready] Builtins library compiled successfully!\n$(RESET)"
+
+$(ENVIROMENT_LIB):
+	@printf "$(CYAN)[Building Enviroment] Compiling enviroment.a...\n$(RESET)"
+	@$(MAKE) -C $(ENVIROMENT_DIR)
+	@printf "$(GREEN)[Enviroment Ready] Builtins library compiled successfully!\n$(RESET)"
+
 
 clean:
 	@printf "$(RED)[Cleaning] Removing object files...\n$(RESET)"
@@ -74,6 +80,7 @@ clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(MAKE) -C $(HISTORY_DIR) clean
 	@$(MAKE) -C $(BUILTINS_DIR) clean
+	@$(MAKE) -C $(ENVIROMENT_DIR) clean
 	@printf "$(GREEN)[Cleaned] Object files removed successfully!\n$(RESET)"
 
 fclean: clean
@@ -81,6 +88,7 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@$(MAKE) -C $(HISTORY_DIR) fclean
 	@$(MAKE) -C $(BUILTINS_DIR) fclean
+	@$(MAKE) -C $(ENVIROMENT_DIR) fclean
 	@rm -f $(NAME)
 	@printf "$(GREEN)[Cleaned] All binaries and libraries removed successfully!\n$(RESET)"
 

@@ -7,19 +7,15 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR)
 
 SRC_DIR = ./src
-SRCS = $(SRC_DIR)/builtins_cd.c\
-		$(SRC_DIR)/builtins_echo.c\
-		$(SRC_DIR)/builtins_pwd.c\
-		$(SRC_DIR)/builtins_env.c\
-		$(SRC_DIR)/builtins_exit.c\
-		$(SRC_DIR)/builtins_unset.c\
-		$(SRC_DIR)/builtins_export.c\
-		$(SRC_DIR)/ft_strtok.c
+SRCS = $(SRC_DIR)/enviroment_free.c\
+		$(SRC_DIR)/enviroment_init.c\
+		$(SRC_DIR)/enviroment_utils.c\
+		
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-NAME = builtins.a
+NAME = enviroment.a
 
 LIBS = -lreadline -lncurses
 
