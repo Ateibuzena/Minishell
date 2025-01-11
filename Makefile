@@ -4,22 +4,25 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_SRC = $(LIBFT_DIR)/src/*.c  # Asumiendo que los archivos fuente están aquí
 
 HISTORY_DIR = ./history
 HISTORY_LIB = $(HISTORY_DIR)/history.a
+HISTORY_SRC = $(HISTORY_DIR)/src/*.c  # Asumiendo que los archivos fuente están aquí
 
 BUILTINS_DIR = ./builtins
 BUILTINS_LIB = $(BUILTINS_DIR)/builtins.a
+BUILTINS_SRC = $(BUILTINS_DIR)/src/*.c  # Asumiendo que los archivos fuente están aquí
 
-INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR)  # Incluye la nueva carpeta history
+INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR)
 
 SRC_DIR = ./src
-# Archivos fuente del proyecto principal
 SRCS = $(SRC_DIR)/main.c \
+		$(SRC_DIR)/prompt.c \
        $(SRC_DIR)/parser.c \
        $(SRC_DIR)/executor.c \
        $(SRC_DIR)/builtins.c \
-       $(SRC_DIR)/signals.c \
+       $(SRC_DIR)/signals.c
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -41,7 +44,6 @@ $(NAME): $(OBJ_DIR) $(LIBFT) $(HISTORY_LIB) $(BUILTINS_LIB) $(OBJS)
 	@$(CC) $(OBJS) $(HISTORY_LIB) $(BUILTINS_LIB) $(LIBFT) -o $(NAME) -lreadline -lncurses
 	@printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"
 
-# Combinación para crear los objetos (.o) en las carpetas correspondientes
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)  # Crea la estructura de directorios en obj
 	@printf "$(YELLOW)[Compiling]$(RESET) $<\n"
@@ -51,17 +53,17 @@ $(OBJ_DIR):
 	@printf "$(CYAN)[Directory] Creating object directory $(OBJ_DIR)...\n$(RESET)"
 	@mkdir -p $(OBJ_DIR)
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_SRC)
 	@printf "$(CYAN)[Building Libft] Compiling libft...\n$(RESET)"
 	@$(MAKE) -C $(LIBFT_DIR)
 	@printf "$(GREEN)[Libft Ready] Libft compiled successfully!\n$(RESET)"
 
-$(HISTORY_LIB):
+$(HISTORY_LIB): $(HISTORY_SRC)
 	@printf "$(CYAN)[Building History] Compiling history.a...\n$(RESET)"
 	@$(MAKE) -C $(HISTORY_DIR)
 	@printf "$(GREEN)[History Ready] History library compiled successfully!\n$(RESET)"
 
-$(BUILTINS_LIB):
+$(BUILTINS_LIB): $(BUILTINS_SRC)
 	@printf "$(CYAN)[Building Builtins] Compiling builtins.a...\n$(RESET)"
 	@$(MAKE) -C $(BUILTINS_DIR)
 	@printf "$(GREEN)[Builtins Ready] Builtins library compiled successfully!\n$(RESET)"

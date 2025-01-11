@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:13:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/10 19:18:57 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/11 13:33:36 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,9 @@ char		*ft_strncpy(char *dest, const char *src, size_t n);
 long int	ft_strtol(const char *str, char **endptr, int base);
 t_size		ft_strlen(const char *s);
 t_size		ft_strlcpy(char *dst, const char *src, t_size dstsize);
+char		*ft_strcpy(char *dst, const char *src);
 t_size		ft_strlcat(char *dst, const char *src, t_size dstsize);
+char 		*ft_strcat(char *dst, const char *src);
 int			ft_toupper(int c);
 int			ft_tolower(int c);
 char		*ft_strchr(const char *str, int c);

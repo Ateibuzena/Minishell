@@ -2,11 +2,11 @@
 
 int ft_is_builtin(char *cmd)
 {
-    if (ft_strcmp(cmd, "echo")) //parseo: impar comillas simples = here_doc && falta mirar gestion comillas dobles limpiar espacios antes de arg1
+    if (ft_strcmp(cmd, "echo"))
         return (1);
-    else if (ft_strcmp(cmd, "cd")) //parseo: comillas simple parece ser igual que el echo
+    else if (ft_strcmp(cmd, "cd"))
         return (1);
-    else if (ft_strcmp(cmd, "pwd")) //parseo a cmd;
+    else if (ft_strcmp(cmd, "pwd"))
         return (1);
     else if (ft_strcmp(cmd, "export"))
         return (1);
@@ -22,7 +22,6 @@ int ft_is_builtin(char *cmd)
         return (0);
 }
 
-// Función para ejecutar los built-ins
 int ft_execute(char **args, t_History *history, t_env **env)
 {
     // Procesar comandos built-ins

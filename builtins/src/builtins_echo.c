@@ -80,9 +80,10 @@ int	ft_echo(char **args)
     while (args[i])
     {
 		expanded = ft_expand_variables(args[i]);
+		//falta parseo de comillas:
 		cleaned = ft_remove_quotes(expanded);
 
-        printf("%s", cleaned);
+        printf("%s", expanded);
 		
 		free(expanded);
 		free(cleaned);

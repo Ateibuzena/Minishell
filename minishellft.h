@@ -21,6 +21,15 @@
 int 			ft_execute(char **args, t_History *history, t_env **env);
 int ft_is_builtin(char *cmd);
 
+
+/*prompt.c*/
+char *ft_find_session(char *value);
+char *ft_extract_session(t_env *env);
+char *ft_find_user(t_env *env);
+char *ft_extract_user(t_env *env);
+char *ft_build_prompt(t_env *env);
+
+
 /*// Funciones de manejo de procesos
 pid_t   create_child_process(char **args, t_env *env);
 int     wait_for_process(pid_t pid);

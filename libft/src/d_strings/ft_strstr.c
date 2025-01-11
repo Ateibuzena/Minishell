@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 19:01:00 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/10 19:02:50 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/11 13:41:15 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char *ft_strstr(const char *haystack, const char *needle)
 	const char *n;
 
     if (!*needle)
-        return ((char *)haystack);  // Si la subcadena está vacía, devolver la cadena original
+        return ((char *)haystack);
 
     while (*haystack)
 	{
@@ -36,5 +36,5 @@ char *ft_strstr(const char *haystack, const char *needle)
         }
 		haystack++;
     }
-    return (NULL);  // Si no se encuentra la subcadena
+    return (NULL);
 }
