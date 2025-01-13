@@ -18,7 +18,7 @@
 //macros
 # define MAX_INPUT_SIZE 1024
 
-int 			ft_execute(char **args, t_History *history, t_env **env);
+int	ft_execute(char **args, t_History *history, t_env **env);
 int ft_is_builtin(char *cmd);
 
 

@@ -17,7 +17,6 @@ int main(int argc, char **argv, char **envp)
     t_env *env;
 
     env = ft_copy_env(envp);
-    prompt = ft_build_prompt(env);
     
     // Asignar memoria para el historial y inicializarlo
     history_2 = (t_History *)malloc(sizeof(t_History));
@@ -27,6 +26,7 @@ int main(int argc, char **argv, char **envp)
     // Bucle principal para simular la entrada de comandos
     while (1)
     {
+        prompt = ft_build_prompt(env);
         input = readline(prompt);
         if (input == NULL)
         {  

@@ -77,19 +77,24 @@ char *ft_build_prompt(t_env *env)
     char *user;
     char *session;
     char *prompt;
+    char *cwd;
 
     user = ft_extract_user(env);
     session = ft_extract_session(env);
-    if (!user || !session)
-        return (free(user), free(session), NULL);
-    prompt = malloc((ft_strlen(user) + ft_strlen(session) + 7 + 1) * sizeof(char));
+    cwd = getcwd(NULL, 0);
+    if (!user || !session || !cwd)
+        return (free(user), free(session), free(cwd), NULL);
+    prompt = malloc((ft_strlen(user) + ft_strlen(session) + ft_strlen(cwd) + 7 + 1) * sizeof(char));
     if (!prompt)
-		return (free(user), free(session), NULL);
+		return (free(user), free(session), free(cwd), NULL);
     ft_strcpy(prompt, user);
     ft_strcat(prompt, "@");
     ft_strcat(prompt, session);
-    ft_strcat(prompt, ": ~$ ");
+    ft_strcat(prompt, ":");
+    ft_strcat(prompt, cwd);
+    ft_strcat(prompt, "$ ");
     free(user);
     free(session);
+    free(cwd);
     return (prompt);
 }
