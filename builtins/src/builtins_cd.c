@@ -1,5 +1,7 @@
 #include "../builtinsft.h"
 
+
+
 // Expande el ~ al directorio HOME
 static char *ft_expand_tilde(const char *path)
 {
@@ -93,7 +95,10 @@ int ft_cd(char **args)
     if (args[1] == NULL)
         error = ft_change_home();  // Si no se proporciona argumento, ir al HOME
     else if (args[1][0] == '-' && args[1][1] == '\0')
+    {
         error = ft_change_oldpwd();  // Si el argumento es "-", ir a OLDPWD
+        ft_pwd();
+    }
     else
         error = ft_expand_directory(args[1]);  // Expande el path y cambia de directorio
 

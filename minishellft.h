@@ -15,19 +15,13 @@
 # include "builtins/builtinsft.h"
 //libf
 # include "libft/libft.h"
+//prompt
+# include "prompt/promptft.h"
 //macros
 # define MAX_INPUT_SIZE 1024
 
 int	ft_execute(char **args, t_History *history, t_env **env);
 int ft_is_builtin(char *cmd);
-
-
-/*prompt.c*/
-char *ft_find_session(char *value);
-char *ft_extract_session(t_env *env);
-char *ft_find_user(t_env *env);
-char *ft_extract_user(t_env *env);
-char *ft_build_prompt(t_env *env);
 
 
 /*// Funciones de manejo de procesos
