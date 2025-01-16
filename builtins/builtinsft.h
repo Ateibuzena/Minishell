@@ -9,6 +9,9 @@
 /*builtins_cd.c*/
 int     ft_cd(char **args);
 
+/*builtins_clear*/
+void	ft_clear(void);
+
 /*builtins_echo.c*/
 int     ft_echo(char **args);
 

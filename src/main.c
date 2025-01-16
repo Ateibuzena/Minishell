@@ -9,6 +9,8 @@ int main(int argc, char **argv, char **envp)
 
     (void)argc;
     (void)argv;
+
+    //CONFIGURAR SEÑALES
     // Copiar el entorno y asignar memoria para el historial
     env = ft_copy_env(envp);
     history = (t_History *)malloc(sizeof(t_History));

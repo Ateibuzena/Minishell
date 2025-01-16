@@ -42,9 +42,9 @@ static int ft_change_directory(char *path)
         return (1);  // Cambio de directorio exitoso
     }
 
-    ft_putstr_fd("minishell: cd: failed to change directory to ", STDERR_FILENO);
+    ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
     ft_putstr_fd(path, STDERR_FILENO);
-    ft_putstr_fd("\n", STDERR_FILENO);
+    ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
     return (0);  // Fallo al cambiar de directorio
 }
 
@@ -59,13 +59,21 @@ static int ft_change_home(void)
     return (0);
 }
 
-static int ft_change_oldpwd(void)
+static int ft_change_oldpwd(char **args)
 {
     char *old_pwd;
-    
+   
+    if (args[2])
+    {
+        ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+        return (0);
+    }
     old_pwd = getenv("OLDPWD");
     if (old_pwd)
-        return (ft_change_directory(old_pwd));  // Cambiar al directorio de OLDPWD
+    {
+        ft_change_directory(old_pwd);
+        return (ft_pwd());
+    }
     ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
     return (0);
 }
@@ -93,10 +101,7 @@ int ft_cd(char **args)
     if (args[1] == NULL)
         error = ft_change_home();  // Si no se proporciona argumento, ir al HOME
     else if (args[1][0] == '-' && args[1][1] == '\0')
-    {
-        error = ft_change_oldpwd();  // Si el argumento es "-", ir a OLDPWD
-        ft_pwd();
-    }
+        error = ft_change_oldpwd(args);  // Si el argumento es "-", ir a OLDPWD
     else
         error = ft_expand_directory(args[1]);  // Expande el path y cambia de directorio
 

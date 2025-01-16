@@ -27,6 +27,7 @@ int ft_exit(char **args)
         }
         status = ft_atoi(args[1]);  // Si el argumento es válido, convertimos a número
     }
+    ft_putstr_fd("exit", STDOUT_FILENO);
     // Salimos con el código de salida determinado
     exit(status);
 }

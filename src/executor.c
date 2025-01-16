@@ -36,11 +36,13 @@ void    ft_tokenize(char *input, char *args[])
 int ft_execute(char **args, t_History *history, t_Env **env)
 {
     // Procesar comandos built-ins
-    if (ft_strcmp(args[0], "echo")) //parseo: impar comillas simples = here_doc && falta mirar gestion comillas dobles limpiar espacios antes de arg1
+    if (ft_strcmp(args[0], "echo"))
         ft_echo(args);
-    else if (ft_strcmp(args[0], "cd")) //parseo: comillas simple parece ser igual que el echo
+    else if (ft_strcmp(args[0], "cd"))
         ft_cd(args);
-    else if (ft_strcmp(args[0], "pwd")) //parseo a args[0];
+    else if (ft_strcmp(args[0], "clear")) 
+        ft_clear();
+    else if (ft_strcmp(args[0], "pwd"))
         ft_pwd();
     else if (ft_strcmp(args[0], "export"))
         ft_export(env, args);
@@ -49,10 +51,7 @@ int ft_execute(char **args, t_History *history, t_Env **env)
     else if (ft_strcmp(args[0], "env"))
         ft_env(*env, args);
     else if (ft_strcmp(args[0], "exit"))
-    {
         ft_exit(args);
-        exit(0); // Terminar el programa
-    }
     else if (ft_strcmp(args[0], "history"))
         ft_show_history(history); // Mostrar historial
     else

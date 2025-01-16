@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/16 13:00:23 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:38:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@ char *ft_simplify_path(char *cwd)
 {
     char *simplified;
     char *home;
-
-    home = getenv("HOME");
-    if (home && !ft_strncmp(cwd, home, ft_strlen(home)))
+    
+    home = getenv("HOME");  // Obtener el directorio home del usuario
+    if (!cwd)
+        return (NULL);
+    // Reemplazar "home" por "~" en cualquier parte de la ruta
+    if (home && ft_strstr(cwd, home) == cwd)
     {
-        // Si cwd es exactamente igual a home, devolver solo "~"
-        if (cwd[ft_strlen(home)] == '\0')
+        // Si la ruta comienza con el directorio home, simplificar la ruta
+        if (ft_strlen(cwd) == ft_strlen(home))
         {
-            simplified = malloc(2); // "~" + '\0'
+            // Si la ruta es exactamente HOME, devolver solo "~"
+            simplified = malloc(2);  // "~" + '\0'
             if (!simplified)
                 return (NULL);
             simplified[0] = '~';
@@ -32,14 +36,17 @@ char *ft_simplify_path(char *cwd)
             return (simplified);
         }
 
-        simplified = malloc(ft_strlen(cwd) - ft_strlen(home) + 2);
+        // Si está en cualquier subdirectorio de HOME, reemplazar la parte de HOME con "~"
+        simplified = malloc(ft_strlen(cwd) - ft_strlen(home) + 2);  // +2 para "~" y el terminador nulo
         if (!simplified)
             return (NULL);
+        
         simplified[0] = '~';
         simplified[1] = '/';
-        ft_strcpy(simplified + 2, cwd + ft_strlen(home) + 1);
+        ft_strcpy(simplified + 2, cwd + ft_strlen(home));  // Copiar el resto de la ruta después de HOME
         return (simplified);
     }
+    // Si no contiene "home" ni "root", devolver la ruta tal cual
     return (ft_strdup(cwd));
 }
 
@@ -64,7 +71,6 @@ char *ft_build_prompt(t_Env *env)
     ft_strcat(prompt, "@");
     ft_strcat(prompt, session);
     ft_strcat(prompt, ":");
-    
     ft_strcat(prompt, ft_simplify_path(cwd));
     ft_strcat(prompt, "$ ");
     free(user);
