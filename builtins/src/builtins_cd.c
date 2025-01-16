@@ -1,7 +1,5 @@
 #include "../builtinsft.h"
 
-
-
 // Expande el ~ al directorio HOME
 static char *ft_expand_tilde(const char *path)
 {

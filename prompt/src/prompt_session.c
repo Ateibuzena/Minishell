@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/13 19:24:29 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/16 13:00:50 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char *ft_find_session(char *value)
 }
 
 // Función principal para extraer el identificador de sesión
-char *ft_extract_session(t_env *env)
+char *ft_extract_session(t_Env *env)
 {
     char *start;
     char *end;

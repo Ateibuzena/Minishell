@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/15 18:34:15 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/16 13:00:23 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char *ft_simplify_path(char *cwd)
 
 
 // Función para construir el string "<user>@<session_id>: <path>$ "
-char *ft_build_prompt(t_env *env)
+char *ft_build_prompt(t_Env *env)
 {
     char *user;
     char *session;

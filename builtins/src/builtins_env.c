@@ -1,9 +1,9 @@
 #include "../builtinsft.h"
 
 // Función para manejar el comando env
-int ft_env(t_env *env, char **args)
+int ft_env(t_Env *env, char **args)
 {
-    t_env *current;
+    t_Env *current;
 
     // Si se pasa un argumento adicional, mostrar un error
     if (args[1] != NULL)

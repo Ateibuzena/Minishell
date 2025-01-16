@@ -2,71 +2,39 @@
 
 int main(int argc, char **argv, char **envp)
 {
+    char *prompt;
+    char *input;
+    t_History *history;
+    t_Env *env;
+
     (void)argc;
     (void)argv;
-    char *prompt;
-    char *args[100];
-
-    t_History *history_2;
-
-    char *input;
-
-    t_env *env;
-
+    // Copiar el entorno y asignar memoria para el historial
     env = ft_copy_env(envp);
-    
-    // Asignar memoria para el historial y inicializarlo
-    history_2 = (t_History *)malloc(sizeof(t_History));
-    if (!history_2)
+    history = (t_History *)malloc(sizeof(t_History));
+    if (!history)
         return (perror("Error al asignar memoria para el historial"), 1);
-    ft_init_history(history_2);
-    // Bucle principal para simular la entrada de comandos
+    ft_init_history(history);
     while (1)
     {
+        // Construir el prompt
         prompt = ft_build_prompt(env);
         input = readline(prompt);
+        free(prompt);
+        // Salir si la entrada es NULL (Ctrl+D)
         if (input == NULL)
-        {  
-            printf("Adiós.\n");
-            break;
-        }
-
+            break ;
+        // Procesar entrada si no está vacía
         if (ft_strlen(input) > 0)
         {
-            int  i;
-            char *token;
-
-            i = 0;
-            // Tokenizar la entrada
-            token = ft_strtok(input, " ");
-            while (token != NULL)
-            {
-                args[i++] = token;
-                token = ft_strtok(NULL, " ");
-            }
-            args[i] = NULL; // Null-terminate the array de argumentos
-            //parseo + tokenizacion = limpiar copia de historial
-            // Agregar al historial
-            i = 0;
-            char *entry = ft_calloc(1, sizeof(char));
-            while (args[i])
-            {
-                entry = ft_strjoin(entry, args[i]);
-                entry = ft_strjoin(entry, " ");
-
-                i++;
-            }
-            ft_add_entry(history_2, entry);
-            
-            ft_execute(args, history_2, &env);
+            /*if (ft_strchr(input, '|')) // Si hay un pipe
+                ft_process_pipes(input, history, env);
+            else // Si no hay pipes*/
+                ft_process_command(input, history, &env);
         }
-
-        // Liberar la memoria de la entrada
-        free(input);
+        free(input);      
     }
-
-    // Liberar la memoria del historial
-    ft_free_history(history_2);
-    
+    ft_free_history(history);
+    ft_free_env(env);
     return (0);
 }

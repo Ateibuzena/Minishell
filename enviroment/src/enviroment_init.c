@@ -6,16 +6,16 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:53:20 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/11 15:55:01 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:58:38 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../enviromentft.h"
 
-t_env *ft_copy_env(char **envp)
+t_Env *ft_copy_env(char **envp)
 {
-    t_env *env_list;
-    t_env *new_node;
+    t_Env *env_list;
+    t_Env *new_node;
     char *key;
     char *value;
     int  i;

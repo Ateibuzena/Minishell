@@ -24,7 +24,7 @@ static int ft_valid_key(const char *key)
 
 // Función para manejar el comando unset
 
-int ft_unset(t_env **env, char **args)
+int ft_unset(t_Env **env, char **args)
 {
     int i;
     

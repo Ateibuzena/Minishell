@@ -21,9 +21,7 @@ INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR) -I$(ENVIROMENT_DIR)
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/main.c \
-       $(SRC_DIR)/parser.c \
        $(SRC_DIR)/executor.c \
-       $(SRC_DIR)/builtins.c \
        $(SRC_DIR)/signals.c
 
 OBJ_DIR = ./obj

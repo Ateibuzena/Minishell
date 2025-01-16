@@ -13,19 +13,19 @@ int     ft_cd(char **args);
 int     ft_echo(char **args);
 
 /*builtins_env.c*/
-int     ft_env(t_env *env, char **args);
+int     ft_env(t_Env *env, char **args);
 
 /*builtins_exit.c*/
 int     ft_exit(char **args);
 
 /*builtins_export.c*/
-int     ft_export(t_env **env, char **args);
+int     ft_export(t_Env **env, char **args);
 
 /*builtins_pwd.c*/
 int     ft_pwd(void);
 
 /*builtins_unset.c*/
-int     ft_unset(t_env **env, char **args);
+int     ft_unset(t_Env **env, char **args);
 
 /*ft_strtok.c*/
 char    *ft_strtok(char *str, const char *delim);

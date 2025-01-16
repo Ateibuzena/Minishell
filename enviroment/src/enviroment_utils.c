@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:46:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/11 15:55:30 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/16 13:03:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void ft_split_env(const char *env_entry, char **key, char **value)
     }
 }
 
-t_env *ft_create_node(const char *key, const char *value)
+t_Env *ft_create_node(const char *key, const char *value)
 {
-    t_env *node = (t_env *)malloc(sizeof(t_env));
+    t_Env *node = (t_Env *)malloc(sizeof(t_Env));
     if (!node)
     {
         perror("malloc failed");
@@ -43,24 +43,24 @@ t_env *ft_create_node(const char *key, const char *value)
     return (node);
 }
 
-void ft_add_node(t_env **env_list, t_env *new_node)
+void ft_add_node(t_Env **env_list, t_Env *new_node)
 {
     if (!*env_list)
     {
         *env_list = new_node;
         return ;
     }
-    t_env *current = *env_list;
+    t_Env *current = *env_list;
     while (current->next)
         current = current->next;
     current->next = new_node;
 }
 
 // Función para eliminar un nodo de la lista env
-void ft_delete_env(t_env **head, const char *key)
+void ft_delete_env(t_Env **head, const char *key)
 {
-    t_env *temp;
-    t_env *prev;
+    t_Env *temp;
+    t_Env *prev;
 
 	prev = NULL;
 	temp = *head;
@@ -97,12 +97,12 @@ void ft_delete_env(t_env **head, const char *key)
 
 
 // Función para agregar una variable de entorno a la lista
-void ft_add_env(t_env **env, const char *key, const char *value)
+void ft_add_env(t_Env **env, const char *key, const char *value)
 {
-    t_env *new_node;
-    t_env *current;
+    t_Env *new_node;
+    t_Env *current;
 
-    new_node = (t_env *)malloc(sizeof(t_env));
+    new_node = (t_Env *)malloc(sizeof(t_Env));
     current = *env;
 
     if (!new_node)

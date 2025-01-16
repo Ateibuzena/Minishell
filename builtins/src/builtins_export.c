@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/11 16:12:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:59:25 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static int ft_valid_key(const char *key)
 }
 
 // Función para manejar el comando export
-int ft_export(t_env **env, char **args)
+int ft_export(t_Env **env, char **args)
 {
     char *key;
     char *value;
-    //t_env *current;
+    //t_Env *current;
 
     if (args[1] != NULL)  // Si hay un argumento, agregar o modificar la variable
     {

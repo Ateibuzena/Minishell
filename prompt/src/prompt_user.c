@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/15 18:40:44 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/16 13:01:00 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 
-char *ft_find_user(t_env *env)
+char *ft_find_user(t_Env *env)
 {
     while (env)
     {
@@ -26,7 +26,7 @@ char *ft_find_user(t_env *env)
 }
 
 // Función principal para extraer el valor de "USER"
-char *ft_extract_user(t_env *env)
+char *ft_extract_user(t_Env *env)
 {
     char *user_value;
     char *user_copy;
