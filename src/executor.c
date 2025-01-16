@@ -1,6 +1,6 @@
 #include "../minishellft.h"
 
-void ft_process_pipes(char *input, t_History *history)
+void ft_process_pipes(int argc, char **argv, char *input, t_History *history, char **env)
 {
     char **commands;
     char *entry;
@@ -14,7 +14,15 @@ void ft_process_pipes(char *input, t_History *history)
         perror("Error al dividir los comandos para pipex");
         return ;
     }
-    //ft_pipex(commands, env);
+    (void)argv;
+    (void)argc;
+    int i = 0;
+    while (commands[i])
+    {
+        printf("commads: %s\n", commands[i]);
+        i++;
+    }
+    ft_pipex(i, commands, env);
     ft_freedouble(commands);
 }
 

@@ -18,6 +18,8 @@
 # include "libft/libft.h"
 //prompt
 # include "prompt/promptft.h"
+//prompt
+# include "pipex/pipexft.h"
 
 typedef struct s_minishell
 {
@@ -27,7 +29,7 @@ typedef struct s_minishell
     t_Env 		*env;           // Las variables de entorno
 } t_minishell;
 
-void	ft_process_pipes(char *input, t_History *history);
+void ft_process_pipes(int argc, char **argv, char *input, t_History *history, char **env);
 void    ft_tokenize(char *input, char **args);
 int		ft_execute(char **args, t_History *history, t_Env **env);
 void    ft_process_command(char *input, t_History *history, t_Env **env);

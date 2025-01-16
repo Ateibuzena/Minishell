@@ -29,9 +29,9 @@ int main(int argc, char **argv, char **envp)
         // Procesar entrada si no está vacía
         if (ft_strlen(input) > 0)
         {
-            /*if (ft_strchr(input, '|')) // Si hay un pipe
-                ft_process_pipes(input, history, env);
-            else // Si no hay pipes*/
+            if (ft_strchr(input, '|')) // Si hay un pipe
+                ft_process_pipes(argc, argv, input, history, envp);
+            else // Si no hay pipes
                 ft_process_command(input, history, &env);
         }
         free(input);      
