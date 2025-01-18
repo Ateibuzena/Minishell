@@ -20,7 +20,10 @@ PIPEX_LIB = $(PIPEX_DIR)/pipex.a
 PROMPT_DIR = ./prompt
 PROMPT_LIB = $(PROMPT_DIR)/prompt.a
 
-INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR) -I$(ENVIROMENT_DIR) -I$(PROMPT_DIR) -I$(PIPEX_DIR)
+TOKENS_DIR = ./tokens
+TOKENS_LIB = $(TOKENS_DIR)/tokens.a
+
+INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(TOKENS_DIR) -I$(BUILTINS_DIR) -I$(ENVIROMENT_DIR) -I$(PROMPT_DIR) -I$(PIPEX_DIR)
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/main.c \
@@ -41,9 +44,9 @@ RESET    = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(PIPEX_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) $(OBJS)
+$(NAME): $(OBJ_DIR) $(PIPEX_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(TOKENS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) $(OBJS)
 	@printf "$(CYAN)[Building Main] Creating $(NAME)...\n$(RESET)"
-	@$(CC) $(OBJS) $(PIPEX_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) -o $(NAME) -lreadline -lncurses
+	@$(CC) $(OBJS) $(PIPEX_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(TOKENS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) -o $(NAME) -lreadline -lncurses
 	@printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -70,6 +73,11 @@ $(BUILTINS_LIB):
 	@$(MAKE) -C $(BUILTINS_DIR)
 	@printf "$(GREEN)[Builtins Ready] Builtins library compiled successfully!\n$(RESET)"
 
+$(TOKENS_LIB):
+	@printf "$(CYAN)[Building Builtins] Compiling tokens.a...\n$(RESET)"
+	@$(MAKE) -C $(TOKENS_DIR)
+	@printf "$(GREEN)[Builtins Ready] Tokens library compiled successfully!\n$(RESET)"
+
 $(ENVIROMENT_LIB):
 	@printf "$(CYAN)[Building Enviroment] Compiling enviroment.a...\n$(RESET)"
 	@$(MAKE) -C $(ENVIROMENT_DIR)
@@ -91,6 +99,7 @@ clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(MAKE) -C $(HISTORY_DIR) clean
 	@$(MAKE) -C $(BUILTINS_DIR) clean
+	@$(MAKE) -C $(TOKENS_DIR) clean
 	@$(MAKE) -C $(ENVIROMENT_DIR) clean
 	@$(MAKE) -C $(PROMPT_DIR) clean
 	@$(MAKE) -C $(PIPEX_DIR) clean
@@ -101,6 +110,7 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@$(MAKE) -C $(HISTORY_DIR) fclean
 	@$(MAKE) -C $(BUILTINS_DIR) fclean
+	@$(MAKE) -C $(TOKENS_DIR) fclean
 	@$(MAKE) -C $(ENVIROMENT_DIR) fclean
 	@$(MAKE) -C $(PROMPT_DIR) fclean
 	@$(MAKE) -C $(PIPEX_DIR) fclean

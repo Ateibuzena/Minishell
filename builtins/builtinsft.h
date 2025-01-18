@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include "../libft/libft.h"
 # include "../enviroment/enviromentft.h"
+# include "../tokens/tokensft.h"
 
 /*builtins_cd.c*/
 int     ft_cd(char **args);
@@ -29,8 +30,5 @@ int     ft_pwd(void);
 
 /*builtins_unset.c*/
 int     ft_unset(t_Env **env, char **args);
-
-/*ft_strtok.c*/
-char    *ft_strtok(char *str, const char *delim);
 
 # endif
