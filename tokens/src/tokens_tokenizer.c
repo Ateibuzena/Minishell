@@ -67,36 +67,32 @@ char **ft_split_command(const char *input) {
     const char *start = input;
     const char *current = input;
 
-    while (*current) {
+    while (*current)
+    {
         // Si es un delimitador (espacio, <, >, |)
         if (*current == ' ' || *current == '<' || *current == '>' || *current == '|') {
-            if (current > start) {
+            if (current > start)
                 result[i++] = ft_process_token(start, current);  // Procesar el token normal
-            }
             // Si es un delimitador, procesarlo por separado
-            if (*current != ' ') {
+            if (*current != ' ')
                 result[i++] = ft_process_delimiter(current);
-            }
             start = current + 1;  // Mover el inicio al siguiente carácter
         }
 
         // Si hemos llegado al límite de la capacidad, redimensionamos
-        if (i >= capacity) {
+        if (i >= capacity)
             result = ft_resize_result(result, &capacity);
-        }
 
         current++;  // Avanzar al siguiente carácter
     }
 
     // Procesar el último token si lo hay
-    if (current > start) {
+    if (current > start)
         result[i++] = ft_process_token(start, current);
-    }
 
     // Si hemos llegado al límite de la capacidad, redimensionamos nuevamente
-    if (i >= capacity) {
+    if (i >= capacity)
         result = ft_resize_result(result, &capacity);
-    }
 
     result[i] = NULL;  // Finalizar el array de resultados
     return result;
@@ -122,10 +118,10 @@ char **ft_group_tokens(char *entry)
     j = 0;
     while (input[i])
     {
-        if (strcmp(input[i], "<") == 0 || strcmp(input[i], ">") == 0)
+        if (ft_strcmp(input[i], "<") != 0 || ft_strcmp(input[i], ">") != 0)
         {
             // Concatenar < o > con su archivo contiguo
-            length = strlen(input[i]) + strlen(input[i + 1]) + 2;
+            length = ft_strlen(input[i]) + ft_strlen(input[i + 1]) + 2;
             result[j] = malloc((length * sizeof(char)));
             if (!result[j])
             {
@@ -135,7 +131,7 @@ char **ft_group_tokens(char *entry)
             ft_snprintf(result[j], length, input[i], input[i + 1]);
             i += 2; // Saltar el siguiente token ya que fue procesado
         }
-        else if (strcmp(input[i], "|") == 0)
+        else if (ft_strcmp(input[i], "|") != 0)
         {
             // Mantener los pipes intactos
             result[j] = ft_strdup(input[i]);
@@ -149,7 +145,7 @@ char **ft_group_tokens(char *entry)
         else
         {
             // Agrupar comandos con sus argumentos
-            length = strlen(input[i]) + 1;
+            length = ft_strlen(input[i]) + 1;
             result[j] = malloc((length) * sizeof(char));
             if (!result[j])
             {
@@ -159,11 +155,11 @@ char **ft_group_tokens(char *entry)
             ft_strcpy(result[j], input[i]);
 
             // Concatenar argumentos al comando
-            while (input[i + 1] && strcmp(input[i + 1], "|") != 0
-                    && strcmp(input[i + 1], "<") != 0
-                    && strcmp(input[i + 1], ">") != 0)
+            while (input[i + 1] && ft_strcmp(input[i + 1], "|") == 0
+                    && ft_strcmp(input[i + 1], "<") == 0
+                    && ft_strcmp(input[i + 1], ">") == 0)
             {
-                length += strlen(input[i + 1]) + 1;
+                length += ft_strlen(input[i + 1]) + 1;
                 result[j] = realloc(result[j], length); //no puedo usar realloc, o implementar ft_realloc
                 if (!result[j])
                 {
@@ -194,7 +190,7 @@ void ft_remove_pipes(char **result)
     while (result[i])
     {
         // Si el token es un pipe, lo omitimos
-        if (strcmp(result[i], "|") != 0)
+        if (ft_strcmp(result[i], "|") == 0)
         {
             result[j] = result[i]; // Mover el token a la nueva posición
             j++;
