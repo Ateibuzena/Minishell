@@ -8,7 +8,6 @@ INCLUDES = -I$(LIBFT_DIR)
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/tokens_tokenizer.c\
-		$(SRC_DIR)/ft_strtok.c\
 		$(SRC_DIR)/ft_snprintf.c
 
 OBJ_DIR = ./obj

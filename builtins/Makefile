@@ -15,6 +15,7 @@ SRCS = $(SRC_DIR)/builtins_cd.c\
 		$(SRC_DIR)/builtins_exit.c\
 		$(SRC_DIR)/builtins_unset.c\
 		$(SRC_DIR)/builtins_export.c\
+		$(SRC_DIR)/ft_strtok.c
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

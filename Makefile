@@ -8,11 +8,14 @@ LIBFT = $(LIBFT_DIR)/libft.a
 HISTORY_DIR = ./history
 HISTORY_LIB = $(HISTORY_DIR)/history.a
 
-BUILTINS_DIR = ./builtins
-BUILTINS_LIB = $(BUILTINS_DIR)/builtins.a
-
 ENVIROMENT_DIR = ./enviroment
 ENVIROMENT_LIB = $(ENVIROMENT_DIR)/enviroment.a
+
+TOKENS_DIR = ./tokens
+TOKENS_LIB = $(TOKENS_DIR)/tokens.a
+
+BUILTINS_DIR = ./builtins
+BUILTINS_LIB = $(BUILTINS_DIR)/builtins.a
 
 PIPEX_DIR = ./pipex
 PIPEX_LIB = $(PIPEX_DIR)/pipex.a
@@ -20,10 +23,8 @@ PIPEX_LIB = $(PIPEX_DIR)/pipex.a
 PROMPT_DIR = ./prompt
 PROMPT_LIB = $(PROMPT_DIR)/prompt.a
 
-TOKENS_DIR = ./tokens
-TOKENS_LIB = $(TOKENS_DIR)/tokens.a
 
-INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(TOKENS_DIR) -I$(BUILTINS_DIR) -I$(ENVIROMENT_DIR) -I$(PROMPT_DIR) -I$(PIPEX_DIR)
+INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR) -I$(TOKENS_DIR) -I$(ENVIROMENT_DIR) -I$(PROMPT_DIR) -I$(PIPEX_DIR)
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/main.c \
@@ -44,9 +45,9 @@ RESET    = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(PIPEX_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(TOKENS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) $(OBJS)
+$(NAME): $(OBJ_DIR) $(PIPEX_LIB) $(PROMPT_LIB) $(TOKENS_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) $(OBJS)
 	@printf "$(CYAN)[Building Main] Creating $(NAME)...\n$(RESET)"
-	@$(CC) $(OBJS) $(PIPEX_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(TOKENS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) -o $(NAME) -lreadline -lncurses
+	@$(CC) $(OBJS) $(PIPEX_LIB) $(PROMPT_LIB) $(TOKENS_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT) -o $(NAME) -lreadline -lncurses
 	@printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -68,15 +69,15 @@ $(PROMPT_LIB):
 	@$(MAKE) -C $(PROMPT_DIR)
 	@printf "$(GREEN)[Prompt Ready] Prompt library compiled successfully!\n$(RESET)"
 
-$(BUILTINS_LIB):
-	@printf "$(CYAN)[Building Builtins] Compiling builtins.a...\n$(RESET)"
-	@$(MAKE) -C $(BUILTINS_DIR)
-	@printf "$(GREEN)[Builtins Ready] Builtins library compiled successfully!\n$(RESET)"
-
 $(TOKENS_LIB):
 	@printf "$(CYAN)[Building Builtins] Compiling tokens.a...\n$(RESET)"
 	@$(MAKE) -C $(TOKENS_DIR)
 	@printf "$(GREEN)[Builtins Ready] Tokens library compiled successfully!\n$(RESET)"
+
+$(BUILTINS_LIB):
+	@printf "$(CYAN)[Building Builtins] Compiling builtins.a...\n$(RESET)"
+	@$(MAKE) -C $(BUILTINS_DIR)
+	@printf "$(GREEN)[Builtins Ready] Builtins library compiled successfully!\n$(RESET)"
 
 $(ENVIROMENT_LIB):
 	@printf "$(CYAN)[Building Enviroment] Compiling enviroment.a...\n$(RESET)"

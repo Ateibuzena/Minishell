@@ -1,31 +1,29 @@
 #include "../minishellft.h"
 
-void ft_process_pipes(char *input, t_History *history, char **env)
+void ft_process_pipes(int argc, char **argv, char *input, t_History *history, char **env)
 {
     char **commands;
     char *entry;
-    int i;
 
     entry = ft_strdup(input);
     ft_add_entry(history, entry);
     free(entry);
-    //printf("Entrpo??");
     commands = ft_group_tokens(input);
     if (!commands)
     {
         perror("Error al dividir los comandos para pipex");
         return ;
     }
-    i = 0;
+    (void)argv;
+    (void)argc;
+    int i = 0;
     while (commands[i])
     {
-        printf("input pipex: %s\n", commands[i]);
+        printf("commads: %s\n", commands[i]);
         i++;
     }
-    (void)env;
-    (void)commands;
-    //ft_pipex(i, commands, env, input);
-    //ft_freedouble(commands);
+    ft_pipex(i, commands, env);
+    ft_freedouble(commands);
 }
 
 void    ft_tokenize(char *input, char *args[])

@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv, char **envp)
 {
-    //char *prompt;
+    char *prompt;
     char *input;
     t_History *history;
     t_Env *env;
@@ -20,9 +20,9 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         // Construir el prompt
-        //prompt = ft_build_prompt(env);
-        input = readline("minishell: $ ");
-        //free(prompt);
+        prompt = ft_build_prompt(env);
+        input = readline(prompt);
+        free(prompt);
         // Salir si la entrada es NULL (Ctrl+D)
         if (input == NULL)
             break ;
@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp)
         if (ft_strlen(input) > 0)
         {
             if (ft_strchr(input, '|')) // Si hay un pipe
-                ft_process_pipes(input, history, envp);
+                ft_process_pipes(argc, argv, input, history, envp);
             else // Si no hay pipes
                 ft_process_command(input, history, &env);
         }
