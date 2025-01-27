@@ -1,6 +1,6 @@
 #include "../minishellft.h"
 
-void ft_process_pipes(int argc, char **argv, char *input, t_History *history, char **env)
+void ft_pipes(int argc, char **argv, char *input, t_History *history, char **env)
 {
     char **commands;
     char *entry;
@@ -69,7 +69,7 @@ int ft_execute(char **args, t_History *history, t_Env **env)
     return (1);
 }
 
-void ft_process_command(char *input, t_History *history, t_Env **env)
+void ft_command(char *input, t_History *history, t_Env **env)
 {
     char    *args[100];
     char    *entry;
