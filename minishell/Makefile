@@ -1,5 +1,5 @@
 # Variables
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR = ../libft
@@ -22,6 +22,7 @@ PIPEX_LIB = $(PIPEX_DIR)/pipex.a
 
 PROMPT_DIR = ../prompt
 PROMPT_LIB = $(PROMPT_DIR)/prompt.a
+
 
 INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR) -I$(TOKENS_DIR) -I$(ENVIROMENT_DIR) -I$(PROMPT_DIR) -I$(PIPEX_DIR)
 

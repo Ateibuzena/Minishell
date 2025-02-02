@@ -22,7 +22,7 @@ void ft_pipes(int argc, char **argv, char *input, t_History *history, char **env
         printf("commads: %s\n", commands[i]);
         i++;
     }
-    ft_pipex(i, commands, env);
+    ft_pipex(commands, env);
     ft_freedouble(commands);
 }
 
