@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR = ../libft

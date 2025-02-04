@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR = ../libft
@@ -7,10 +7,10 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR)
 
 SRC_DIR = ./src
-SRCS = $(SRC_DIR)/pipex_bonus.c\
-		$(SRC_DIR)/pipex_execute.c\
+SRCS = $(SRC_DIR)/pipex_execute.c\
 		$(SRC_DIR)/pipex_process.c\
 		$(SRC_DIR)/pipex_utils.c\
+		$(SRC_DIR)/pipex.c
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

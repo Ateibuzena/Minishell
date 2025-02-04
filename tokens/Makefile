@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR = ../libft
@@ -7,7 +7,9 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR)
 
 SRC_DIR = ./src
-SRCS = $(SRC_DIR)/tokens_tokenizer.c\
+SRCS = $(SRC_DIR)/tokens_group_split.c\
+		$(SRC_DIR)/tokens_utils_split.c\
+		$(SRC_DIR)/tokens_utils_group.c\
 		$(SRC_DIR)/ft_snprintf.c
 
 OBJ_DIR = ./obj

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/16 20:46:14 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:17:53 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,17 @@ typedef struct s_pipex
 	int		n;
 	int		i;
 	int		count;
+	char	**argv;
 	int		**pipes;
 	pid_t	*pids;
 	char	*found_way;
 	char	**clean_paths;
 	char	**commands;
+	int		here_doc;
+	int		redirection;
+	int		cmd;
+	int		append;
+	int		truncate;
 	int		status;
 }	t_pipex;
 
@@ -47,8 +53,8 @@ typedef struct s_pipex
 
 /*ft_process.c*/
 void	ft_child_process(int input_fd, int output_fd);
-void	ft_first_process(char **argv, t_pipex *pipex, char **env);
-int		ft_middle_process(char **argv, t_pipex *pipex, char **env);
+void	ft_first_process(t_pipex *pipex, char **env);
+int		ft_middle_process(t_pipex *pipex, char **env);
 void	ft_last_process(int argc, char **argv, t_pipex *pipex, char **env);
 void	ft_waitpid(t_pipex *pipex);
 
@@ -60,12 +66,13 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname);
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname);
 
 /*ft_utils.c*/
-void	ft_init(t_pipex *pipex, int argc, char *argv[]);
+void	ft_init(t_pipex *pipex, char *input[]);
 void	ft_close_pipes(t_pipex *pipex);
 void	ft_perror(const char *str);
 void	ft_errno(char *argument);
 void	ft_free_pipex(t_pipex **pipex);
 
-int		ft_pipex(int argc, char **argv, char **env);
+/*pipex.c*/
+int	ft_pipex(char **input, char **env);
 
 #endif

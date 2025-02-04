@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/16 21:14:44 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:18:12 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,20 @@
 	}
 }*/
 
-int	ft_pipex(int argc, char **argv, char **env)
+int	ft_pipex(char **input, char **env)
 {
 	t_pipex	*pipex;
 	int		status;
 
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
-		return (ft_perror("Malloc failed: pipex\n"), 1);
+		return (ft_perror("Malloc filed: pipex\n"), 1);
 	ft_memset(pipex, 0, sizeof(t_pipex));
-	//ft_check_args(argc, argv, pipex);
-	ft_init(pipex, argc, argv);
-	ft_first_process(argv, pipex, env);
-	pipex->i = ft_middle_process(argv, pipex, env);
-	ft_last_process(argc, argv, pipex, env);
+	//ft_check_args(argc, input, pipex);
+	ft_init(pipex, input);
+	ft_first_process(pipex, env);
+	pipex->i = ft_middle_process(pipex, env);
+	ft_last_process(pipex->n, input, pipex, env);
 	ft_waitpid(pipex);
 	status = pipex->status;
 	ft_free_pipex(&pipex);

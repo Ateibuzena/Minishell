@@ -1,4 +1,4 @@
-#include "../minishellft.h"
+#include "../minishell/minishellft.h"
 
 // Función auxiliar para verificar si un carácter es un delimitador
 static int ft_is_delimiter(char c, const char *delim)

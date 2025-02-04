@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/16 21:09:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:01:52 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname)
 		*pathname = pipex->commands[0];
 		if (access((*pathname), X_OK) != 0)
 			(ft_perror("pipex: "), ft_perror(argv),
-				ft_perror("AAA: No such file or directory\n"),
+				ft_perror(": No such file or directory\n"),
 				ft_free_pipex(&pipex), ft_freedouble(pathname), exit(127));
 	}
 	else
@@ -90,18 +90,19 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname)
 		pipex->found_way = ft_find_env_value("PATH=", env, 5);
 		if (!pipex->found_way)
 			(ft_perror("pipex: "),
-				ft_perror(argv), ft_perror("BBBB: No such file or directory\n"),
+				ft_perror(argv), ft_perror(": No such file or directory\n"),
 				ft_free_pipex(&pipex), exit(127));
 		pipex->clean_paths = ft_split(pipex->found_way, ':');
 		*pathname = ft_find_executable(pipex->clean_paths, pipex->commands[0]);
 		if (!(*pathname))
-			(ft_perror(argv), ft_perror(": command not found"),
+			(ft_perror(argv), ft_perror("\nAQUI: command not found\n\n\n"),
 				ft_free_pipex(&pipex), ft_freedouble(pathname), exit(127));
 	}
 }
 
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 {
+	fprintf(stderr, "argv %s\n", argv);
 	if (!argv || !argv[0] || argv[0] == ' ')
 		(ft_perror(argv), ft_perror(": command not found\n"),
 			ft_free_pipex(&pipex), exit(127));

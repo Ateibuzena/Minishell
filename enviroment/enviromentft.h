@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:47:10 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/16 13:03:53 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:06:06 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENVIROMENTFT_H
-# define ENVISROMENTFT_H
+# define ENVIROMENTFT_H
 
 # include <stdio.h>
 # include <stdlib.h>
