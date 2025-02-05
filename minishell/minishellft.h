@@ -18,9 +18,9 @@
 # include "../libft/libft.h"
 //prompt
 # include "../prompt/promptft.h"
-//prompt
+//pipex
 # include "../pipex/pipexft.h"
-//prompt
+//tokens
 # include "../tokens/tokensft.h"
 
 typedef struct s_minishell

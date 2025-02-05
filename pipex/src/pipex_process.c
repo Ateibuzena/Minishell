@@ -30,6 +30,7 @@ void	ft_child_process(int input_fd, int output_fd)
 
 void	ft_first_process(t_pipex *pipex, char **env)
 {
+	fprintf(stderr, "entro en first_process\n");
 	int	infile;
 
 	pipex->i = 1;
@@ -50,7 +51,7 @@ void	ft_first_process(t_pipex *pipex, char **env)
 		else
 		{
 			//fprintf(stderr, "entro 2\n");
-			infile = STDOUT_FILENO;
+			infile = STDIN_FILENO;
 
 		}
 		if (infile < 0)
@@ -72,6 +73,7 @@ int	ft_middle_process(t_pipex *pipex, char **env)
 	int	i;
 	int	j;
 
+	fprintf(stderr, "entro en middle process\n");
 	j = -1;
 	if (pipex->here_doc)
 		j = 0;
@@ -86,18 +88,20 @@ int	ft_middle_process(t_pipex *pipex, char **env)
 		{
 			close(pipex->pipes[i][READ]);
 			ft_child_process(pipex->pipes[i - 1][READ], pipex->pipes[i][WRITE]);
-			fprintf(stderr, "entro en middle process\n");
 			ft_execute_cmd(pipex, pipex->argv[i + j + 2], env, NULL);
+			fprintf(stderr, "salgo de middle_process\n");
 		}
 		close(pipex->pipes[i - 1][READ]);
 		close(pipex->pipes[i][WRITE]);
 		i++;
 	}
+	fprintf(stderr, "padre salgo de middle_prcess\n");
 	return (i);
 }
 
-void	ft_last_process(int argc, char **argv, t_pipex *pipex, char **env)
+void	ft_last_process(t_pipex *pipex, char **env)
 {
+	fprintf(stderr, "entro en last_process\n");
 	int	outfile;
 
 	pipex->pids[pipex->i] = fork();
@@ -106,15 +110,29 @@ void	ft_last_process(int argc, char **argv, t_pipex *pipex, char **env)
 		(ft_free_pipex(&pipex), exit(1));
 	if (pipex->pids[pipex->i] == 0)
 	{
-		if (ft_strcmp(argv[1], "here_doc") != 0)
-			outfile = open(pipex->argv[argc + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (pipex->here_doc == 1)
+		{
+			//fprintf(stderr, "entro 1\n");
+			outfile = open(pipex->argv[pipex->n + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);	
+		}
+		else if (pipex->redirection == 1)
+		{
+			//fprintf(stderr, "entro 2\n");
+			outfile = open(pipex->argv[pipex->n + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
 		else
-			outfile = open(pipex->argv[argc + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		{
+			//fprintf(stderr, "entro 3\n");
+			outfile = STDOUT_FILENO;
+
+		}
 		if (outfile < 0)
-			(ft_errno(pipex->argv[argc + 1]), ft_free_pipex(&pipex), exit(1));
+			(ft_errno(pipex->argv[pipex->n + 1]), ft_free_pipex(&pipex), exit(1));
 		ft_child_process(pipex->pipes[pipex->i - 1][READ], outfile);
-		ft_execute_cmd(pipex, pipex->argv[argc], env, NULL);
+		ft_execute_cmd(pipex, pipex->argv[pipex->n], env, NULL);
+		fprintf(stderr, "salgo de last_process\n");
 	}
+	fprintf(stderr, "padre salgo de last_process\n");
 	close(pipex->pipes[pipex->i - 1][READ]);
 }
 

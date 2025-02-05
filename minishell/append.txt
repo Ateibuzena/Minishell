@@ -1,1 +1,10 @@
-esto es un outfile que tiene que añadir cosas nuevas sin eliminar esta linea:
+esto es un outfile que tiene que añadir cosas nuevas sin eliminar esta linea:hola ana
+aaa
+siaaa
+1
+
+aaa
+aaaa
+1
+aaaaaaaa
+aaaaa

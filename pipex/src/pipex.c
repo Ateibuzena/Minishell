@@ -44,7 +44,7 @@ int	ft_pipex(char **input, char **env)
 	ft_init(pipex, input);
 	ft_first_process(pipex, env);
 	pipex->i = ft_middle_process(pipex, env);
-	ft_last_process(pipex->n, input, pipex, env);
+	ft_last_process(pipex, env);
 	ft_waitpid(pipex);
 	status = pipex->status;
 	ft_free_pipex(&pipex);

@@ -55,7 +55,7 @@ typedef struct s_pipex
 void	ft_child_process(int input_fd, int output_fd);
 void	ft_first_process(t_pipex *pipex, char **env);
 int		ft_middle_process(t_pipex *pipex, char **env);
-void	ft_last_process(int argc, char **argv, t_pipex *pipex, char **env);
+void	ft_last_process(t_pipex *pipex, char **env);
 void	ft_waitpid(t_pipex *pipex);
 
 /*ft_execute.c*/

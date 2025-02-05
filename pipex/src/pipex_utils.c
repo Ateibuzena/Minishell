@@ -14,6 +14,7 @@
 
 void	ft_init(t_pipex *pipex, char *input[])
 {
+	fprintf(stderr, "entro en init\n");
 	pipex->count = 0;
 	pipex->status = 0;
     

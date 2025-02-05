@@ -95,7 +95,7 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname)
 		pipex->clean_paths = ft_split(pipex->found_way, ':');
 		*pathname = ft_find_executable(pipex->clean_paths, pipex->commands[0]);
 		if (!(*pathname))
-			(ft_perror(argv), ft_perror("\nAQUI: command not found\n\n\n"),
+			(ft_perror(argv), ft_perror(": command not found\n"),
 				ft_free_pipex(&pipex), ft_freedouble(pathname), exit(127));
 	}
 }

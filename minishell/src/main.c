@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv, char **envp)
 {
-    char *prompt;
+    //char *prompt;
     char *input;
     t_History *history;
     t_Env *env;
@@ -20,9 +20,9 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         // Construir el prompt
-        prompt = ft_build_prompt(env);
-        input = readline(prompt);
-        free(prompt);
+        //prompt = ft_build_prompt(env);
+        input = readline("minishola: $ ");
+        //free(prompt);
         // Salir si la entrada es NULL (Ctrl+D)
         if (input == NULL)
             break ;

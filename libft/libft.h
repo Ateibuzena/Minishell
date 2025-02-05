@@ -90,7 +90,7 @@ typedef struct s_list
 typedef struct s_Specifier
 {
 	char	key;
-	void	(*ft_ft)();
+	void	(*ft_ft)(va_list *, int, int *);
 }	t_Specifier;
 
 # endif
