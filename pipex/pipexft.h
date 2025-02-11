@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/11 17:22:40 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:39:35 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PIPEXFT_H
 
 # include "../libft/libft.h"
-# include "../minishell/minishellft.h"
+# include "../builtins/builtinsft.h"
 # include <errno.h>
 # include <sys/wait.h>
 # include <aio.h>
@@ -48,6 +48,7 @@ typedef struct s_pipex
 	int		append;
 	int		truncate;
 	int		status;
+	t_History *history;
 }	t_pipex;
 
 /*SRC/*/
@@ -67,13 +68,13 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname);
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname);
 
 /*ft_utils.c*/
-void	ft_init(t_pipex *pipex, char *input[]);
+void	ft_init(t_pipex *pipex, char *input[], t_History *history);
 void	ft_close_pipes(t_pipex *pipex);
 void	ft_perror(const char *str);
 void	ft_errno(char *argument);
 void	ft_free_pipex(t_pipex **pipex);
 
 /*pipex.c*/
-int	ft_pipex(char **input, char **env);
+int	ft_pipex(int argc, char **input, char **env, t_History *history);
 
 #endif

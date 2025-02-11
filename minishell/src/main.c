@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp)
         if (ft_strlen(input) > 0)
         {
             if (ft_strchr(input, '|') || !ft_is_builtins(input)) // Si hay un pipe
-                ft_pipes(argc, argv, input, history, envp);
+                ft_pipes(input, history, envp);
             else // Si no hay pipes
                 ft_command(input, history, &env);
         }

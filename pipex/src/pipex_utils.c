@@ -6,16 +6,17 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/07 20:17:30 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:08:37 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
-void	ft_init(t_pipex *pipex, char *input[])
+void	ft_init(t_pipex *pipex, char *input[], t_History *history)
 {
 	fprintf(stderr, "entro en init\n");
 	pipex->status = 0;
+	pipex->history = history;
     
 	/*CONTAR COMANDOS*/
 

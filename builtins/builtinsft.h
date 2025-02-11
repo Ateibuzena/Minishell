@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include "../libft/libft.h"
 # include "../enviroment/enviromentft.h"
+# include "../history/historyft.h"
 
 /*builtins_cd.c*/
 int     ft_cd(char **args);
@@ -32,5 +33,9 @@ int     ft_unset(t_Env **env, char **args);
 
 /*ft_strtok.c*/
 char    *ft_strtok(char *str, const char *delim);
+
+/*executor.c*/
+int ft_execute(char **args, t_History *history, t_Env **env);
+int	ft_is_builtins(char *argv);
 
 # endif
