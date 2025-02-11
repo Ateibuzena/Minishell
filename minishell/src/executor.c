@@ -8,7 +8,7 @@ void ft_pipes(int argc, char **argv, char *input, t_History *history, char **env
     entry = ft_strdup(input);
     ft_add_entry(history, entry);
     free(entry);
-    commands = ft_group_tokens(input);
+    commands = ft_group_tokens(input); //cambio group for split?
     if (!commands)
     {
         perror("Error al dividir los comandos para pipex");

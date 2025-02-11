@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/02 18:01:52 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/07 20:57:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,20 +102,85 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname)
 
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 {
-	fprintf(stderr, "argv %s\n", argv);
-	if (!argv || !argv[0] || argv[0] == ' ')
-		(ft_perror(argv), ft_perror(": command not found\n"),
-			ft_free_pipex(&pipex), exit(127));
-	ft_resolve_cmd(pipex, argv, env, &pathname);
-	ft_close_pipes(pipex);
-	if (execve(pathname, pipex->commands, env) == -1)
+    fprintf(stderr, "Entro en execute_cmd con argv: %s\n", argv);
+
+    if (!argv || !argv[0] || argv[0] == ' ')
+    {
+        ft_perror(argv);
+        ft_perror(": command not found\n");
+        ft_free_pipex(&pipex);
+        exit(127);
+    }
+
+    ft_resolve_cmd(pipex, argv, env, &pathname);
+
+    if (!pathname)  // Verificar que pathname no sea NULL
+    {
+        fprintf(stderr, "Error: pathname es NULL\n");
+        ft_perror(argv);
+        ft_perror(": command not found\n");
+        ft_free_pipex(&pipex);
+        exit(127);
+    }
+
+    if (!pipex->commands || !pipex->commands[0])  // Verificar que commands no sea NULL
+    {
+        fprintf(stderr, "Error: pipex->commands es NULL o está vacío\n");
+        ft_free_pipex(&pipex);
+        exit(127);
+    }
+
+    ft_close_pipes(pipex);
+
+    fprintf(stderr, "Execve con pathname: %s y primer argumento: %s\n", pathname, pipex->commands[0]);
+    fprintf(stderr, "pipex->commands antes de execve:\n");
+	int i = 0;
+	while (pipex->commands[i])
 	{
-		if (errno == EACCES)
-			(ft_perror("pipex: "),
-				ft_perror(argv), ft_perror(": Permission denied\n"),
-				ft_free_pipex(&pipex), free(pathname), exit(126));
-		else
-			(ft_perror(pipex->commands[0]), ft_perror(": command not found\n"),
-				ft_free_pipex(&pipex), free(pathname), exit(127));
+		fprintf(stderr, "commands[%d]: %s\n", i, pipex->commands[i]);
+		i++;
 	}
+	fprintf(stderr, "commands[%d]: (NULL)\n", i);
+	if (!env) {
+		fprintf(stderr, "ERROR: env es NULL\n");
+		exit(1);
+	}
+	/*
+	i = 0;
+	while (env[i]) {
+		fprintf(stderr, "env[%d]: %s\n", i, env[i]);
+		i++;
+	}*/
+
+	/*char *args[3];
+	args[0] = strdup("/usr/bin/cat");  // Copia la string en memoria segura
+	args[1] = strdup("archivo.txt");   // Lo mismo con el argumento
+	args[2] = NULL;
+
+	fprintf(stderr, "Ejecutando execve con valores seguros\n");
+	execve(args[0], args, env);
+	fprintf(stderr, "execve falló: %s\n", strerror(errno));
+	exit(1);*/
+    if (execve(pathname, pipex->commands, env) == -1)
+    {
+        fprintf(stderr, "Execve falló: %s\n", strerror(errno));
+
+        if (errno == EACCES)
+        {
+            ft_perror("pipex: ");
+            ft_perror(argv);
+            ft_perror(": Permission denied\n");
+            ft_free_pipex(&pipex);
+            free(pathname);
+            exit(126);
+        }
+        else
+        {
+            ft_perror(pipex->commands[0]);
+            ft_perror(": command not found\n");
+            ft_free_pipex(&pipex);
+            free(pathname);
+            exit(127);
+        }
+    }
 }

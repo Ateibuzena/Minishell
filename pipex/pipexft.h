@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/02 18:17:53 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:22:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEXFT_H
 
 # include "../libft/libft.h"
+# include "../minishell/minishellft.h"
 # include <errno.h>
 # include <sys/wait.h>
 # include <aio.h>

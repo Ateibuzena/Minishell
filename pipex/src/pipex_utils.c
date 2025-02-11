@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/27 19:10:33 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/07 20:17:30 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_init(t_pipex *pipex, char *input[])
 {
 	fprintf(stderr, "entro en init\n");
-	pipex->count = 0;
 	pipex->status = 0;
     
 	/*CONTAR COMANDOS*/
@@ -53,7 +52,7 @@ void	ft_init(t_pipex *pipex, char *input[])
 	pipex->cmd = 0;
 	pipex->append = 0;
 	pipex->truncate = 0;
-	if (input[0][0] == '<' && input[0][1] == '<')
+	/*if (input[0][0] == '<' && input[0][1] == '<')
 		pipex->here_doc = 1;
 	else if (input[0][0] == '<' && input[0][1] != '<')
 		pipex->redirection = 1;
@@ -71,20 +70,20 @@ void	ft_init(t_pipex *pipex, char *input[])
     fprintf(stderr, "pipex->cmd = %d\n", pipex->cmd);
     fprintf(stderr, "pipex->append = %d\n", pipex->append);
     fprintf(stderr, "pipex->truncate = %d\n", pipex->truncate);
-	
+	*/
 	/*INICIALIZAR FLAGS HERE_DOC, REDIRECTION O CMD*/
 
 	/*INICIALIZAR ARGV*/
-
-	int len = 0;
+	
+	/*int len = 0;
 
 	if (pipex->here_doc || pipex->redirection)
 		len += 1;
 	if (pipex->append || pipex->truncate)
 		len += 1;
-	len += pipex->n;
+	len += pipex->n;*/
 
-	pipex->argv = (char **)malloc(sizeof(char *) * (len + 1));
+	pipex->argv = (char **)malloc(sizeof(char *) * (ft_strlen_double(input) + 1));
 	if (!pipex->argv)
 	{
 		ft_perror("Malloc error: argv\n");
@@ -95,12 +94,12 @@ void	ft_init(t_pipex *pipex, char *input[])
 	int j = 0;
 	while (input[i])
 	{
-		while (*(input[i]) == '<' || *(input[i]) == ' ')
+		/*while (*(input[i]) == '<' || *(input[i]) == ' ')
 			input[i]++;
 		while (*(input[i]) == '|')
 			input++;
 		while (*(input[i]) == '>' || *(input[i]) == ' ')
-			input[i]++;
+			input[i]++;*/
 		pipex->argv[j] = (char *)malloc(sizeof(char) * (ft_strlen(input[i]) + 1));
 		if (!pipex->argv[j])
 		{
@@ -121,13 +120,14 @@ void	ft_init(t_pipex *pipex, char *input[])
         k++;
     }
 	//ft_freedouble(input);
-
+	
 	/*INICIALIZAR ARGV*/
 	
 	pipex->pipes = (int **)malloc((pipex->n - 1) * sizeof(int *));
 	if (!pipex->pipes)
 		(ft_perror("Malloc failed: pipes\n"), ft_free_pipex(&pipex),
 			exit(EXIT_FAILURE));
+	pipex->count = 0;
 	while (pipex->count < pipex->n - 1)
 	{
 		pipex->pipes[pipex->count] = (int *)malloc(2 * sizeof(int));
@@ -137,6 +137,7 @@ void	ft_init(t_pipex *pipex, char *input[])
 				exit(EXIT_FAILURE));
 		(pipex->count)++;
 	}
+	pipex->count = 0;
 	pipex->pids = (pid_t *)malloc((pipex->n) * sizeof(pid_t));
 	if (!pipex->pids)
 		(ft_perror("Malloc failed: pids\n"), ft_free_pipex(&pipex),
