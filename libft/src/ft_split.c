@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:31:55 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/22 21:28:59 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/16 19:21:30 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static t_size	ft_wordscount(char const *s, char c)
 
 	count = 0;
 	word = 0;
+	if (!s)
+    	return (0);
 	if (s[count] != c && s[count] != '\0')
 		word++;
 	while (s[count] != '\0')

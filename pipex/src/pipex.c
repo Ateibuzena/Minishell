@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/11 18:44:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/16 22:42:32 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ int	ft_pipex(int argc, char **input, char **env, t_History *history)
 	//ft_check_args(argc, input, pipex);
 	ft_init(pipex, input, history);
 	ft_first_process(pipex, env);
-	return (0);
 	pipex->i = ft_middle_process(pipex, env);
 	ft_last_process(pipex, env);
-	ft_waitpid(pipex);
+	//ft_waitpid(pipex);
 	status = pipex->status;
 	ft_free_pipex(&pipex);
 	close(STDIN_FILENO);

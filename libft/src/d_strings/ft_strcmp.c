@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 21:56:48 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/28 21:56:57 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/16 19:23:53 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int ft_strcmp(const char *s1, const char *s2)
 
     i = 0;
     j = 0;
+    if (!s1 || !s2)  // 💥 EVITA CRASH POR NULL
+		return (0); // O devuelve un valor de error adecuado
     while (s1[i] && s2[j] && (s1[i] == s2[j]))
     {
         i++;
