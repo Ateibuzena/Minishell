@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:37:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/16 23:41:44 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/17 20:54:24 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,99 +42,10 @@ void	ft_child_process(int input_fd, int output_fd)
 		close(output_fd);
 	}
 }
-/*
-void	ft_first_process(t_pipex *pipex, char **env)
+
+static void ft_create_pipe(t_pipex *pipex)
 {
-	fprintf(stderr, "[DEBUG] entro en first_process\n");
-	int infile = STDIN_FILENO;
-	int	i;
-	int len;
-
-	i = 0;
-	len = ft_strlen_double(pipex->argv);
-	while (i < len && !ft_strchr(pipex->argv[i], '|'))
-	{
-		// Si es un here_doc
-		if (ft_strchr(pipex->argv[i], '<') && ft_strchr(pipex->argv[i + 1], '<')) // Aquí detectamos '<<'
-		{
-			if (infile != STDIN_FILENO)
-				close(infile); // Cerrar entrada anterior
-
-			// Llamamos a la función ft_here_doc con el delimitador
-			infile = ft_here_doc(pipex->argv[i + 1]);
-			if (infile < 0) // Si hay un error al crear el here_doc
-			{
-				ft_errno(pipex->argv[i]);
-				ft_free_pipex(&pipex);
-				exit(1);
-			}
-			i++;  // Pasamos al siguiente argumento
-		}
-		// Si es una redirección
-		if (ft_strchr(pipex->argv[i], '>'))
-		{
-			if (infile != STDIN_FILENO)
-				close(infile); // Cerrar entrada anterior
-			// Si es ">>" (append)
-			if (ft_strchr(pipex->argv[i], '>') && !ft_strchr(pipex->argv[i], '<'))
-				infile = open(pipex->argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-			else
-				infile = open(pipex->argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
-		else if (ft_strchr(pipex->argv[i], '<'))  // Si es una redirección de entrada "<"
-		{
-			if (infile != STDIN_FILENO)
-				close(infile); // Cerrar entrada anterior
-			infile = open(pipex->argv[i + 1], O_RDONLY);
-		}
-
-		if (infile < 0)
-		{
-			ft_errno(pipex->argv[i]);
-			ft_free_pipex(&pipex);
-			exit(1);
-		}
-		else if (ft_strchr(pipex->argv[i], '|'))  // Si es un pipe "|"
-		{
-			// Aquí podrías manejar el caso de los pipes si es necesario
-			break;
-		}
-		else  // Si es un comando, salimos del bucle
-		{
-			break;
-		}
-		i++;
-	}
-	pipex->i = i;
-	pipex->pids[pipex->count] = fork();
-	fprintf(stderr, "[DEBUG] count en first process: %d\n", pipex->count);
-	if (pipex->pids[pipex->count] < 0)
-		(ft_free_pipex(&pipex), exit(1));
-	pipex->count += 1;
-	if (pipex->pids[pipex->count - 1] == 0)
-	{
-		close(pipex->pipes[pipex->count - 1][READ]);
-		ft_child_process(infile, pipex->pipes[pipex->count - 1][WRITE]);
-		fprintf(stderr, "[DEBUG] commando %s\n", pipex->argv[i]);
-		ft_execute_cmd(pipex, pipex->argv[i], env, NULL);
-		fprintf(stderr, "[DEBUG] salgo de first_process\n");
-	}
-	fprintf(stderr, "[DEBUG] padre salgo de first_process\n");
-	close(pipex->pipes[pipex->count - 1][WRITE]);
-}*/
-
-
-// Función para el primer proceso
-void ft_first_process(t_pipex *pipex, char **env)
-{
-    int infile = STDIN_FILENO;
-    int outfile = STDOUT_FILENO;
-    int i = 0;
-    int len = ft_strlen_double(pipex->argv);
-
-    fprintf(stderr, "[PRIMER PROCESO] entro en first_process con  i : %d e pipex->i: %d\n", i, pipex->i);
-
-    // Reservar memoria para una nueva pipe
+	// Reservar memoria para una nueva pipe
 	pipex->pipes = realloc(pipex->pipes, sizeof(int *) * (pipex->count + 1));
 	if (!pipex->pipes)
 	{
@@ -157,38 +68,61 @@ void ft_first_process(t_pipex *pipex, char **env)
 		exit(1);
 	}
 
-    while (i < len && !ft_strchr(pipex->argv[i], '|'))
+}
+
+static int ft_handle_redirection(t_pipex *pipex, int *infile, int *outfile)
+{
+	int i = 0;
+	
+    int len = ft_strlen_double(pipex->argv);
+
+	while (i < len && !ft_strchr(pipex->argv[i], '|'))
     {
         char **split = ft_split(pipex->argv[i], ' ');
 		
         // Manejo de redirecciones
         if (ft_strcmp(split[0], "<") != 0)
         {
-            infile = open(split[1], O_RDONLY);
-            if (infile < 0) ft_errno(pipex->argv[i]);
+            (*infile) = open(split[1], O_RDONLY);
+            if ((*infile) < 0) ft_errno(pipex->argv[i]);
         }
         else if (ft_strcmp(split[0], ">") != 0)
         {
-            outfile = open(split[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (outfile < 0) ft_errno(pipex->argv[i]);
+            (*outfile) = open(split[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if ((*outfile) < 0) ft_errno(pipex->argv[i]);
         }
         else if (ft_strcmp(split[0], ">>") != 0)
         {
-            outfile = open(split[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (outfile < 0) ft_errno(pipex->argv[i]);
+            (*outfile) = open(split[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if ((*outfile) < 0) ft_errno(pipex->argv[i]);
         }
         else if (ft_strcmp(split[0], "<<") != 0)
         {
-            infile = ft_here_doc(split[1]);
-            if (infile < 0) ft_errno(pipex->argv[i]);
+            (*infile) = ft_here_doc(split[1]);
+            if ((*infile) < 0) ft_errno(pipex->argv[i]);
         }
         else
         {
+			//ft_handle_redirection(pipex, infile, outfile);
 			i += 2;
 			break ;
         }
         i++;
     }
+	return (i);
+}
+// Función para el primer proceso
+void ft_first_process(t_pipex *pipex, char **env)
+{
+    int infile = STDIN_FILENO;
+    int outfile = STDOUT_FILENO;
+    int i = 0;
+
+    fprintf(stderr, "[PRIMER PROCESO] entro en first_process con  i : %d e pipex->i: %d\n", i, pipex->i);
+
+    ft_create_pipe(pipex);
+	i = ft_handle_redirection(pipex, &infile, &outfile);
+    
 
 	// 🔥 IMPORTANTE: Aquí va el fork(), fuera del while
 	pipex->pids[pipex->count] = fork();
@@ -206,7 +140,7 @@ void ft_first_process(t_pipex *pipex, char **env)
             close(infile);
         }
         // Redirigir salida
-		if (outfile == STDOUT_FILENO)  // Solo si no hay redirección a archivo
+		if (outfile == STDOUT_FILENO && (pipex->n != 0))  // Solo si no hay redirección a archivo y no es un solo comando
 			dup2(pipex->pipes[pipex->count][WRITE], STDOUT_FILENO);
 		else
 			dup2(outfile, STDOUT_FILENO);
@@ -245,66 +179,16 @@ int ft_middle_process(t_pipex *pipex, char **env)
     int infile = STDIN_FILENO;
     int outfile = STDOUT_FILENO;
 	int i = pipex->i;
-    int len = ft_strlen_double(pipex->argv);
 
     fprintf(stderr, "[PROCESOS INTERMEDIOS] entro en middle_process con  i : %d e pipex->i: %d\n", i, pipex->i);
 
     while (pipex->count < pipex->n - 1)
-    {
+    {   
         // Reservar memoria para la nueva pipe (sin usar new_pipe)
-        pipex->pipes = realloc(pipex->pipes, sizeof(int *) * (pipex->count + 1));
-        if (!pipex->pipes)
-        {
-            perror("Error al redimensionar pipes");
-            exit(1);
-        }
-
-        pipex->pipes[pipex->count] = malloc(sizeof(int) * 2);
-        if (!pipex->pipes[pipex->count])
-        {
-            perror("Error al asignar memoria a pipes[count]");
-            exit(1);
-        }
-
-        // Crear la pipe
-        if (pipe(pipex->pipes[pipex->count]) < 0)
-        {
-            ft_errno("pipe failed\n");
-            exit(1);
-        }
+        ft_create_pipe(pipex);
 
         // Manejo de redirecciones
-        while (i < len && !ft_strchr(pipex->argv[i], '|'))
-        {
-            char **split = ft_split(pipex->argv[i], ' ');
-
-            if (ft_strcmp(split[0], "<") != 0)
-            {
-                infile = open(split[1], O_RDONLY);
-                if (infile < 0) ft_errno(pipex->argv[i]);
-            }
-            else if (ft_strcmp(split[0], ">") != 0)
-            {
-                outfile = open(split[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-                if (outfile < 0) ft_errno(pipex->argv[i]);
-            }
-            else if (ft_strcmp(split[0], ">>") != 0)
-            {
-                outfile = open(split[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-                if (outfile < 0) ft_errno(pipex->argv[i]);
-            }
-            else if (ft_strcmp(split[0], "<<") != 0)
-            {
-                infile = ft_here_doc(split[1]);
-                if (infile < 0) ft_errno(pipex->argv[i]);
-            }
-            else
-            {
-				i += 2;
-                break;
-            }
-            i++;
-        }
+        i = ft_handle_redirection(pipex, &infile, &outfile);
 
         // 🔥 Fork para el proceso intermedio
         pipex->pids[pipex->count] = fork();
@@ -368,39 +252,18 @@ void ft_last_process(t_pipex *pipex, char **env)
 {
     int infile = STDIN_FILENO;
     int outfile = STDOUT_FILENO;
-	int len = ft_strlen_double(pipex->argv);
     int i = pipex->i;
 
 	fprintf(stderr, "[ULTIMO PROCESO] entro en last_process con i : %d e pipex->i: %d\n", i, pipex->i);
+	if (pipex->count >= pipex->n)
+		return ;
+	// Reservar memoria para la nueva pipe (sin usar new_pipe)
+	ft_create_pipe(pipex);
+
 	// Manejo de redirecciones
-	while (len > i)
-	{
-		char **split = ft_split(pipex->argv[len], ' ');
-		
-		if (ft_strcmp(split[0], "<") != 0)
-		{
-			infile = open(split[1], O_RDONLY);
-			if (infile < 0) ft_errno(pipex->argv[i]);
-		}
-		else if (ft_strcmp(split[0], ">") != 0)
-		{
-			outfile = open(split[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (outfile < 0) ft_errno(pipex->argv[i]);
-		}
-		else if (ft_strcmp(split[0], ">>") != 0)
-		{
-			outfile = open(split[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (outfile < 0) ft_errno(pipex->argv[i]);
-		}
-		else if (ft_strcmp(split[0], "<<") != 0)
-		{
-			infile = ft_here_doc(split[1]);
-			if (infile < 0) ft_errno(pipex->argv[i]);
-		}
-		len--;
-	}
-	i += 2;
+	i = ft_handle_redirection(pipex, &infile, &outfile);
 	fprintf(stderr, "[ULTIMO PROCESO] outfile: %d infile: %d\n", outfile, infile);
+	
     // Crear el último proceso con fork
     pipex->pids[pipex->count] = fork();
     if (pipex->pids[pipex->count] == -1) {

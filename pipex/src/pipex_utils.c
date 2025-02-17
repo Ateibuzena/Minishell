@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/16 21:29:51 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/17 20:38:58 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void ft_init(t_pipex *pipex, char *input[], t_History *history)
     }
     if (pipex->n) pipex->n += 1;
 
-    fprintf(stderr, "[DEBUG] Número de comandos: %d\n", pipex->n);
+    //fprintf(stderr, "[DEBUG] Número de comandos: %d\n", pipex->n);
     
     // Inicializar flags
     pipex->here_doc = 0;

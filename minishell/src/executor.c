@@ -14,12 +14,12 @@ void ft_pipes(char *input, t_History *history, char **env)
         perror("Error al dividir los comandos para pipex");
         return ;
     }
-    int i = 0;
+    /*int i = 0;
     while (commands[i])
     {
         printf("commads: %s\n", commands[i]);
         i++;
-    }
+    }*/
     ft_pipex(ft_strlen_double(commands), commands, env, history);
     ft_freedouble(commands);
 }
