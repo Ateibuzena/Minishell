@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/17 20:38:58 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:59:41 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void ft_init(t_pipex *pipex, char *input[], t_History *history)
 {
-    fprintf(stderr, "[DEBUG] Entro en init\n");
+    //fprintf(stderr, "[DEBUG] Entro en init\n");
     pipex->status = 0;
     pipex->history = history;
 
@@ -48,8 +48,8 @@ void ft_init(t_pipex *pipex, char *input[], t_History *history)
     pipex->argv[ft_strlen_double(input)] = NULL;
 
     // Debug: imprimir comandos almacenados
-    for (int k = 0; pipex->argv[k]; k++)
-        fprintf(stderr, "[DEBUG] Comando en pipex->argv[%d]: %s\n", k, pipex->argv[k]);
+    //for (int k = 0; pipex->argv[k]; k++)
+    //    fprintf(stderr, "[DEBUG] Comando en pipex->argv[%d]: %s\n", k, pipex->argv[k]);
 	/*
     // Gestión de pipes
     pipex->pipes = (pipex->n > 1) ? malloc((pipex->n - 1) * sizeof(int *)) : NULL;
@@ -70,7 +70,7 @@ void ft_init(t_pipex *pipex, char *input[], t_History *history)
     if (!pipex->pids)
         return (ft_perror("Malloc failed: pids"), ft_free_pipex(&pipex), exit(EXIT_FAILURE));
     
-    fprintf(stderr, "[DEBUG] Salgo de init\n");
+    //fprintf(stderr, "[DEBUG] Salgo de init\n");
 }
 
 void	ft_close_pipes(t_pipex *pipex)

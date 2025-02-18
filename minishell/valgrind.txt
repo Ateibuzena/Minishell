@@ -1,2 +1,0 @@
-[?2004hminishola: $ cat archivo.txt | grep "palabra" | sort > resultado.txtcat archivo.txt | grep "palabra" | sort > resultado.txtcat archivo.txt | grep "palabra" | sort > resultado.txt
-[?2004l
