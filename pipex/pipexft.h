@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/17 18:18:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:22:24 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ typedef struct s_pipex
 	char	*found_way;
 	char	**clean_paths;
 	char	**commands;
-	int		here_doc;
-	int		redirection;
-	int		cmd;
-	int		append;
-	int		truncate;
 	int		status;
 	t_History *history;
 }	t_pipex;

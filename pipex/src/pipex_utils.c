@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/18 15:59:41 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:22:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ void ft_init(t_pipex *pipex, char *input[], t_History *history)
     if (pipex->n) pipex->n += 1;
 
     //fprintf(stderr, "[DEBUG] Número de comandos: %d\n", pipex->n);
-    
-    // Inicializar flags
-    pipex->here_doc = 0;
-    pipex->redirection = 0;
-    pipex->cmd = 0;
-    pipex->append = 0;
-    pipex->truncate = 0;
-    
     // Reservar memoria para argv
     pipex->argv = (char **)malloc(sizeof(char *) * (ft_strlen_double(input) + 1));
     if (!pipex->argv)

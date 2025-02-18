@@ -6,11 +6,21 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:37:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/18 16:19:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:23:59 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
+
+void ft_print_argv(t_pipex *pipex)
+{
+    int i = 0;
+    while (pipex->argv[i])
+    {
+        fprintf(stderr, "comando[%d]: %s\n", i, pipex->argv[i]);
+        i++;
+    }
+}
 
 static void ft_create_pipe(t_pipex *pipex)
 {
@@ -72,7 +82,7 @@ static int ft_handle_redirection(t_pipex *pipex, int *infile, int *outfile)
             if ((*infile) < 0) ft_errno(pipex->argv[i]);
         }
         else
-			cmd = i + 2;
+			cmd = i;
         i++;
     }
 	return (cmd);
@@ -115,7 +125,14 @@ void ft_first_process(t_pipex *pipex, char **env)
 			close(outfile);
 
         // Ejecutar comando
-        ft_execute_cmd(pipex, pipex->argv[i - 2], env, NULL);
+        if (ft_is_builtins(pipex->argv[i]))
+        {
+            char **split2 = ft_split(pipex->argv[i], ' ');
+            ft_execute(split2, pipex->history, (t_Env **)env);
+            ft_freedouble(split2);
+        }
+        else
+            ft_execute_cmd(pipex, pipex->argv[i], env, NULL);
     }
 
     // 🔥 El padre cierra lo que no necesita
@@ -128,7 +145,11 @@ void ft_first_process(t_pipex *pipex, char **env)
 	// ✅ El padre espera a que el hijo termine
     waitpid(pipex->pids[pipex->count], NULL, 0);
 
-	pipex->i = i;
+    while (!ft_strchr(pipex->argv[i], '|'))
+        i++;
+    
+    //ft_print_argv(pipex);
+    pipex->i = i;
 	pipex->count += 1;
 }
 
@@ -182,7 +203,14 @@ int ft_middle_process(t_pipex *pipex, char **env)
             close(pipex->pipes[pipex->count][READ]); // No se lee de la nueva pipe
 
             // Ejecutar comando
-            ft_execute_cmd(pipex, pipex->argv[i - 2], env, NULL);
+            if (ft_is_builtins(pipex->argv[i]))
+            {
+                char **split2 = ft_split(pipex->argv[i], ' ');
+                ft_execute(split2, pipex->history, (t_Env **)env);
+                ft_freedouble(split2);
+            }
+            else
+                ft_execute_cmd(pipex, pipex->argv[i], env, NULL);
         }
 		// 🔥 El padre cierra lo que no necesita
 		if (infile != STDIN_FILENO)
@@ -194,6 +222,10 @@ int ft_middle_process(t_pipex *pipex, char **env)
 
 		// ✅ El padre espera a que el hijo termine
 		waitpid(pipex->pids[pipex->count], NULL, 0);
+
+        while (!ft_strchr(pipex->argv[i], '|'))
+            i++;
+        //ft_print_argv(pipex);
 		pipex->i = i;
 		pipex->count += 1;
         
@@ -207,6 +239,7 @@ void ft_last_process(t_pipex *pipex, char **env)
     int infile = STDIN_FILENO;
     int outfile = STDOUT_FILENO;
 	int i = pipex->i;
+    char **split2 = NULL;
 
 	if (pipex->count >= pipex->n)
 		return ;
@@ -243,7 +276,7 @@ void ft_last_process(t_pipex *pipex, char **env)
             if (infile < 0) ft_errno(pipex->argv[i]);
         }
         else
-			cmd = i + 2;
+			cmd = i;
         i++;
     }
     // Crear el último proceso con fork
@@ -272,9 +305,17 @@ void ft_last_process(t_pipex *pipex, char **env)
 			close(outfile);
 
 		// Ejecutar comando
-		ft_execute_cmd(pipex, pipex->argv[cmd - 2], env, NULL);
+        if (ft_is_builtins(pipex->argv[cmd]))
+        {
+            split2 = ft_split(pipex->argv[cmd], ' ');
+            ft_execute(split2, pipex->history, (t_Env **)env);
+            //ft_freedouble(split2);
+        }
+        else
+        {
+            ft_execute_cmd(pipex, pipex->argv[cmd], env, NULL);
+        }
     }
-
     // 🔥 El padre cierra lo que no necesita
 	if (infile != STDIN_FILENO)
 		close(infile);
@@ -284,7 +325,7 @@ void ft_last_process(t_pipex *pipex, char **env)
 
 	// ✅ El padre espera a que el hijo termine
 	waitpid(pipex->pids[pipex->count], NULL, 0);
-	
+	//ft_print_argv(pipex);
 	pipex->i += 1;
 	pipex->count += 1;
 }
