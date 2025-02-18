@@ -20,7 +20,8 @@ void ft_pipes(char *input, t_History *history, char **env)
         printf("commads: %s\n", commands[i]);
         i++;
     }*/
-    ft_pipex(ft_strlen_double(commands), commands, env, history);
+    int status = ft_pipex(ft_strlen_double(commands), commands, env, history);
+    fprintf(stderr, "\nft_pipex retornó: %d\n", status); // Depuración
     ft_freedouble(commands);
 }
 
