@@ -58,6 +58,6 @@ void ft_command(char *input, t_History *history, t_Env **env)
         i++;
     }
     ft_add_entry(history, entry);
-    ft_execute(args, history, env);
+    ft_execute_builtins(args, history, env);
     free(entry);
 }
