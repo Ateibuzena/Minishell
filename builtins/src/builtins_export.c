@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/22 21:19:25 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:25:14 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,16 @@ int ft_export(t_Env **env, char **args)
             }
 
             // Crear lista con solo la key y NULL
-            keys_to_unset = malloc(sizeof(char *) * 2); // Un elemento + NULL
+            keys_to_unset = malloc(sizeof(char *) * 3); // Un elemento + NULL
             if (!keys_to_unset)
             {
                 ft_putstr_fd("minishell: export: memory allocation error\n", STDERR_FILENO);
                 free(expanded_key);
                 return (0);
             }
-            keys_to_unset[0] = ft_strdup(expanded_key);
-            keys_to_unset[1] = NULL;
+            keys_to_unset[0] = NULL;
+            keys_to_unset[1] = ft_strdup(expanded_key);
+            keys_to_unset[2] = NULL;
 
             // Llamar a unset con la lista
             ft_unset(env, keys_to_unset);
