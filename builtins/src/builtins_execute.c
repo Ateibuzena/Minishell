@@ -1,7 +1,19 @@
 #include "../minishell/minishellft.h"
 
-int ft_execute(char **args, t_History *history, t_Env **env)
+static void ft_print_argv(char **args)
 {
+    int i = 0;
+    while (args[i])
+    {
+        fprintf(stderr, "comando[%d]: %s\n", i, args[i]);
+        i++;
+    }
+}
+
+int ft_execute_builtins(char **args, t_History *history, t_Env **env)
+{
+    fprintf(stderr, "Entro en execute_builtins con argv: \n");
+    ft_print_argv(args);
     // Procesar comandos built-ins
     if (ft_strcmp(args[0], "echo"))
         ft_echo(args);

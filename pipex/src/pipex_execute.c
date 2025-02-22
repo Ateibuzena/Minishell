@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/18 13:46:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:28:06 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_here_doc(char *delimiter)
 	int		temp_pipe[2];
 
 	if (pipe(temp_pipe) < 0)
-		ft_perror("Pipe error");
+		ft_perror("Pipex error: Pipe\n");
 	while (1)
 	{
 		write(1, ">", 1);

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/18 14:15:01 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:58:52 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,21 @@
 	}
 }*/
 
-int	ft_pipex(int argc, char **input, char **env, t_History *history)
+int	ft_pipex(char **input, char **env, t_History *history)
 {
 	t_pipex	*pipex;
 	int		status;
 
-	(void)argc;
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
-		return (ft_perror("Malloc filed: pipex\n"), 1);
+		return (ft_perror("Malloc error: pipex\n"), 1);
 	ft_memset(pipex, 0, sizeof(t_pipex));
 	//ft_check_args(argc, input, pipex);
 	ft_init(pipex, input, history);
 	ft_first_process(pipex, env);
-	pipex->i = ft_middle_process(pipex, env);
+	ft_middle_process(pipex, env);
 	ft_last_process(pipex, env);
 	status = pipex->status;
 	ft_free_pipex(&pipex);
-	//close(STDIN_FILENO);
-	//close(STDOUT_FILENO);
-	//close(STDERR_FILENO);
 	return (status);
 }

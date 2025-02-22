@@ -1,44 +1,40 @@
 #include "../minishell/minishellft.h"
 
 // Función auxiliar para verificar si un carácter es un delimitador
-static int ft_is_delimiter(char c, const char *delim)
+static int ft_is_delimiter(char c, const char *delimiter)
 {
-    while (*delim)
+    while (*delimiter)
     {
-        if (c == *delim)
+        if (c == *delimiter)
         {
-            return 1;  // Si encontramos el delimitador, devolvemos 1
+            return (1);  // Si encontramos el delimitador, devolvemos 1
         }
-        delim++;
+        delimiter++;
     }
-    return 0;  // Si no encontramos el delimitador, devolvemos 0
+    return (0);  // Si no encontramos el delimitador, devolvemos 0
 }
 
 char *ft_strtok(char *str, const char *delim)
 {
-    static char *next_token = NULL;  // Puntero estático para almacenar el siguiente token
+    static char *next_token;
+    char *token_start;
 
-    if (str == NULL && next_token == NULL)
-	{
-        return (NULL);  // Si no hay más tokens, devolvemos NULL
-    }
+    if (!next_token)
+        next_token = NULL;
+    token_start = NULL;
+    if (str == NULL && next_token == NULL) 
+        return (NULL);
 
     if (str != NULL)
-	{
-        next_token = str;  // Iniciamos o reiniciamos el puntero para el primer token
-    }
+        next_token = str;
 
     // Si hemos llegado al final de la cadena
     if (next_token == NULL || *next_token == '\0')
-	{
         return (NULL);
-    }
 
     // Saltar los delimitadores iniciales
     while (*next_token && ft_is_delimiter(*next_token, delim))
-	{
-        next_token++;  // Avanzamos hasta el primer carácter que no sea delimitador
-    }
+        next_token++;
 
     // Si llegamos al final de la cadena
     if (*next_token == '\0')
@@ -48,13 +44,11 @@ char *ft_strtok(char *str, const char *delim)
     }
 
     // Almacenar el comienzo del token
-    char *token_start = next_token;
+    token_start = next_token;
 
     // Avanzar hasta encontrar el siguiente delimitador
     while (*next_token && !ft_is_delimiter(*next_token, delim))
-	{
         next_token++;  // Avanzamos hasta el siguiente delimitador
-    }
 
     // Si encontramos un delimitador, lo reemplazamos con '\0' para terminar el token
     if (*next_token != '\0')

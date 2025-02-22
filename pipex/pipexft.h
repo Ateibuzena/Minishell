@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/18 16:22:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:46:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ typedef struct s_pipex
 {
 	int		n;
 	int		i;
+	int		cmd;
 	int		count;
+	int		size;
 	char	**argv;
 	int		**pipes;
 	pid_t	*pids;
@@ -43,6 +45,8 @@ typedef struct s_pipex
 	char	**clean_paths;
 	char	**commands;
 	int		status;
+	int		infile;
+	int		outfile;
 	t_History *history;
 }	t_pipex;
 
@@ -51,7 +55,7 @@ typedef struct s_pipex
 /*ft_process.c*/
 void	ft_child_process(int input_fd, int output_fd);
 void	ft_first_process(t_pipex *pipex, char **env);
-int		ft_middle_process(t_pipex *pipex, char **env);
+void	ft_middle_process(t_pipex *pipex, char **env);
 void	ft_last_process(t_pipex *pipex, char **env);
 void	ft_waitpid(t_pipex *pipex);
 
@@ -70,6 +74,6 @@ void	ft_errno(char *argument);
 void	ft_free_pipex(t_pipex **pipex);
 
 /*pipex.c*/
-int	ft_pipex(int argc, char **input, char **env, t_History *history);
+int	ft_pipex(char **input, char **env, t_History *history);
 
 #endif

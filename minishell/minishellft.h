@@ -31,12 +31,9 @@ typedef struct s_minishell
     t_Env 		*env;           // Las variables de entorno
 } t_minishell;
 
-void    ft_pipes(char *input, t_History *history, char **env);
-void    ft_tokenize(char *input, char **args);
-//int		ft_execute(char **args, t_History *history, t_Env **env);
-void    ft_command(char *input, t_History *history, t_Env **env);
-
 /*minishell_utils.c*/
-//int	ft_is_builtins(char *args);
+void    ft_handle_pipes(char *input, t_History *history, char **env);
+void    ft_tokenize(char *input, char **args);
+void    ft_handle_builtin(char *input, t_History *history, t_Env **env);
 
 #endif // MINISHELL_H

@@ -28,7 +28,7 @@ INCLUDES = -I$(LIBFT_DIR) -I$(HISTORY_DIR) -I$(BUILTINS_DIR) -I$(TOKENS_DIR) -I$
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/main.c \
-       $(SRC_DIR)/executor.c \
+       $(SRC_DIR)/minishell_utils.c \
        $(SRC_DIR)/signals.c
 
 OBJ_DIR = ./obj

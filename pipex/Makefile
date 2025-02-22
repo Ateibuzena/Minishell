@@ -10,6 +10,8 @@ SRC_DIR = ./src
 SRCS = $(SRC_DIR)/pipex_execute.c\
 		$(SRC_DIR)/pipex_process.c\
 		$(SRC_DIR)/pipex_utils.c\
+		$(SRC_DIR)/pipex_init.c\
+		$(SRC_DIR)/pipex_error.c\
 		$(SRC_DIR)/pipex.c
 
 OBJ_DIR = ./obj

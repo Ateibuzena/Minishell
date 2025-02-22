@@ -35,7 +35,7 @@ int     ft_unset(t_Env **env, char **args);
 char    *ft_strtok(char *str, const char *delim);
 
 /*executor.c*/
-int ft_execute(char **args, t_History *history, t_Env **env);
+int ft_execute_builtins(char **args, t_History *history, t_Env **env);
 int	ft_is_builtins(char *argv);
 
 # endif
