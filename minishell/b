@@ -85,7 +85,6 @@ BUILTINS_SRCS = $(BUILTINS_DIR)/builtins_cd.c\
 				$(BUILTINS_DIR)/builtins_unset.c\
 				$(BUILTINS_DIR)/builtins_export.c\
 				$(BUILTINS_DIR)/builtins_execute.c\
-				$(BUILTINS_DIR)/builtins_utils.c\
 				$(BUILTINS_DIR)/ft_strtok.c
 
 PIPEX_SRCS = $(PIPEX_DIR)/pipex_execute.c\

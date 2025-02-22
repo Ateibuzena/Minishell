@@ -55,29 +55,39 @@ RESET   			= \033[0m
 # Reglas
 all: $(NAME)
 
+# Solo recompilar si los objetos están desactualizados
 $(NAME): $(OBJ_DIR) $(OBJS)
-	@printf "$(CYAN)[Building Main] Creating $(NAME)...\n$(RESET)"
-	@ar rcs $(NAME) $(OBJS)
-	@printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"
+	@if [ ! -f $(NAME) ] || [ $(OBJS) -nt $(NAME) ]; then \
+		printf "$(CYAN)[Building Libft] Creating $(NAME)...\n$(RESET)"; \
+		ar rcs $(NAME) $(OBJS); \
+		printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"; \
+	else \
+		printf "$(YELLOW)[Up-to-date] No recompilation needed for $(NAME).\n$(RESET)"; \
+	fi
 
+# Compilación de objetos
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
 	@printf "$(YELLOW)[Compiling]$(RESET) $<\n"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+# Crear directorio de objetos si no existe
 $(OBJ_DIR):
 	@printf "$(CYAN)[Directory] Creating object directory $(OBJ_DIR)...\n$(RESET)"
 	@mkdir -p $(OBJ_DIR)
 
+# Limpiar archivos intermedios
 clean:
 	@printf "$(RED)[Cleaning] Removing object files...\n$(RESET)"
 	@rm -rf $(OBJ_DIR)
 	@printf "$(GREEN)[Cleaned] Object files removed successfully!\n$(RESET)"
 
+# Limpiar binarios y archivos intermedios
 fclean: clean
 	@rm -f $(NAME)
 	@printf "$(GREEN)[Cleaned] All binaries and libraries removed successfully!\n$(RESET)"
 
+# Recompilación completa
 re: fclean all
 
 .PHONY: all clean fclean re

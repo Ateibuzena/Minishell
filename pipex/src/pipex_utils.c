@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/21 19:49:52 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:39:36 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ void	ft_waitpid(t_pipex *pipex)
 	i = 0;
 	while (i < (pipex->n))
 	{
-		if (waitpid(-1, &status, 0) == pipex->pids[pipex->n - 1])
-			pipex->status = WEXITSTATUS(status);
+		fprintf(stderr, "n: %d\n", pipex->n);
+		/*if (waitpid(-1, &status, 0) == pipex->pids[pipex->n - 1])
+			pipex->status = WEXITSTATUS(status);*/
+		waitpid(pipex->pids[i], &status, 0);
+		pipex->status = WEXITSTATUS(status);
 		i++;
 	}
 }

@@ -30,6 +30,10 @@ int main(int argc, char **argv, char **envp)
         // Procesar entrada si no está vacía
         if (ft_strlen(input) > 0)
         {
+            /*if (ft_strcmp(input, "./minishell"))
+            {
+                ft_export(env, )
+            }*/
             if (ft_strchr(input, '|') || !ft_is_builtins(input)) // Si hay un pipe
                 ft_handle_pipes(input, history, envp);
             else // Si no hay pipes

@@ -16,7 +16,7 @@ int ft_execute_builtins(char **args, t_History *history, t_Env **env)
     ft_print_argv(args);
     // Procesar comandos built-ins
     if (ft_strcmp(args[0], "echo"))
-        ft_echo(args);
+        ft_echo(args, *env);
     else if (ft_strcmp(args[0], "cd"))
         ft_cd(args);
     else if (ft_strcmp(args[0], "clear")) 

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:46:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/16 13:03:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:22:55 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,7 @@ void ft_delete_env(t_Env **head, const char *key)
 
     // Si la variable no fue encontrada
     if (temp == NULL)
-	{
-        printf("Variable de entorno no encontrada: %s\n", key);
         return ;
-    }
 
     // Desenlazamos y liberamos la memoria
     prev->next = temp->next;

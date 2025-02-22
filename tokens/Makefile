@@ -28,12 +28,16 @@ WHITE   			= \033[0;37m
 RESET   			= \033[0m
 
 # Reglas
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJ_DIR) $(OBJS) $(LIBFT)
-	@printf "$(CYAN)[Building Main] Creating $(NAME)...\n$(RESET)"
-	@ar rcs $(NAME) $(OBJS)
-	@printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"
+$(NAME): $(OBJ_DIR) $(OBJS)
+	@if [ ! -f $(NAME) ] || [ $(OBJS) -nt $(NAME) ]; then \
+		printf "$(CYAN)[Building Tokens] Creating $(NAME)...\n$(RESET)"; \
+		ar rcs $(NAME) $(OBJS); \
+		printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"; \
+	else \
+		printf "$(YELLOW)[Up-to-date] No recompilation needed for $(NAME).\n$(RESET)"; \
+	fi
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
@@ -56,6 +60,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@printf "$(GREEN)[Cleaned] All binaries and libraries removed successfully!\n$(RESET)"
 
 re: fclean all

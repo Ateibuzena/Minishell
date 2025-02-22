@@ -27,8 +27,8 @@ void    ft_tokenize(char *input, char *args[])
     token = ft_strtok(input, " ");
     while (token != NULL)
     {
+        printf("token: %s\n", token);
         args[i++] = token;
-        printf("arg: %s\n", args[i]);
         token = ft_strtok(NULL, " ");
     }
     args[i] = NULL;

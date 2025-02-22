@@ -29,25 +29,34 @@ RESET   			= \033[0m
 # Reglas
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(OBJS) $(LIBFT)
-	@printf "$(CYAN)[Building Main] Creating $(NAME)...\n$(RESET)"
-	@ar rcs $(NAME) $(OBJS)
-	@printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"
+# Solo recompilar si es necesario
+$(NAME): $(OBJ_DIR) $(OBJS)
+	@if [ ! -f $(NAME) ] || [ $(OBJS) -nt $(NAME) ]; then \
+		printf "$(CYAN)[Building History] Creating $(NAME)...\n$(RESET)"; \
+		ar rcs $(NAME) $(OBJS); \
+		printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"; \
+	else \
+		printf "$(YELLOW)[Up-to-date] No recompilation needed for $(NAME).\n$(RESET)"; \
+	fi
 
+# Compilación de objetos
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
 	@printf "$(YELLOW)[Compiling]$(RESET) $<\n"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+# Crear directorio de objetos
 $(OBJ_DIR):
 	@printf "$(CYAN)[Directory] Creating object directory $(OBJ_DIR)...\n$(RESET)"
 	@mkdir -p $(OBJ_DIR)
 
+# Compilar libft solo si es necesario
 $(LIBFT):
-	@printf "$(CYAN)[Building Libft] Compiling libft...\n$(RESET)"
-	@$(MAKE) -C $(LIBFT_DIR)
+	@printf "$(CYAN)[Building Libft] Checking if recompilation is needed...\n$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR) --quiet || $(MAKE) -C $(LIBFT_DIR)
 	@printf "$(GREEN)[Libft Ready] Libft compiled successfully!\n$(RESET)"
 
+# Limpiar archivos
 clean:
 	@printf "$(RED)[Cleaning] Removing object files...\n$(RESET)"
 	@rm -rf $(OBJ_DIR)

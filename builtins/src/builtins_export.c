@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/16 12:59:25 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:19:25 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,41 +31,65 @@ static int ft_valid_key(const char *key)
 }
 
 // Función para manejar el comando export
+// Función para manejar el comando export
 int ft_export(t_Env **env, char **args)
 {
     char *key;
     char *value;
-    //t_Env *current;
+    char *expanded_value;
+    char *expanded_key;
+    // Añadir las nuevas variables
+    int i = 1;
 
-    if (args[1] != NULL)  // Si hay un argumento, agregar o modificar la variable
+    char **keys_to_unset = NULL;
+
+    while (args[i] != NULL)
     {
-        key = ft_strtok(args[1], "=");
+        key = ft_strtok(args[i], "=");
         value = ft_strtok(NULL, "");
 
         if (key && value)
         {
-            // Validar la clave antes de agregarla
-            if (!ft_valid_key(key))
+            expanded_key = ft_expand_variables(key, *env);
+            fprintf(stderr, "expanded_key: %s\n", expanded_key);
+            if (!ft_valid_key(expanded_key))
             {
                 ft_putstr_fd("minishell: export: invalid key\n", STDERR_FILENO);
-                return (1);
+                free(expanded_key);
+                return (0);
             }
-            else
-                ft_add_env(env, key, value);  // Agregar la nueva variable al entorno
+
+            // Crear lista con solo la key y NULL
+            keys_to_unset = malloc(sizeof(char *) * 2); // Un elemento + NULL
+            if (!keys_to_unset)
+            {
+                ft_putstr_fd("minishell: export: memory allocation error\n", STDERR_FILENO);
+                free(expanded_key);
+                return (0);
+            }
+            keys_to_unset[0] = ft_strdup(expanded_key);
+            keys_to_unset[1] = NULL;
+
+            // Llamar a unset con la lista
+            ft_unset(env, keys_to_unset);
+
+            // Expandir el valor y añadir al entorno
+            expanded_value = ft_expand_variables(value, *env);
+            ft_add_env(env, expanded_key, expanded_value);
+
+            // Liberar memoria
+            free(keys_to_unset[0]);
+            free(keys_to_unset);
+            free(expanded_key);
+            free(expanded_value);
         }
         else
         {
             ft_putstr_fd("minishell: export: invalid argument\n", STDERR_FILENO);
-            return (1);
+            return (0);
         }
+
+        i++;
     }
-
-    /*current = *env;
-    while (current)
-	{
-        printf("export %s=%s\n", current->key, current->value);
-        current = current->next;
-    }*/
-
     return (1);
 }

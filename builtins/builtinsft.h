@@ -14,7 +14,7 @@ int     ft_cd(char **args);
 void	ft_clear(void);
 
 /*builtins_echo.c*/
-int     ft_echo(char **args);
+int     ft_echo(char **args, t_Env *env);
 
 /*builtins_env.c*/
 int     ft_env(t_Env *env, char **args);
@@ -34,8 +34,12 @@ int     ft_unset(t_Env **env, char **args);
 /*ft_strtok.c*/
 char    *ft_strtok(char *str, const char *delim);
 
-/*executor.c*/
-int ft_execute_builtins(char **args, t_History *history, t_Env **env);
+/*builtins_utils*/
+char *ft_expand_variables(const char *arg, t_Env *env);
+
+/*builtins_execute.c*/
 int	ft_is_builtins(char *argv);
+int ft_execute_builtins(char **args, t_History *history, t_Env **env);
+
 
 # endif

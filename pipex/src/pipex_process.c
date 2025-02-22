@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:37:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/21 20:01:36 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:42:09 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void ft_handle_redirection(t_pipex *pipex, char **split)
 void ft_first_process(t_pipex *pipex, char **env)
 {
     char    **split;
-
+    fprintf(stderr, "entro en first process padre n: %d\n", pipex->n);
     split = NULL;
     ft_create_pipe(pipex);
 
@@ -96,6 +96,7 @@ void ft_first_process(t_pipex *pipex, char **env)
 		return (ft_perror("Fork error: first process\n"));
 	if (pipex->pids[pipex->count] == 0) // Proceso hijo
     {
+        fprintf(stderr, "entro en first process hijo n: %d\n", pipex->n);
         close(pipex->pipes[pipex->count][READ]);
         // Redirigir entrada
         if (pipex->infile != STDIN_FILENO)
@@ -123,8 +124,10 @@ void ft_first_process(t_pipex *pipex, char **env)
         }
         else if ((pipex->cmd >= 0) && !ft_is_builtins(pipex->argv[pipex->cmd]))
             ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
+        fprintf(stderr, "salgo first process hijo n: %d\n", pipex->n);
         exit(1);
     }
+    //close(pipex->pipes[pipex->count][READ]);
     if (pipex->infile != STDIN_FILENO)
         close(pipex->infile);
     if (pipex->outfile == STDOUT_FILENO && (pipex->n != 0))
@@ -133,7 +136,7 @@ void ft_first_process(t_pipex *pipex, char **env)
         close(pipex->outfile);
 	// ✅ El padre espera a que el hijo termine
     waitpid(pipex->pids[pipex->count], NULL, 0);
-
+    fprintf(stderr, "salgo first process padre n: %d\n", pipex->n);
     pipex->i += 1;
 	pipex->count += 1;
 }
@@ -143,7 +146,7 @@ void ft_first_process(t_pipex *pipex, char **env)
 void ft_middle_process(t_pipex *pipex, char **env)
 {
     char **split;
-    
+    fprintf(stderr, "entro en midel process padre: %d\n", pipex->n);
     split = NULL;
     while (pipex->count < pipex->n - 1)
     {   
@@ -163,6 +166,7 @@ void ft_middle_process(t_pipex *pipex, char **env)
             return (ft_perror("Fork error: Middle process"));
         if (pipex->pids[pipex->count] == 0)
         {
+            fprintf(stderr, "mideel process en hijo: %d\n", pipex->n);
             close(pipex->pipes[pipex->count][READ]);
             // Redirigir entrada
 			if (pipex->infile != STDIN_FILENO)
@@ -196,6 +200,7 @@ void ft_middle_process(t_pipex *pipex, char **env)
             }
             else
                 ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
+            fprintf(stderr, "salgo middel process hijo: %d\n", pipex->n);
             exit(1);
         }
         //close(pipex->pipes[pipex->count][READ]);
@@ -210,17 +215,20 @@ void ft_middle_process(t_pipex *pipex, char **env)
 
 		// ✅ El padre espera a que el hijo termine
 		waitpid(pipex->pids[pipex->count], NULL, 0);
-
+        
 		pipex->i += 1;
 		pipex->count += 1;
     }
+    fprintf(stderr, "salgo middel proces padre: %d\n", pipex->n);
 }
 
 // Función para el último proceso
 void ft_last_process(t_pipex *pipex, char **env)
 {
+    fprintf(stderr, "entro last process padre: %d\n", pipex->n);
 	if (pipex->count >= pipex->n)
     {
+        fprintf(stderr, "salgo directamente de last process: %d\n", pipex->n);
         //fprintf(stderr, "\ntoy aqui = count = %d, n = %d\n", pipex->count, pipex->n);
         return ;
     }
@@ -267,7 +275,7 @@ void ft_last_process(t_pipex *pipex, char **env)
         return (ft_perror("Fork error: Last process"));
     if (pipex->pids[pipex->count] == 0)
     {  
-        
+        fprintf(stderr, "entro last process hijo: %d\n", pipex->n);
         // Redirigir entrada
 		if (pipex->infile != STDIN_FILENO)
         {
@@ -294,6 +302,7 @@ void ft_last_process(t_pipex *pipex, char **env)
         }
         else
             ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
+        fprintf(stderr, "salgo last process hijo: %d\n", pipex->n);
         exit(1);
     }
     //close(pipex->pipes[pipex->count - 1][READ]);
@@ -306,7 +315,7 @@ void ft_last_process(t_pipex *pipex, char **env)
 
 	// ✅ El padre espera a que el hijo termine
 	waitpid(pipex->pids[pipex->count], NULL, 0);
-
+    fprintf(stderr, "salgo last process padre: %d\n", pipex->n);
 	pipex->i += 1;
 	pipex->count += 1;
 }

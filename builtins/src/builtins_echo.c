@@ -17,27 +17,6 @@ static int	ft_n_flag(const char *arg)
 	return (1); // Es un "-n" válido
 }
 
-static char	*ft_expand_variables(const char *arg)
-{
-    char	*value;
-    char	*result;
-
-	if (arg[0] == '$')
-	{
-		value = getenv(arg + 1);
-		if (value)
-		{
-			result = ft_strdup(value);
-		}
-		else
-		{
-			result = ft_strdup("");
-		}
-		return (result);
-	}
-	return (ft_strdup(arg));
-}
-
 static char	*ft_remove_quotes(const char *arg)
 {
 	char	*result;
@@ -60,7 +39,7 @@ static char	*ft_remove_quotes(const char *arg)
 }
 
 // Función para manejar el comando echo
-int	ft_echo(char **args)
+int	ft_echo(char **args, t_Env *env)
 {
     int		i;
     int		newline;
@@ -79,7 +58,7 @@ int	ft_echo(char **args)
     // Imprimir los argumentos
     while (args[i])
     {
-		expanded = ft_expand_variables(args[i]);
+		expanded = ft_expand_variables(args[i], env);
 		//falta parseo de comillas:
 		cleaned = ft_remove_quotes(expanded);
 
