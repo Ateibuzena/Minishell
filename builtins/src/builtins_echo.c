@@ -17,34 +17,13 @@ static int	ft_n_flag(const char *arg)
 	return (1); // Es un "-n" válido
 }
 
-static char	*ft_remove_quotes(const char *arg)
-{
-	char	*result;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	result = malloc((ft_strlen(arg) + 1) * sizeof(char));
-	if (!result)
-		return (perror("Error: Malloc failed"), NULL);
-	while (arg[i])
-	{
-		if (arg[i] != '\'' && arg[i] != '"')
-			result[j++] = arg[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
 // Función para manejar el comando echo
 int	ft_echo(char **args, t_Env *env)
 {
     int		i;
     int		newline;
 	char	*expanded;
-	char	*cleaned;
+	//char	*cleaned;
 	
 	newline = 1;  // Suponer que agregaremos un salto de línea por defecto
 	i = 1;
@@ -60,12 +39,12 @@ int	ft_echo(char **args, t_Env *env)
     {
 		expanded = ft_expand_variables(args[i], env);
 		//falta parseo de comillas:
-		cleaned = ft_remove_quotes(expanded);
+		//cleaned = process_quotes(expanded);
 
-        printf("%s", expanded);
+        printf("expanded: %s", expanded);
 		
 		free(expanded);
-		free(cleaned);
+		//free(cleaned);
         
 		if (args[i + 1])
             printf(" ");  // Agregar espacio entre palabras

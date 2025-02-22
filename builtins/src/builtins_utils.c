@@ -23,12 +23,8 @@ char *ft_expand_variables(const char *arg, t_Env *env)
         if (value)
         {
             result = ft_strdup(value);
+            return (result);
         }
-        else
-        {
-            result = ft_strdup("");
-        }
-        return result;
     }
     return ft_strdup(arg);
 }

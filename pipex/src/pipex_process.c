@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:37:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/22 18:42:09 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:07:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void ft_first_process(t_pipex *pipex, char **env)
             ft_freedouble(split);
         }
         else if ((pipex->cmd >= 0) && !ft_is_builtins(pipex->argv[pipex->cmd]))
-            ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
+                ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
         fprintf(stderr, "salgo first process hijo n: %d\n", pipex->n);
         exit(1);
     }

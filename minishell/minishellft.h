@@ -31,9 +31,17 @@ typedef struct s_minishell
     t_Env 		*env;           // Las variables de entorno
 } t_minishell;
 
+typedef enum
+{
+    NO_QUOTE,
+    SINGLE_QUOTE,
+    DOUBLE_QUOTE
+} t_quoteState;
+
 /*minishell_utils.c*/
 void    ft_handle_pipes(char *input, t_History *history, char **env);
 void    ft_tokenize(char *input, char **args);
 void    ft_handle_builtin(char *input, t_History *history, t_Env **env);
+char    *ft_handle_quotes(const char *input);
 
 #endif // MINISHELL_H

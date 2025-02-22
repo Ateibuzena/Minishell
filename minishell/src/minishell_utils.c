@@ -1,6 +1,58 @@
 #include "../minishellft.h"
 
 
+// Función que gestiona las comillas y devuelve el string procesado
+char *ft_handle_quotes(const char *input)
+{
+    t_quoteState state;
+    size_t len;
+    char *output;
+    size_t j;
+    size_t i;
+    
+    state = NO_QUOTE;
+    len = strlen(input);
+    output = malloc(len + 1); // Reservamos memoria
+    if (!output)
+        return NULL; // Control de error de memoria
+    j = 0; // Índice para el output
+    i = 0; 
+    while(i < len)
+    {
+        char c = input[i];
+
+        switch (state)
+        {
+            case NO_QUOTE:
+                if (c == '\'')
+                    state = SINGLE_QUOTE;
+                else if (c == '\"')
+                    state = DOUBLE_QUOTE;
+                else
+                    output[j++] = c;
+                break;
+            case SINGLE_QUOTE:
+                if (c == '\'')
+                    state = NO_QUOTE;
+                else
+                    output[j++] = c; // Copia literal
+                break;
+            case DOUBLE_QUOTE:
+                if (c == '\"')
+                    state = NO_QUOTE;
+                else if (c == '\\' && i + 1 < len)
+
+                    output[j++] = input[++i]; // Manejar escape en comillas dobles
+                else
+                    output[j++] = c;
+                break;
+        }
+        i++;
+    }
+    output[j] = '\0'; // Terminamos el string
+    return (output);
+}
+
 void ft_handle_pipes(char *input, t_History *history, char **env)
 {
     char **commands;
