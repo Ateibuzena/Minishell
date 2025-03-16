@@ -6,14 +6,14 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:15:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 19:18:28 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 19:24:44 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
 // Contar comandos
-static void	ft_count_cmd(t_pipex *pipex, char *input[])
+static void	ft_count_cmds(t_pipex *pipex, char *input[])
 {
 	int	i;
 
@@ -30,7 +30,7 @@ static void	ft_count_cmd(t_pipex *pipex, char *input[])
 }
 
 // Asigna memoria para pipex->argv
-static int	ft_alloc_argv(t_pipex *pipex, char *input[])
+static int	ft_copy_argv(t_pipex *pipex, char *input[])
 {
 	int	i;
 
@@ -71,7 +71,7 @@ void	ft_init(t_pipex *pipex, char *input[], t_History *history)
 	pipex->count = 0;
 	pipex->infile = STDIN_FILENO;
 	pipex->outfile = STDOUT_FILENO;
-	ft_count_cmd(pipex, input);
-	if (!ft_alloc_argv(pipex, input) || !ft_alloc_pids(pipex))
+	ft_count_cmds(pipex, input);
+	if (!ft_copy_argv(pipex, input) || !ft_alloc_pids(pipex))
 		return (ft_free_pipex(pipex), exit(EXIT_FAILURE));
 }
