@@ -89,8 +89,11 @@ BUILTINS_SRCS = $(BUILTINS_DIR)/builtins_cd.c\
 				$(BUILTINS_DIR)/ft_strtok.c
 
 PIPEX_SRCS = $(PIPEX_DIR)/pipex_execute.c\
-				$(PIPEX_DIR)/pipex_process.c\
+				$(PIPEX_DIR)/pipex_first_process.c\
+				$(PIPEX_DIR)/pipex_middle_process.c\
+				$(PIPEX_DIR)/pipex_last_process.c\
 				$(PIPEX_DIR)/pipex_utils.c\
+				$(PIPEX_DIR)/pipex_free.c\
 				$(PIPEX_DIR)/pipex_init.c\
 				$(PIPEX_DIR)/pipex_error.c\
 				$(PIPEX_DIR)/pipex.c

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 20:22:05 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 21:10:32 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_create_pipe(t_pipex *pipex)
 	if (!new_pipes)
 	{
 		ft_perror("Error al redimensionar pipes\n");
-		ft_free_pipex(pipex);
+		ft_free_pipex(&pipex);
 		exit(1);
 	}
 	pipex->pipes = new_pipes;
@@ -48,14 +48,14 @@ void	ft_create_pipe(t_pipex *pipex)
 	if (!pipex->pipes[pipex->count])
 	{
 		ft_perror("Error al asignar memoria a pipes[count]\n");
-		ft_free_pipex(pipex);
+		ft_free_pipex(&pipex);
 		exit(1);
 	}
 	if (pipe(pipex->pipes[pipex->count]) < 0)
 	{
 		free(pipex->pipes[pipex->count]);
 		ft_perror("Error al crear pipe\n");
-		ft_free_pipex(pipex);
+		ft_free_pipex(&pipex);
 		exit(1);
 	}
 }
@@ -69,7 +69,7 @@ void	ft_handle_lecture(t_pipex *pipex, char **split)
 		if (pipex->infile < 0)
 		{
 			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(pipex);
+			ft_free_pipex(&pipex);
 			exit(1);
 		}
 	}
@@ -79,7 +79,7 @@ void	ft_handle_lecture(t_pipex *pipex, char **split)
 		if (pipex->infile < 0)
 		{
 			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(pipex);
+			ft_free_pipex(&pipex);
 			exit(1);
 		}
 	}
@@ -94,7 +94,7 @@ void	ft_handle_redirection(t_pipex *pipex, char **split)
 		if (pipex->outfile < 0)
 		{
 			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(pipex);
+			ft_free_pipex(&pipex);
 			exit(1);
 		}
 	}
@@ -104,7 +104,7 @@ void	ft_handle_redirection(t_pipex *pipex, char **split)
 		if (pipex->outfile < 0)
 		{
 			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(pipex);
+			ft_free_pipex(&pipex);
 			exit(1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:15:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 19:24:44 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 21:11:00 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ static int	ft_alloc_pids(t_pipex *pipex)
 // Inicializar estructura pipex
 void	ft_init(t_pipex *pipex, char *input[], t_History *history)
 {
-	int	i;
-
 	pipex->status = 0;
 	pipex->cmd = -1;
 	pipex->history = history;
@@ -73,5 +71,5 @@ void	ft_init(t_pipex *pipex, char *input[], t_History *history)
 	pipex->outfile = STDOUT_FILENO;
 	ft_count_cmds(pipex, input);
 	if (!ft_copy_argv(pipex, input) || !ft_alloc_pids(pipex))
-		return (ft_free_pipex(pipex), exit(EXIT_FAILURE));
+		return (ft_free_pipex(&pipex), exit(EXIT_FAILURE));
 }

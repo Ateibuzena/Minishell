@@ -8,8 +8,11 @@ INCLUDES = -I$(LIBFT_DIR)
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/pipex_execute.c\
-		$(SRC_DIR)/pipex_process.c\
+		$(SRC_DIR)/pipex_first_process.c\
+		$(SRC_DIR)/pipex_middle_process.c\
+		$(SRC_DIR)/pipex_last_process.c\
 		$(SRC_DIR)/pipex_utils.c\
+		$(SRC_DIR)/pipex_free.c\
 		$(SRC_DIR)/pipex_init.c\
 		$(SRC_DIR)/pipex_error.c\
 		$(SRC_DIR)/pipex.c

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/21 19:46:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 21:24:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,38 @@ typedef struct s_pipex
 
 /*SRC/*/
 
-/*ft_process.c*/
-void	ft_child_process(int input_fd, int output_fd);
+/*pipex_first_process.c*/
 void	ft_first_process(t_pipex *pipex, char **env);
-void	ft_middle_process(t_pipex *pipex, char **env);
-void	ft_last_process(t_pipex *pipex, char **env);
-void	ft_waitpid(t_pipex *pipex);
 
-/*ft_execute.c*/
-int		ft_here_doc(char *delimiter);
+/*pipex_middle_process.c*/
+void	ft_middle_process(t_pipex *pipex, char **env);
+
+/*pipex_last_process.c*/
+void	ft_last_process(t_pipex *pipex, char **env);
+
+/*pipex_execute.c*/
 char	*ft_find_env_value(const char *key, char **env, size_t len);
 char	*ft_find_executable(char **paths, char *command);
 void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname);
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname);
+void	ft_execute(t_pipex *pipex, char **env);
 
-/*ft_utils.c*/
-void	ft_init(t_pipex *pipex, char *input[], t_History *history);
+/*pipex_utils.c*/
 void	ft_close_pipes(t_pipex *pipex);
+void 	ft_create_pipe(t_pipex *pipex);
+void 	ft_handle_lecture(t_pipex *pipex, char **split);
+void 	ft_handle_redirection(t_pipex *pipex, char **split);
+int		ft_here_doc(char *delimiter);
+
+/*pipex_error.c*/
 void	ft_perror(const char *str);
 void	ft_errno(char *argument);
+int		ft_waitpid(pid_t pid);
+
+/*pipex_init.c*/
+void	ft_init(t_pipex *pipex, char *input[], t_History *history);
+
+/*pipex_free.c*/
 void	ft_free_pipex(t_pipex **pipex);
 
 /*pipex.c*/

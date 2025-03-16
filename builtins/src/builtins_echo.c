@@ -41,7 +41,7 @@ int	ft_echo(char **args, t_Env *env)
 		//falta parseo de comillas:
 		//cleaned = process_quotes(expanded);
 
-        printf("expanded: %s", expanded);
+        printf("%s", expanded);
 		
 		free(expanded);
 		//free(cleaned);

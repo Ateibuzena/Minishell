@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 20:21:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 21:20:06 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname)
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 {
 	fprintf(stderr, "\nEntro en execute_cmd con argv: %s\n", argv);
+	fprintf(stderr, "\n");
 	if (!argv || !argv[0] || argv[0] == ' ' || !env)
 	{
 		(ft_perror(argv), ft_perror(": command not found\n"));
@@ -101,4 +102,19 @@ void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 			(ft_free_pipex(&pipex), free(pathname), exit(127));
 		}
 	}
+}
+
+void	ft_execute(t_pipex *pipex, char **env)
+{
+	char	**split;
+
+	split = NULL;
+	if ((pipex->cmd >= 0) && ft_is_builtins(pipex->argv[pipex->cmd]))
+    {
+        split = ft_split(pipex->argv[pipex->cmd], ' ');
+        ft_execute_builtins(split, pipex->history, (t_Env **)env);
+        ft_freedouble(split);
+    }
+    else if ((pipex->cmd >= 0) && !ft_is_builtins(pipex->argv[pipex->cmd]))
+        ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
 }

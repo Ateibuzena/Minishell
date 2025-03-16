@@ -1,6 +1,5 @@
 #include "../minishellft.h"
 
-
 // Función que gestiona las comillas y devuelve el string procesado
 char *ft_handle_quotes(const char *input)
 {
@@ -66,6 +65,7 @@ void ft_handle_pipes(char *input, t_History *history, char **env)
     if (!commands)
         return ft_perror("Pipex error: Tokens\n");
     status = ft_pipex(commands, env, history);
+    fprintf(stderr, "\n");
     fprintf(stderr, "\nft_pipex retornó: %d\n", status); // Depuración
     ft_freedouble(commands);
 }
@@ -79,7 +79,7 @@ void    ft_tokenize(char *input, char *args[])
     token = ft_strtok(input, " ");
     while (token != NULL)
     {
-        printf("token: %s\n", token);
+        //fprintf(stderr, "\ntoken: %s\n", token);
         args[i++] = token;
         token = ft_strtok(NULL, " ");
     }
@@ -100,13 +100,14 @@ void ft_handle_builtin(char *input, t_History *history, t_Env **env)
     entry = "";
     while (args[i])
     {
-        printf("inputs: %s\n", input);
+        
         entry = ft_strjoin(entry, args[i]);
 		temp = entry;
         entry = ft_strjoin(entry, " ");
 		free(temp);
         i++;
     }
+    fprintf(stderr, "\nentry: %s\n", entry);
     ft_add_entry(history, entry);
     ft_execute_builtins(args, history, env);
     free(entry);
