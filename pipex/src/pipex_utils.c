@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/22 17:39:36 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 20:20:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,68 +16,96 @@ void	ft_close_pipes(t_pipex *pipex)
 {
 	int	i;
 
-	i = 0;
-	if (pipex->pipes)
-	{
-		while (i < pipex->n - 1)
-		{
-			close(pipex->pipes[i][READ]);
-			close(pipex->pipes[i][WRITE]);
-			i++;
-		}
-	}
-}
-
-void	ft_free_pipex(t_pipex **pipex)
-{
-	int	i;
-
-	if (!(*pipex))
+	if (!pipex || !pipex->pipes)
 		return ;
 	i = 0;
-	if ((*pipex)->argv)
+	while (i < pipex->n - 1)
 	{
-		while ((*pipex)->argv[i])
+		if (pipex->pipes[i])
 		{
-			free((*pipex)->argv[i]);
-			i++;
+			if (close(pipex->pipes[i][READ]) == -1)
+				ft_perror("Error closing pipe (READ)\n");
+			if (close(pipex->pipes[i][WRITE]) == -1)
+				ft_perror("Error closing pipe (WRITE)\n");
 		}
-		free((*pipex)->argv);
+		i++;
 	}
-	i = 0;
-	if ((*pipex)->pipes)
-	{
-		while (i < (*pipex)->n - 1 && (*pipex)->pipes[i])
-		{
-			close((*pipex)->pipes[i][READ]);
-			close((*pipex)->pipes[i][WRITE]);
-			free((*pipex)->pipes[i]);
-			i++;
-		}
-		free((*pipex)->pipes);
-	}
-	if ((*pipex)->clean_paths)
-		ft_freedouble((*pipex)->clean_paths);
-	if ((*pipex)->commands)
-		ft_freedouble((*pipex)->commands);
-	if ((*pipex)->pids)
-		free((*pipex)->pids);
-	free((*pipex));
 }
 
-void	ft_waitpid(t_pipex *pipex)
+void	ft_create_pipe(t_pipex *pipex)
 {
-	int	i;
-	int	status;
+	int	**new_pipes;
 
-	i = 0;
-	while (i < (pipex->n))
+	new_pipes = realloc(pipex->pipes, sizeof(int *) * (pipex->count + 1));
+	if (!new_pipes)
 	{
-		fprintf(stderr, "n: %d\n", pipex->n);
-		/*if (waitpid(-1, &status, 0) == pipex->pids[pipex->n - 1])
-			pipex->status = WEXITSTATUS(status);*/
-		waitpid(pipex->pids[i], &status, 0);
-		pipex->status = WEXITSTATUS(status);
-		i++;
+		ft_perror("Error al redimensionar pipes\n");
+		ft_free_pipex(pipex);
+		exit(1);
+	}
+	pipex->pipes = new_pipes;
+	pipex->pipes[pipex->count] = malloc(sizeof(int) * 2);
+	if (!pipex->pipes[pipex->count])
+	{
+		ft_perror("Error al asignar memoria a pipes[count]\n");
+		ft_free_pipex(pipex);
+		exit(1);
+	}
+	if (pipe(pipex->pipes[pipex->count]) < 0)
+	{
+		free(pipex->pipes[pipex->count]);
+		ft_perror("Error al crear pipe\n");
+		ft_free_pipex(pipex);
+		exit(1);
+	}
+}
+
+// Manejo de lectura
+void	ft_handle_lecture(t_pipex *pipex, char **split)
+{
+	if (ft_strcmp(split[0], "<") != 0)
+	{
+		pipex->infile = open(split[1], O_RDONLY);
+		if (pipex->infile < 0)
+		{
+			ft_errno(pipex->argv[pipex->i]);
+			ft_free_pipex(pipex);
+			exit(1);
+		}
+	}
+	else if (ft_strcmp(split[0], "<<") != 0)
+	{
+		pipex->infile = ft_here_doc(split[1]);
+		if (pipex->infile < 0)
+		{
+			ft_errno(pipex->argv[pipex->i]);
+			ft_free_pipex(pipex);
+			exit(1);
+		}
+	}
+}
+
+// Manejo de redirecciones
+void	ft_handle_redirection(t_pipex *pipex, char **split)
+{
+	if (ft_strcmp(split[0], ">") != 0)
+	{
+		pipex->outfile = open(split[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (pipex->outfile < 0)
+		{
+			ft_errno(pipex->argv[pipex->i]);
+			ft_free_pipex(pipex);
+			exit(1);
+		}
+	}
+	else if (ft_strcmp(split[0], ">>") != 0)
+	{
+		pipex->outfile = open(split[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (pipex->outfile < 0)
+		{
+			ft_errno(pipex->argv[pipex->i]);
+			ft_free_pipex(pipex);
+			exit(1);
+		}
 	}
 }
