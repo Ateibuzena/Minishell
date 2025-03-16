@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 18:41:20 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 19:02:02 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,35 +102,26 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname)
 
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 {
-    fprintf(stderr, "\nEntro en execute_cmd con argv: %s\n", argv);
-
-    if (!argv || !argv[0] || argv[0] == ' ' || !env)
-    {
-        ft_perror(argv);
-        ft_perror(": command not found\n");
-        ft_free_pipex(&pipex);
-        exit(127);
-    }
-    ft_resolve_cmd(pipex, argv, env, &pathname);
-    ft_close_pipes(pipex);
-    if (execve(pathname, pipex->commands, env) == -1)
-    {
-        if (errno == EACCES)
-        {
-            ft_perror("pipex: ");
-            ft_perror(argv);
-            ft_perror(": Permission denied\n");
-            ft_free_pipex(&pipex);
-            free(pathname);
-            exit(126);
-        }
-        else
-        {
-            ft_perror(pipex->commands[0]);
-            ft_perror(": command not found\n");
-            ft_free_pipex(&pipex);
-            free(pathname);
-            exit(127);
-        }
-    }
+	fprintf(stderr, "\nEntro en execute_cmd con argv: %s\n", argv);
+	if (!argv || !argv[0] || argv[0] == ' ' || !env)
+	{
+		(ft_perror(argv), ft_perror(": command not found\n"));
+		(ft_free_pipex(&pipex), exit(127));
+	}
+	ft_resolve_cmd(pipex, argv, env, &pathname);
+	ft_close_pipes(pipex);
+	if (execve(pathname, pipex->commands, env) == -1)
+	{
+		if (errno == EACCES)
+		{
+			(ft_perror("pipex: "), ft_perror(argv));
+			(ft_perror(": permission denied\n"), ft_free_pipex(&pipex));
+			(free(pathname), exit(126));
+		}
+		else
+		{
+			(ft_perror(pipex->commands[0]), ft_perror(": command not found\n"));
+			(ft_free_pipex(&pipex), free(pathname), exit(127));
+		}
+	}
 }
