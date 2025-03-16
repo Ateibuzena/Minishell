@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 20:20:40 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 20:22:05 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,27 @@ void	ft_handle_redirection(t_pipex *pipex, char **split)
 			exit(1);
 		}
 	}
+}
+
+int	ft_here_doc(char *delimiter)
+{
+	char	*line;
+	int		temp_pipe[2];
+
+	if (pipe(temp_pipe) < 0)
+		ft_perror("Pipex error: Pipe\n");
+	while (1)
+	{
+		write(1, ">", 1);
+		line = get_next_line(STDIN_FILENO);
+		if (!line || ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(temp_pipe[WRITE], line, ft_strlen(line));
+		free(line);
+	}
+	close(temp_pipe[WRITE]);
+	return (temp_pipe[READ]);
 }
