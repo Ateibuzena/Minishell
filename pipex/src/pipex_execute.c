@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/21 14:28:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:41:20 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname)
 
 void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 {
-    fprintf(stderr, "Entro en execute_cmd con argv: %s\n", argv);
+    fprintf(stderr, "\nEntro en execute_cmd con argv: %s\n", argv);
 
     if (!argv || !argv[0] || argv[0] == ' ' || !env)
     {

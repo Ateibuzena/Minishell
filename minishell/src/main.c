@@ -21,8 +21,8 @@ int main(int argc, char **argv, char **envp)
     {
         // Construir el prompt
         //prompt = ft_build_prompt(env);
-        input = readline("minishola: $ ");
-        printf("input %s\n", input);
+        input = readline("\nminishola: $ ");
+        fprintf(stderr, "\nInput: %s\n", input);
         //free(prompt);
         // Salir si la entrada es NULL (Ctrl+D)
         if (input == NULL)
@@ -39,7 +39,7 @@ int main(int argc, char **argv, char **envp)
             }*/
             if (!cleaned)
                 break ;
-            printf("sin comillas: %s\n", cleaned);
+            fprintf(stderr, "\nSin comillas: %s\n", cleaned);
             if (ft_strchr(cleaned, '|') || !ft_is_builtins(cleaned)) // Si hay un pipe
                 ft_handle_pipes(cleaned, history, envp);
             else // Si no hay pipes
