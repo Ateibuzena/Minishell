@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_echo.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/22 14:34:41 by azubieta          #+#    #+#             */
+/*   Updated: 2025/03/22 14:40:53 by azubieta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../builtinsft.h"
 
 // Función para verificar si el argumento es un "-n" válido
@@ -14,46 +26,33 @@ static int	ft_n_flag(const char *arg)
 			return (0);
 		i++;
 	}
-	return (1); // Es un "-n" válido
+	return (1);
 }
 
 // Función para manejar el comando echo
 int	ft_echo(char **args, t_Env *env)
 {
-    int		i;
-    int		newline;
+	int		i;
+	int		newline;
 	char	*expanded;
-	//char	*cleaned;
-	
-	newline = 1;  // Suponer que agregaremos un salto de línea por defecto
+
+	newline = 1;
 	i = 1;
-    // Comprobar si el primer argumento es -n
-    while (args[i] && ft_n_flag(args[i]))
-    {
-        newline = 0;  // No imprimir salto de línea
-        i++;  // Saltar el -n
-    }
-
-    // Imprimir los argumentos
-    while (args[i])
-    {
+	while (args[i] && ft_n_flag(args[i]))
+	{
+		newline = 0;
+		i++;
+	}
+	while (args[i])
+	{
 		expanded = ft_expand_variables(args[i], env);
-		//falta parseo de comillas:
-		//cleaned = process_quotes(expanded);
-
-        printf("%s", expanded);
-		
+		printf("%s", expanded);
 		free(expanded);
-		//free(cleaned);
-        
 		if (args[i + 1])
-            printf(" ");  // Agregar espacio entre palabras
-        i++;
-    }
-
-    // Si no es la opción -n, imprimir salto de línea
-    if (newline)
-        printf("\n");
-
-    return (1);
+			printf(" ");
+		i++;
+	}
+	if (newline)
+		printf("\n");
+	return (1);
 }

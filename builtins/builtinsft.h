@@ -10,6 +10,13 @@
 /*builtins_cd.c*/
 int     ft_cd(char **args);
 
+/*builtins_cd_utils.c*/
+char	*ft_expand_tilde(const char *path);
+int		ft_change_directory(char *path);
+int		ft_change_home(void);
+int		ft_change_oldpwd(char **args);
+int		ft_expand_directory(const char *path);
+
 /*builtins_clear*/
 void	ft_clear(void);
 

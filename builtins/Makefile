@@ -8,6 +8,7 @@ INCLUDES = -I$(LIBFT_DIR)
 
 SRC_DIR = ./src
 SRCS = $(SRC_DIR)/builtins_cd.c\
+		$(SRC_DIR)/builtins_cd_utils.c\
 		$(SRC_DIR)/builtins_clear.c\
 		$(SRC_DIR)/builtins_echo.c\
 		$(SRC_DIR)/builtins_pwd.c\
