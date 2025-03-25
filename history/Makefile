@@ -1,71 +1,74 @@
-CC = clang
-CFLAGS = -Wall -Wextra -Werror -g
-
-LIBFT_DIR = ../libft
-LIBFT = $(LIBFT_DIR)/libft.a
-
-INCLUDES = -I$(LIBFT_DIR)
-
-SRC_DIR = ./src
-SRCS = $(SRC_DIR)/history_utils.c\
-		$(SRC_DIR)/history_free.c\
-		$(SRC_DIR)/history_init.c\
-
-OBJ_DIR = ./obj
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-
 NAME = history.a
 
-LIBS = -lreadline -lncurses
+CC = gcc
 
-# Colors
-RED     			= \033[0;31m
-GREEN   			= \033[0;32m
-YELLOW  			= \033[0;33m
-CYAN    			= \033[0;36m
-WHITE   			= \033[0;37m
-RESET   			= \033[0m
+CFLAGS = -Wall -Wextra -Werror -I. -I../libft
 
-# Reglas
-all: $(NAME)
+AR = ar rcs
+RM = rm -f
 
-# Solo recompilar si es necesario
-$(NAME): $(OBJ_DIR) $(OBJS)
-	@if [ ! -f $(NAME) ] || [ $(OBJS) -nt $(NAME) ]; then \
-		printf "$(CYAN)[Building History] Creating $(NAME)...\n$(RESET)"; \
-		ar rcs $(NAME) $(OBJS); \
-		printf "$(GREEN)[Success] $(NAME) created successfully!\n$(RESET)"; \
-	else \
-		printf "$(YELLOW)[Up-to-date] No recompilation needed for $(NAME).\n$(RESET)"; \
-	fi
+# 📂 Librerías externas
+LIBFT_DIR = ../libft
+LIBFT_LIB = $(LIBFT_DIR)/libft.a
 
-# Compilación de objetos
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@mkdir -p $(dir $@)
-	@printf "$(YELLOW)[Compiling]$(RESET) $<\n"
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# 📂 Directorios de código y objetos
+SRCDIR = src
+SRCS = $(wildcard $(SRCDIR)/*.c)
 
-# Crear directorio de objetos
-$(OBJ_DIR):
-	@printf "$(CYAN)[Directory] Creating object directory $(OBJ_DIR)...\n$(RESET)"
-	@mkdir -p $(OBJ_DIR)
+OBJDIR = obj
+OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
-# Compilar libft solo si es necesario
-$(LIBFT):
-	@printf "$(CYAN)[Building Libft] Checking if recompilation is needed...\n$(RESET)"
-	@$(MAKE) -C $(LIBFT_DIR) --quiet || $(MAKE) -C $(LIBFT_DIR)
-	@printf "$(GREEN)[Libft Ready] Libft compiled successfully!\n$(RESET)"
+HEADERS = historyft.h
 
-# Limpiar archivos
+# 🎨 Colores
+RED      = \033[0;31m
+GREEN    = \033[0;32m
+YELLOW   = \033[0;33m
+MAGENTA  = \033[0;35m
+CYAN     = \033[0;36m
+WHITE    = \033[0;37m
+RESET    = \033[0m
+
+# 🚀 Compilación principal
+all: $(LIBFT_LIB) $(NAME)
+
+# 🔗 Compilar librerías en orden correcto
+$(LIBFT_LIB):
+	@echo "$(CYAN)📦 Compilando librería libft...$(RESET)"
+	@make -C $(LIBFT_DIR)
+	@echo "$(GREEN)✅ Librería libft compilada.$(RESET)"
+
+# 🔨 Crear archivo .a (history.a)
+$(NAME): $(OBJDIR) $(OBJS)
+	@echo "$(CYAN)🔗 Creando $(NAME)...$(RESET)"
+	@$(AR) $(NAME) $(OBJS)
+	@echo "$(GREEN)✅ $(NAME) creado con éxito.$(RESET)"
+
+# 📂 Crear directorio de objetos
+$(OBJDIR):
+	@echo "$(CYAN)📂 Creando directorios de objetos...$(RESET)"
+	@mkdir -p $(OBJDIR)
+	@echo "$(GREEN)✅ Directorios de objetos creados.$(RESET)"
+
+# 🏗 Compilar archivos `.c` en `.o`, respetando subdirectorios
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
+	@echo "$(YELLOW)🔹 Compilando $< -> $@$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(GREEN)✅ Compilado: $@$(RESET)"
+
+# 🧹 Limpieza de objetos
 clean:
-	@printf "$(RED)[Cleaning] Removing object files...\n$(RESET)"
-	@rm -rf $(OBJ_DIR)
-	@printf "$(GREEN)[Cleaned] Object files removed successfully!\n$(RESET)"
+	@echo "$(RED)🗑️ Eliminando archivos objeto...$(RESET)"
+	@$(RM) $(OBJS)
+	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
 
+# 🧹 Limpieza total (elimina objetos y archivo .a)
 fclean: clean
-	@rm -f $(NAME)
-	@printf "$(GREEN)[Cleaned] All binaries and libraries removed successfully!\n$(RESET)"
+	@echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"
+	@$(RM) $(NAME)
+	@echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"
 
+# 🔄 Recompilación completa
 re: fclean all
 
 .PHONY: all clean fclean re
