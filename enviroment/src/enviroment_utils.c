@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:46:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 20:12:21 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:16:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	ft_split_env(const char *env_entry, char **key, char **value)
 		*value = ft_strdup(equal_sign + 1);
 	}
 	else
-    {
-        *key = ft_strdup(env_entry);
-        *value = NULL;
-    }
+	{
+		*key = ft_strdup(env_entry);
+		*value = NULL;
+	}
 }
 
 t_Env	*ft_create_node(const char *key, const char *value)
@@ -44,7 +44,14 @@ t_Env	*ft_create_node(const char *key, const char *value)
 		exit(1);
 	}
 	node->key = ft_strdup(key);
-	node->value = value ? ft_strdup(value) : NULL;
+	if (value)
+	{
+		node->value = ft_strdup(value);
+	}
+	if (value)
+		node->value = ft_strdup(value);
+	else
+		node->value = NULL;
 	node->next = NULL;
 	return (node);
 }
