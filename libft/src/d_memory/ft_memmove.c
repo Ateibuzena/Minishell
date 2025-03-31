@@ -6,23 +6,9 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:41:48 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/28 21:55:07 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:55:22 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * @brief Mueve un bloque de memoria.
- *
- * Esta función copia los primeros `len` bytes desde el bloque de memoria
- * apuntado por `src` al bloque de memoria apuntado por `dst`, manejando de
- * manera segura los solapamientos de memoria. Si los bloques se solapan,
- * la copia se realiza de forma que no se pierdan datos.
- *
- * @param dst Puntero al destino de la copia.
- * @param src Puntero al origen de la copia.
- * @param len El número de bytes a mover.
- * @return El puntero a `dst`.
- */
 
 #include "../../libft.h"
 

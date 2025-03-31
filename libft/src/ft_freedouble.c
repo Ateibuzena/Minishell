@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_freedouble.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 19:10:52 by azubieta          #+#    #+#             */
+/*   Updated: 2025/03/31 19:11:08 by azubieta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft.h"
 
 void	ft_freedouble(char **ptr)
@@ -15,7 +27,6 @@ void	ft_freedouble(char **ptr)
 		}
 		ptr = NULL;
 		free(ptr);
-
 	}
 }
 
@@ -24,7 +35,7 @@ void	ft_freedouble_array(int **pipes, int len)
 	int		j;
 
 	j = 0;
-	while (j < len)  // Solo liberamos lo que ya fue asignado
+	while (j < len)
 	{
 		free(pipes[j]);
 		j++;

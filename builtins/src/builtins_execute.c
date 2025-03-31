@@ -6,24 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:02:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:20:10 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:43:28 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell/minishellft.h"
-
-static void	ft_print_argv(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		printf("comando[%d]: %s\n", i, args[i]);
-		i++;
-	}
-	printf("\n");
-}
 
 int	ft_execute_builtins(char **args, t_History *history, t_Env **env)
 {

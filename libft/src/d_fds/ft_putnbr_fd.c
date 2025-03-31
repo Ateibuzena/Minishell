@@ -6,24 +6,9 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:52:45 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/28 21:42:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:52:32 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * @file ft_putnbr_fd.c
- * @brief Escribe un número entero en un archivo descriptor.
- *
- * Esta función escribe el número entero `n` en el archivo o descriptor de 
- * archivo indicado por `fd`. Si el número es negativo, primero escribe el 
- * signo negativo.
- * 
- * @param n El número entero a escribir.
- * @param fd El descriptor de archivo en el que se escribe el número.
- * 
- * @note La función maneja números negativos convirtiéndolos en positivos 
- *       antes de escribirlos, y utiliza recursión para escribir cada dígito.
- */
 
 #include "../../libft.h"
 

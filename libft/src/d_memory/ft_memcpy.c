@@ -6,22 +6,9 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 22:53:21 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/28 21:54:58 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:55:17 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * @brief Copia un bloque de memoria.
- *
- * Esta función copia los primeros `n` bytes del bloque de memoria apuntado
- * por `src` al bloque de memoria apuntado por `dst`. Si ambos bloques se
- * solapan, el comportamiento es indefinido.
- *
- * @param dst Puntero al destino de la copia.
- * @param src Puntero al origen de la copia.
- * @param n El número de bytes a copiar.
- * @return El puntero a `dst`.
- */
 
 #include "../../libft.h"
 

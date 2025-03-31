@@ -6,20 +6,9 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:18:51 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/28 21:50:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:53:53 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * @file ft_lstlast.c
- * @brief Obtiene el último nodo de la lista.
- *
- * Esta función recorre la lista hasta encontrar el último nodo (el nodo cuyo 
- * puntero `next` es NULL).
- * 
- * @param lst La lista de nodos.
- * @return El último nodo de la lista.
- */
 
 #include "../../libft.h"
 

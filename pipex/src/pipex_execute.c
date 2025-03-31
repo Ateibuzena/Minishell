@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 21:20:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:16:18 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,11 @@ void	ft_execute(t_pipex *pipex, char **env)
 
 	split = NULL;
 	if ((pipex->cmd >= 0) && ft_is_builtins(pipex->argv[pipex->cmd]))
-    {
-        split = ft_split(pipex->argv[pipex->cmd], ' ');
-        ft_execute_builtins(split, pipex->history, (t_Env **)env);
-        ft_freedouble(split);
-    }
-    else if ((pipex->cmd >= 0) && !ft_is_builtins(pipex->argv[pipex->cmd]))
-        ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
+	{
+		split = ft_split(pipex->argv[pipex->cmd], ' ');
+		ft_execute_builtins(split, pipex->history, (t_Env **)env);
+		ft_freedouble(split);
+	}
+	else if ((pipex->cmd >= 0) && !ft_is_builtins(pipex->argv[pipex->cmd]))
+		ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
 }

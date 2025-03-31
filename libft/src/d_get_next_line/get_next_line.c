@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 21:47:26 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/22 21:30:48 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:53:04 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,64 +113,3 @@ char	*get_next_line(int fd)
 	free(temp);
 	return (line);
 }
-
-/*valgrind --leak-check=full \           
-         --show-leak-kinds=all \
-         --track-origins=yes \
-         --log-file=valgrind-out.txt \
-         ./a.out --*/
-/*
-#include <time.h>
-
-int main(int argc, char *argv[])
-{
-    int     fd;
-    char    *line;
-    int     num_lines = 1;
-	clock_t	start, end;
-    double	cpu_time_used;
-
-	start = clock();
-    fd = open(argv[1], O_RDONLY);
-    if (fd == -1)
-    {
-        printf("%d\n", fd);
-        write(1, "Error File\n", 11);
-		return (0);
-    }
-    while (num_lines)
-    {
-        line = get_next_line(fd);
-        printf("Linea_%d: %s\n", 2 - num_lines, line);
-		free(line);
-        num_lines--;
-    }
-	close(fd);
-	end = clock();
-	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("Tiempo de ejecución: %f segundos\n", cpu_time_used);
-    return (0);
-}*/
-/*
-#include <time.h>
-
-int main(void)
-{
-	char	*line;
-	int		fd;
-	clock_t	start, end;
-    double	cpu_time_used;
-
-	start = clock();
-	fd = open("./data/texto_1.txt", O_RDONLY);
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
-	end = clock();
-	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("Tiempo de ejecución: %f segundos\n", cpu_time_used);
-    return (0);
-}*/
