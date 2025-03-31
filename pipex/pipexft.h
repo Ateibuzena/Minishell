@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 21:24:40 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:59:15 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_execute(t_pipex *pipex, char **env);
 
 /*pipex_utils.c*/
 void	ft_close_pipes(t_pipex *pipex);
+void	ft_is_command(t_pipex *pipex, char *str);
 void 	ft_create_pipe(t_pipex *pipex);
 void 	ft_handle_lecture(t_pipex *pipex, char **split);
 void 	ft_handle_redirection(t_pipex *pipex, char **split);

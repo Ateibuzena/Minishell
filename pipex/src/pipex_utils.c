@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 21:10:32 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:33:39 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ void	ft_close_pipes(t_pipex *pipex)
 		}
 		i++;
 	}
+}
+
+
+void	ft_is_command(t_pipex *pipex, char *str)
+{
+	if ((ft_strcmp(str, "<") == 0) && (ft_strcmp(str, "<<") == 0)
+		&& (ft_strcmp(str, ">") == 0) && (ft_strcmp(str, ">>") == 0))
+		pipex->cmd = pipex->i;
 }
 
 void	ft_create_pipe(t_pipex *pipex)
@@ -101,12 +109,14 @@ void	ft_handle_redirection(t_pipex *pipex, char **split)
 	else if (ft_strcmp(split[0], ">>") != 0)
 	{
 		pipex->outfile = open(split[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		printf("\nsplit[1]: %s\n", split[1]);
 		if (pipex->outfile < 0)
 		{
 			ft_errno(pipex->argv[pipex->i]);
 			ft_free_pipex(&pipex);
 			exit(1);
 		}
+		printf("\noutfile FD antes de dup2 justo despues de abrir el archivo: %d\n", pipex->outfile);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:13:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 18:46:07 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 22:35:10 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ void		ft_call_putchar_percent(va_list *args, int fd, int *count);
 
 /*SRC/D_STRINGS/*/
 char		*ft_strncpy(char *dest, const char *src, size_t n);
-long int	ft_strtol(const char *str, char **endptr, int base);
 t_size		ft_strlen(const char *s);
 t_size		ft_strlcpy(char *dst, const char *src, t_size dstsize);
 char		*ft_strcpy(char *dst, const char *src);

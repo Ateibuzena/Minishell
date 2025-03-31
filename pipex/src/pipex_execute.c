@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 19:16:18 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:49:25 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	ft_execute(t_pipex *pipex, char **env)
 	char	**split;
 
 	split = NULL;
+	printf("\nEntro en execute con pipex->argv[pipex->cmd]: %s\n", pipex->argv[pipex->cmd]);
 	if ((pipex->cmd >= 0) && ft_is_builtins(pipex->argv[pipex->cmd]))
 	{
 		split = ft_split(pipex->argv[pipex->cmd], ' ');

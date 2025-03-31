@@ -6,34 +6,49 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 20:44:17 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 21:32:31 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 22:16:33 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
-// Función para redirecciones
-static void ft_redirections(t_pipex *pipex)
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+static void print_open_fds()
 {
-	char **split;
+    fprintf(stderr, "\n--- FD abiertos antes de outfile ---\n");
+    for (int fd = 0; fd < 10; fd++)
+    {
+        if (fcntl(fd, F_GETFD) != -1)
+            fprintf(stderr, "FD %d está en uso\n", fd);
+    }
+    fprintf(stderr, "\n");
+}
+static void	ft_redirections(t_pipex *pipex)
+{
+	char	**split;
 
 	split = NULL;
 	while (pipex->i < pipex->size)
-    {
-        split = ft_split(pipex->argv[pipex->i], ' ');
-        ft_handle_lecture(pipex, split);
+	{
+		split = ft_split(pipex->argv[pipex->i], ' ');
+		ft_handle_lecture(pipex, split);
+		printf("\nLAST PROCESS pipex->argv[pipex->i]: %s\n", pipex->argv[pipex->i]);
+		//print_open_fds();
 		ft_handle_redirection(pipex, split);
-        if ((ft_strcmp(split[0], "<") == 0) && (ft_strcmp(split[0], "<<") == 0)
-                    && (ft_strcmp(split[0], ">") == 0) && (ft_strcmp(split[0], ">>") == 0))
-                pipex->cmd = pipex->i;
-        ft_freedouble(split);
-        pipex->i++;
-    }
+		printf("\nLAST PROCESS outfile FD antes de dup2 despues de handle_redirection en last process: %d\n", pipex->outfile);
+		ft_is_command(pipex, split[0]);
+		ft_freedouble(split);
+		pipex->i++;
+	}
 }
 
-// Función para el hijo
-static void ft_middle_forks(t_pipex *pipex, char **env)
+static void	ft_last_fork(t_pipex *pipex, char **env)
 {
+	printf("\nfd justo antes de las redirecciones: %d\n", pipex->outfile);
+	close(pipex->pipes[pipex->count][READ]);
 	if (pipex->infile != STDIN_FILENO)
 	{
 		dup2(pipex->infile, STDIN_FILENO);
@@ -46,37 +61,45 @@ static void ft_middle_forks(t_pipex *pipex, char **env)
 	}
 	if (pipex->outfile != STDOUT_FILENO)
 	{
-		dup2(pipex->outfile, STDOUT_FILENO);
+		printf("\nLAST PROCESS outfile FD justo antes de dup2: %d\n", pipex->outfile);
+		printf("\nLAST PROCESS Probando fcntl: %d\n", fcntl(pipex->outfile, F_GETFD));
+		if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
+			ft_perror("Dup2 error: Last process");
 		close(pipex->outfile);
 	}
+	fprintf(stderr, "hijo de last process\n");
+	print_open_fds();
 	ft_execute(pipex, env);
 	exit(1);
-
 }
 
-// Función para cerrar los fds innecesarios
-static void ft_close_fds(t_pipex *pipex)
+static void	ft_close_fds(t_pipex *pipex)
 {
-	//close(pipex->pipes[pipex->count - 1][READ]);
+	close(pipex->pipes[pipex->count][READ]);
 	if (pipex->infile != STDIN_FILENO)
-        close(pipex->infile);
-    else
-        close(pipex->pipes[pipex->count - 1][READ]);
-    if (pipex->outfile != STDOUT_FILENO)
+		close(pipex->infile);
+	else
+		close(pipex->pipes[pipex->count - 1][READ]);
+	if (pipex->outfile != STDOUT_FILENO)
 		close(pipex->outfile);
+	fprintf(stderr, "padre de last process\n");
+	print_open_fds();
 }
 
-// Función para el último proceso
-void ft_last_process(t_pipex *pipex, char **env)
+void	ft_last_process(t_pipex *pipex, char **env)
 {
 	if (pipex->count >= pipex->n)
-        return ;
+		return ;
+	ft_create_pipe(pipex);
 	ft_redirections(pipex);
-    pipex->pids[pipex->count] = fork();
-    if (pipex->pids[pipex->count] == -1)
-        return (ft_perror("Fork error: Last process"));
-    else if (pipex->pids[pipex->count] == 0)
-		ft_middle_forks(pipex, env);
+	printf("redirection antes del fork: %d\n", pipex->outfile);
+	printf("lecture: %d\n", pipex->infile);
+	printf("pipex->cmd: %d %s\n", pipex->cmd, pipex->argv[pipex->cmd]);
+	pipex->pids[pipex->count] = fork();
+	if (pipex->pids[pipex->count] == -1)
+		return (ft_perror("Fork error: Last process"));
+	else if (pipex->pids[pipex->count] == 0)
+		ft_last_fork(pipex, env);
 	else
 	{
 		ft_close_fds(pipex);

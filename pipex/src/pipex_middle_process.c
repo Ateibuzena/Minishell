@@ -6,12 +6,25 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:37:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 21:32:15 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 22:17:27 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
 
+static void print_open_fds()
+{
+    fprintf(stderr, "\n--- FD abiertos antes de outfile ---\n");
+    for (int fd = 0; fd < 10; fd++)
+    {
+        if (fcntl(fd, F_GETFD) != -1)
+            fprintf(stderr, "FD %d está en uso\n", fd);
+    }
+    fprintf(stderr, "\n");
+}
 // Función para el hijo
 static void ft_middle_forks(t_pipex *pipex, char **env)
 {
@@ -28,6 +41,8 @@ static void ft_middle_forks(t_pipex *pipex, char **env)
     }
     if (pipex->outfile != STDOUT_FILENO)
     {
+        printf("\nMIDDLE PROCESS outfile FD justo antes de dup2: %d\n", pipex->outfile);
+		printf("\nMIDDLE PROCESS Probando fcntl: %d\n", fcntl(pipex->outfile, F_GETFD));
         dup2(pipex->outfile, STDOUT_FILENO);
         close(pipex->outfile);
     }
@@ -37,6 +52,8 @@ static void ft_middle_forks(t_pipex *pipex, char **env)
         close(pipex->pipes[pipex->count][WRITE]);
 
     }
+    fprintf(stderr, "hijo de middle process\n");
+    print_open_fds();
     ft_execute(pipex, env);
     exit(1);
 
@@ -45,7 +62,7 @@ static void ft_middle_forks(t_pipex *pipex, char **env)
 // Función para cerrar los fds innecesarios
 static void ft_close_fds(t_pipex *pipex)
 {
-    //close(pipex->pipes[pipex->count][READ]);
+    close(pipex->pipes[pipex->count][READ]);
 	if (pipex->infile != STDIN_FILENO)
         close(pipex->infile);
     else
@@ -54,6 +71,8 @@ static void ft_close_fds(t_pipex *pipex)
         close(pipex->outfile);
     else
         close(pipex->pipes[pipex->count][WRITE]);
+    fprintf(stderr, "padre de middle process\n");
+    print_open_fds();
 }
 
 // Función para los procesos intermedios
@@ -69,10 +88,11 @@ void ft_middle_process(t_pipex *pipex, char **env)
         {
             split = ft_split(pipex->argv[pipex->i], ' ');
             ft_handle_lecture(pipex, split);
+            printf("\nMIDDLE PROCESS pipex->argv[pipex->i]: %s\n", pipex->argv[pipex->i]);
+            //print_open_fds();
             ft_handle_redirection(pipex, split);
-            if ((ft_strcmp(split[0], "<") == 0) && (ft_strcmp(split[0], "<<") == 0)
-                    && (ft_strcmp(split[0], ">") == 0) && (ft_strcmp(split[0], ">>") == 0))
-                pipex->cmd = pipex->i;
+            printf("\nMIDDLE PROCESS outfile FD antes de dup2 despues de handle_redirection: %d\n", pipex->outfile);
+            ft_is_command(pipex, split[0]);
             ft_freedouble(split);
             pipex->i++;
         }

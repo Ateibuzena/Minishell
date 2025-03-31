@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/22 14:08:26 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:17:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char *ft_extract_user(t_Env *env)
         if (user_copy)
         {
             ft_strcpy(user_copy, user_value);
+            fprintf(stderr, "user_copy: %s\n", user_copy);
             //fprintf(stderr, "user_copy: %s\n", user_copy);
             return (user_copy);
         }

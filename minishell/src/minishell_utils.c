@@ -79,7 +79,6 @@ void    ft_tokenize(char *input, char *args[])
     token = ft_strtok(input, " ");
     while (token != NULL)
     {
-        //fprintf(stderr, "\ntoken: %s\n", token);
         args[i++] = token;
         token = ft_strtok(NULL, " ");
     }
@@ -100,7 +99,7 @@ void ft_handle_builtin(char *input, t_History *history, t_Env **env)
     entry = "";
     while (args[i])
     {
-        
+        printf("\nargs[%d]: %s\n", i, args[i]);
         entry = ft_strjoin(entry, args[i]);
 		temp = entry;
         entry = ft_strjoin(entry, " ");

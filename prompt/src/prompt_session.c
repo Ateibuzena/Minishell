@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/22 14:08:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:17:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char *ft_extract_session(t_Env *env)
             {
                 ft_strncpy(session_id, start, end - start);
                 session_id[end - start] = '\0';
-                //fprintf(stderr, "session_id: %s\n", session_id);
                 return (session_id);
             }
         }

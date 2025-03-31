@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:37:57 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 21:36:45 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:20:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_free_pipex(t_pipex **pipex)
 		ft_freedouble((*pipex)->commands);
 	if ((*pipex)->found_way)
 		free((*pipex)->found_way);
-	//ft_close_pipes(*pipex);
 	ft_free_pipes((*pipex)->pipes, (*pipex)->n);
 	if ((*pipex)->pids)
 		free((*pipex)->pids);

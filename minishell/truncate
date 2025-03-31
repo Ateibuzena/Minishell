@@ -1,0 +1,9 @@
+
+Entro en execute con pipex->argv[pipex->cmd]: echo maria
+maria
+
+Entro en execute con pipex->argv[pipex->cmd]: echo manuel
+manuel
+
+Entro en execute con pipex->argv[pipex->cmd]: echo verga
+verga

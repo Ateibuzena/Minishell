@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/22 14:11:37 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:43:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char *ft_build_prompt(t_Env *env)
     simplified = ft_simplify_path(cwd);
     if (!user || !session || !simplified)
         return (free(user), free(session), free(cwd), free(simplified), NULL);
-
+    
     prompt = malloc(ft_strlen(user) + ft_strlen(session) + ft_strlen(simplified) + 7 + 1);
     if (!prompt)
         return (free(user), free(session), free(cwd), free(simplified), NULL);
@@ -75,7 +75,6 @@ char *ft_build_prompt(t_Env *env)
     ft_strcat(prompt, ":");
     ft_strcat(prompt, simplified);
     ft_strcat(prompt, "$ ");
-
     free(user);
     free(session);
     free(cwd);
