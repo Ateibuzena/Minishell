@@ -1,25 +1,5 @@
 #include "../minishellft.h"
 
-int bash(int argc, char *argv[], char *envp[])
-{
-    char *bash_path = "/bin/bash";
-    char *bash_argv[] = {bash_path, NULL};  // Argumentos para execve (bash sin opciones)
-
-    while (1) 
-    {
-        printf("Ejecutando /bin/bash...\n");
-
-        // Ejecutar /bin/bash con el entorno actual
-        if (execve(bash_path, bash_argv, envp) == -1) 
-        {
-            perror("Error en execve");
-            sleep(1);  // Espera 1 segundo antes de reintentar
-        }
-    }
-
-    return 0;  // Nunca se ejecutará porque execve reemplaza el proceso
-}
-
 int main(int argc, char **argv, char **envp)
 {
     char *prompt;
