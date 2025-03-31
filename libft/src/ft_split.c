@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:31:55 by azubieta          #+#    #+#             */
-/*   Updated: 2025/02/16 19:21:30 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:12:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_size	ft_wordscount(char const *s, char c)
 	count = 0;
 	word = 0;
 	if (!s)
-    	return (0);
+		return (0);
 	if (s[count] != c && s[count] != '\0')
 		word++;
 	while (s[count] != '\0')
@@ -79,18 +79,3 @@ char	**ft_split(char const *s, char c)
 	pointers.ptr[counters.i] = 0;
 	return (pointers.ptr);
 }
-/*
-#include <stdio.h>
-int main(void)
-{
-	char	*ptr = "   lorem   ipsum dolor     sit amet, c";
-	char	**puntero;
-
-	puntero = ft_split(ptr, ' ');
-	for (int i = 0; i < 12; i++)
-	{
-		printf("%s\n", puntero[i]);
-	}
-	printf("%s", ptr);
-	return (0);
-}*/

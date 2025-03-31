@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:03:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/16 21:39:33 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:15:15 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int ft_waitpid(pid_t pid)
     else
         return (1);  // Si terminó por señal u otro error, devuelve 1
 }
-
 
 void	ft_perror(const char *str)
 {

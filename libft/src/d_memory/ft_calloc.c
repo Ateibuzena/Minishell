@@ -6,21 +6,9 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:06:55 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/28 21:54:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:55:00 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * @brief Asigna memoria y la inicializa a cero.
- *
- * Esta función reserva un bloque de memoria del tamaño especificado y lo
- * inicializa a cero. La memoria reservada se libera mediante `free`.
- *
- * @param count El número de elementos a reservar.
- * @param size El tamaño de cada elemento.
- * @return Un puntero al bloque de memoria reservado e inicializado a cero,
- *         o NULL si la asignación falla.
- */
 
 #include "../../libft.h"
 

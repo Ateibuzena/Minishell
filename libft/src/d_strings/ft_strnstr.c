@@ -6,26 +6,9 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 19:00:10 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/28 22:00:29 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:02:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * @brief Busca la primera aparición de una subcadena dentro de una cadena,
- *        considerando una longitud máxima de búsqueda.
- *
- * La función busca la primera aparición de la cadena `need` dentro de la cadena `hay`, 
- * considerando solo los primeros `len` caracteres de `hay`. Si `need` está vacío,
- * la función devuelve la cadena `hay` completa. Si la subcadena `need` no se encuentra,
- * la función retorna `NULL`.
- *
- * @param hay La cadena en la que se realizará la búsqueda.
- * @param need La subcadena que se busca dentro de `hay`.
- * @param len La longitud máxima de caracteres de `hay` en la que buscar.
- *
- * @return Un puntero al primer carácter de la primera aparición de `need` en `hay`,
- *         o `NULL` si no se encuentra.
- */
 
 #include "../../libft.h"
 

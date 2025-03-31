@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_first_process.c                              :+:      :+:    :+:   */
+/*   new                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 20:27:44 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 19:25:50 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:26:41 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ static void	ft_close_fds(t_pipex *pipex)
 		close(pipex->outfile);
 }
 
+static void	ft_is_command(t_pipex *pipex, char *str)
+{
+	if ((ft_strcmp(str[0], "<<") == 0) && (ft_strcmp(str[0], ">>") == 0)
+		&& (ft_strcmp(str[0], "<") == 0) && (ft_strcmp(str[0], ">") == 0))
+		pipex->cmd = pipex->i;
+}
+
 void	ft_first_process(t_pipex *pipex, char **env)
 {
 	char	**split;
@@ -56,9 +63,7 @@ void	ft_first_process(t_pipex *pipex, char **env)
 		split = ft_split(pipex->argv[pipex->i], ' ');
 		ft_handle_lecture(pipex, split);
 		ft_handle_redirection(pipex, split);
-		if ((ft_strcmp(split[0], "<") == 0) && (ft_strcmp(split[0], "<<") == 0)
-			&& (ft_strcmp(split[0], ">") == 0) && (ft_strcmp(split[0], ">>") == 0))
-			pipex->cmd = pipex->i;
+		ft_is_command(pipex, split[0]);
 		ft_freedouble(split);
 		pipex->i++;
 	}
