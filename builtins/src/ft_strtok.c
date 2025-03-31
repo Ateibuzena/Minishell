@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:35:42 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:41:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:40:22 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,11 @@ static char	*skip_delimiters(char *str, const char *delim)
 	return (str);
 }
 
-static char	*find_token_end(char *str, const char *delim)
-{
-	while (*str && !ft_is_delimiter(*str, delim))
-		str++;
-	return (str);
-}
-
 char	*ft_strtok(char *str, const char *delim)
 {
-	static char	*next_token;
+	static char	*next_token = NULL;
 	char		*token_start;
 
-	next_token = NULL;
 	if (str)
 		next_token = str;
 	if (!next_token || *next_token == '\0')
@@ -54,7 +46,8 @@ char	*ft_strtok(char *str, const char *delim)
 		return (NULL);
 	}
 	token_start = next_token;
-	next_token = find_token_end(next_token, delim);
+	while (*next_token && !ft_is_delimiter(*next_token, delim))
+		next_token++;
 	if (*next_token != '\0')
 	{
 		*next_token = '\0';
