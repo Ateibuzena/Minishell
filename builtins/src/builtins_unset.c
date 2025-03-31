@@ -1,53 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_unset.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 16:31:11 by azubieta          #+#    #+#             */
+/*   Updated: 2025/03/31 16:34:06 by azubieta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../builtinsft.h"
 
-static int ft_valid_key(const char *key)
+static int	ft_valid_key(const char *key)
 {
-    int i;
+	int	i;
 
-    if (!key || *key == '\0')  // La clave no puede ser vacía
-        return (0);
-
-    // La clave debe comenzar con una letra o un guión bajo
-    if (!ft_isalpha(*key) && *key != '_')
-        return (0);
-    i = 1;
-    // Verificar que el resto de los caracteres sean alfanuméricos o guión bajo
-    while (key[i] != '\0')
-    {
-        if (!ft_isalnum(key[i]) && key[i] != '_')
-            return (0);
-        i++;
-    }
-
-    return (1);
+	if (!key || *key == '\0')
+		return (0);
+	if (!ft_isalpha(*key) && *key != '_')
+		return (0);
+	i = 1;
+	while (key[i] != '\0')
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-// Función para manejar el comando unset
-
-int ft_unset(t_Env **env, char **args)
+int	ft_unset(t_Env **env, char **args)
 {
-    int i;
-    
-    i = 1;
-    if (args[1] == NULL)
-    {
-        fprintf(stderr, "minishell: unset: expected argument\n");
-        return (1);
-    }
+	int	i;
 
-    // Recorrer y eliminar las variables de entorno
-    while (args[i] != NULL)
-    {
-        // Verificar si la clave es válida
-        if (!ft_valid_key(args[i]))
-        {
-            fprintf(stderr, "minishell: unset: invalid key: %s\n", args[i]);
-            continue ;  // Continuar con el siguiente argumento
-        }
-        else
-            ft_delete_env(env, args[i]);  // Eliminar la variable de entorno
-        i++;
-    }
-
-    return (1);
+	i = 1;
+	if (args[1] == NULL)
+	{
+		printf("minishell: unset: expected argument\n");
+		return (1);
+	}
+	while (args[i] != NULL)
+	{
+		if (!ft_valid_key(args[i]))
+		{
+			printf("minishell: unset: invalid key: %s\n", args[i]);
+			continue ;
+		}
+		else
+			ft_delete_env(env, args[i]);
+		i++;
+	}
+	return (1);
 }

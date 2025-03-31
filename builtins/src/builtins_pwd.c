@@ -1,19 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_pwd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 16:16:59 by azubieta          #+#    #+#             */
+/*   Updated: 2025/03/31 16:21:31 by azubieta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../builtinsft.h"
 
-// Función para manejar el comando pwd
-int ft_pwd(void)
+int	ft_pwd(void)
 {
-    char *cwd;
-	
-	cwd = getcwd(NULL, 0);  // Obtener el directorio actual
-    if (cwd)
-    {
-        printf("%s\n", cwd);
-        free(cwd);  // Liberar la memoria asignada por getcwd
-    }
-    else
-    {
-        perror("minishell: pwd");
-    }
-    return (1);
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		printf("%s\n", cwd);
+		free(cwd);
+	}
+	else
+		perror("minishell: pwd");
+	return (1);
 }

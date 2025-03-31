@@ -6,13 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:28:36 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/22 14:29:48 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:40:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../builtinsft.h"
 
-// Expande el ~ al directorio HOME
 char	*ft_expand_tilde(const char *path)
 {
 	char	*home;
@@ -33,8 +32,6 @@ char	*ft_expand_tilde(const char *path)
 	return (ft_strdup(path));
 }
 
-// Función genérica para cambiar de directorio
-// y actualizar las variables de entorno
 int	ft_change_directory(char *path)
 {
 	char	*old_pwd;
