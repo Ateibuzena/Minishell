@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 13:13:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:45:38 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_simplify_path(char *cwd)
 	return (ft_strdup(cwd));
 }
 
-char	*ft_build_prompt(char *prompt, char *user, char *session, char *path)
+void	ft_build_prompt(char *prompt, char *user, char *session, char *path)
 {
 	ft_strcpy(prompt, user);
 	ft_strcat(prompt, "@");
