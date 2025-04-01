@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 20:49:25 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:02:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,12 @@ void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 		(ft_free_pipex(&pipex), exit(127));
 	}
 	ft_resolve_cmd(pipex, argv, env, &pathname);
-	ft_close_pipes(pipex);
+	//ft_close_pipes(pipex);
+	fprintf(stderr, "\nEntro en execve con commands[0]: %s\n", pipex->commands[0]);
+	if (fcntl(STDIN_FILENO, F_GETFL) == -1)
+		fprintf(stderr, "Error: stdin cerrado antes de execve\n");
+	if (fcntl(STDOUT_FILENO, F_GETFL) == -1)
+		fprintf(stderr, "Error: stdout cerrado antes de execve\n");
 	if (execve(pathname, pipex->commands, env) == -1)
 	{
 		if (errno == EACCES)

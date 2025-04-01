@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 20:59:15 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:15:01 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <aio.h>
 # include <string.h>
 # include <stdio.h>
+# include <fcntl.h>
+
 
 # define MIN_ARGS 5
 # define READ 0
@@ -51,7 +53,7 @@ typedef struct s_pipex
 }	t_pipex;
 
 /*SRC/*/
-
+void print_open_fds();
 /*pipex_first_process.c*/
 void	ft_first_process(t_pipex *pipex, char **env);
 
