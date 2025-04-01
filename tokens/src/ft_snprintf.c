@@ -1,50 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_snprintf.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 13:24:01 by azubieta          #+#    #+#             */
+/*   Updated: 2025/04/01 13:26:04 by azubieta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../tokensft.h"
 
-void ft_snprintf(char *result, size_t length, const char *str1, const char *str2)
+void	ft_snprintf(char *result,
+			size_t length, const char *str1, const char *str2)
 {
-	size_t len1;
-	size_t len2;
-	size_t total_length;
+	size_t	len1;
+	size_t	len2;
+	size_t	total_length;
 
-    len1 = ft_strlen(str1);  // Longitud de la primera cadena
-    len2 = ft_strlen(str2);  // Longitud de la segunda cadena
-    total_length = len1 + len2 + 1;  // Total de caracteres a copiar (+1 para el espacio)
-
-    if (total_length >= length) // Si la longitud total excede el tamaño del buffer, ajustamos la longitud total.
-        total_length = length - 1;
-
-    // Copiar la primera cadena en result
-    ft_strcpy(result, str1);
-    // Añadir un espacio entre las cadenas
-    if (total_length > len1)
-        ft_strcat(result, " ");
-
-    // Copiar la segunda cadena
-    if (total_length > len1 + 1)
-        ft_strcat(result, str2);
-
-    // Aseguramos que el string terminado tenga el carácter nulo '\0' al final
-    result[total_length] = '\0';
+	len1 = ft_strlen(str1);
+	len2 = ft_strlen(str2);
+	total_length = len1 + len2 + 1;
+	if (total_length >= length)
+		total_length = length - 1;
+	ft_strcpy(result, str1);
+	if (total_length > len1)
+		ft_strcat(result, " ");
+	if (total_length > len1 + 1)
+		ft_strcat(result, str2);
+	result[total_length] = '\0';
 }
 
 /*
-### Explicación de `ft_snprintf`
+### Explanation of `ft_snprintf`
 
-1. **Cálculo de la longitud total**:
-   - Se calcula la longitud de las dos cadenas `str1` y `str2`, más un carácter adicional para el espacio que va entre ellas. Esto da como resultado la longitud total que debe tener la cadena resultante.
+1. **Calculating the total length**:
+   - The total length is calculated by summing the lengths 
+     of both strings, `str1` and `str2`, plus an additional 
+     character for the space between them. 
+     This determines the total length of the resulting string.
 
-2. **Comprobación del espacio disponible**:
-   - Si la longitud total de la cadena resultante supera la capacidad del buffer (`length`), se ajusta para que no se desborde, dejando espacio para el carácter nulo de terminación `'\0'`.
+2. **Checking the available space**:
+   - If the total length of the resulting string exceeds 
+     the buffer's capacity (`length`), it is adjusted 
+     to prevent overflow, ensuring there is space for 
+     the null-terminating character `'\0'`.
 
-3. **Copiar las cadenas**:
-   - Primero, se copia `str1` en `result`.
-   - Luego, se añade un espacio entre las dos cadenas si el espacio lo permite.
-   - Después se concatena `str2` al resultado.
+3. **Copying the strings**:
+   - First, `str1` is copied into `result`.
+   - Then, a space is added between the two strings 
+     if space allows.
+   - After that, `str2` is concatenated to the result.
 
-4. **Terminación de la cadena**:
-   - Finalmente, se asegura que `result` termine con el carácter nulo `'\0'`.
+4. **String termination**:
+   - Finally, it ensures that `result` ends with the 
+     null character `'\0'`.
 
-### ¿Por qué usamos `ft_snprintf` en `ft_split_command`?
+### Why do we use `ft_snprintf` in `ft_split_command`?
 
-En la función `ft_split_command`, utilizamos `ft_snprintf` para concatenar dos cadenas (`input[i]` y `input[i + 1]`) con un espacio entre ellas. Esto es útil cuando tenemos que procesar comandos con múltiples argumentos que deben ir juntos como un solo token. Al usar `ft_snprintf`, garantizamos que las cadenas se concatenen correctamente en un buffer controlado y evitamos el desbordamiento de memoria, ya que gestionamos el espacio disponible en el buffer.
+In the `ft_split_command` function, we use `ft_snprintf` 
+to concatenate two strings (`input[i]` and `input[i + 1]`) 
+with a space between them. This is useful when processing 
+commands with multiple arguments that should be treated 
+as a single token. By using `ft_snprintf`, we ensure that 
+the strings are correctly concatenated within a controlled 
+buffer and prevent memory overflow, as we manage 
+the available space in the buffer.
 */
