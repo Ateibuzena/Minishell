@@ -6,78 +6,74 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 19:43:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:13:16 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../promptft.h"
 
-// Función para ~=/home/azubieta y /=/root"
-char *ft_simplify_path(char *cwd)
+char	*ft_simplify_path(char *cwd)
 {
-    char *simplified;
-    char *home;
-    
-    home = getenv("HOME");  // Obtener el directorio home del usuario
-    if (!cwd)
-        return (NULL);
-    
-    if (home && ft_strstr(cwd, home) == cwd)
-    {
-        if (ft_strlen(cwd) == ft_strlen(home))
-        {
-            simplified = malloc(2);
-            if (!simplified)
-                return (NULL);
-            simplified[0] = '~';
-            simplified[1] = '\0';
-            return (simplified);
-        }
+	char	*simplified;
+	char	*home;
 
-        // Si está en un subdirectorio, reemplazar el inicio con "~"
-        simplified = malloc(ft_strlen(cwd) - ft_strlen(home) + 2);  // +1 para "~" y +1 para '\0'
-        if (!simplified)
-            return (NULL);
-        
-        simplified[0] = '~';
-        ft_strcpy(simplified + 1, cwd + ft_strlen(home));  // Copiar el resto de la ruta sin el `/`
-        return (simplified);
-    }
-    return (ft_strdup(cwd)); // Duplicar cwd si no es /home
+	home = getenv("HOME");
+	if (!cwd)
+		return (NULL);
+	if (home && ft_strstr(cwd, home) == cwd)
+	{
+		if (ft_strlen(cwd) == ft_strlen(home))
+		{
+			simplified = malloc(2);
+			if (!simplified)
+				return (NULL);
+			simplified[0] = '~';
+			simplified[1] = '\0';
+			return (simplified);
+		}
+		simplified = malloc(ft_strlen(cwd) - ft_strlen(home) + 2);
+		if (!simplified)
+			return (NULL);
+		simplified[0] = '~';
+		ft_strcpy(simplified + 1, cwd + ft_strlen(home));
+		return (simplified);
+	}
+	return (ft_strdup(cwd));
 }
 
-// Función para construir el string "<user>@<session_id>: <path>$ "
-char *ft_build_prompt(t_Env *env)
+char	*ft_build_prompt(char *prompt, char *user, char *session, char *path)
 {
-    char *user;
-    char *session;
-    char *prompt;
-    char *cwd;
-    char *simplified;
+	ft_strcpy(prompt, user);
+	ft_strcat(prompt, "@");
+	ft_strcat(prompt, session);
+	ft_strcat(prompt, ":");
+	ft_strcat(prompt, path);
+	ft_strcat(prompt, "$ ");
+	free(user);
+	free(session);
+	free(path);
+}
 
-    user = ft_extract_user(env);
-    session = ft_extract_session(env);
-    cwd = getcwd(NULL, 0);
-    if (!cwd) // Si `getcwd` falla, evitamos llamadas innecesarias
-        return (free(user), free(session), NULL);
+char	*ft_prompt(t_Env *env)
+{
+	char	*user;
+	char	*session;
+	char	*prompt;
+	char	*cwd;
+	char	*path;
 
-    simplified = ft_simplify_path(cwd);
-    if (!user || !session || !simplified)
-        return (free(user), free(session), free(cwd), free(simplified), NULL);
-    
-    prompt = malloc(ft_strlen(user) + ft_strlen(session) + ft_strlen(simplified) + 7 + 1);
-    if (!prompt)
-        return (free(user), free(session), free(cwd), free(simplified), NULL);
-
-    ft_strcpy(prompt, user);
-    ft_strcat(prompt, "@");
-    ft_strcat(prompt, session);
-    ft_strcat(prompt, ":");
-    ft_strcat(prompt, simplified);
-    ft_strcat(prompt, "$ ");
-    free(user);
-    free(session);
-    free(cwd);
-    free(simplified);
-    return (prompt);
+	user = ft_extract_user(env);
+	session = ft_extract_session(env);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (free(user), free(session), NULL);
+	path = ft_simplify_path(cwd);
+	if (!user || !session || !path)
+		return (free(user), free(session), free(cwd), free(path), NULL);
+	prompt = malloc(ft_strlen(user) + ft_strlen(session) + ft_strlen(path) + 8);
+	if (!prompt)
+		return (free(user), free(session), free(cwd), free(path), NULL);
+	ft_build_prompt(prompt, user, session, path);
+	free(cwd);
+	return (prompt);
 }

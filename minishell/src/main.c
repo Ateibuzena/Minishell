@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         // Construir el prompt
-        prompt = ft_build_prompt(env);
+        prompt = ft_prompt(env);
         input = readline(prompt);
         fprintf(stderr, "\nInput: %s\n", input);
         free(prompt);
