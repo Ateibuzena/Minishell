@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:48:47 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/11 15:22:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 23:04:54 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,32 +49,6 @@ void	ft_show_history(t_History *history)
 		current = current->next;
 		i++;
 	}
-}
-
-char	*ft_navigate_history(t_History *history, int *index, int key)
-{
-	static t_HistoryEntry	*current;
-
-	if (!current)
-		current = NULL;
-	if (!current)
-	{
-		current = history->tail;
-		(*index) = history->size;
-	}
-	if (key == 1 && current && current->next)
-	{
-		current = current->next;
-		(*index)++;
-	}
-	else if (key == -1 && current && current->next)
-	{
-		current = current->next;
-		(*index)--;
-	}
-	if (current)
-		return (current->line);
-	return (NULL);
 }
 
 /*La variable estática es necesaria en esta función

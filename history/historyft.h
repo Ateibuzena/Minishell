@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:40:23 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/11 15:24:47 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 23:05:06 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void			ft_init_history(t_History	*history);
 /*history_utils.c*/
 void			ft_add_entry(t_History *history, const char *line);
 void			ft_show_history(t_History *history);
-char			*ft_navigate_history(t_History *history, int *index, int key);
 
 /*history_free.c*/
 void			ft_free_history(t_History *history);
