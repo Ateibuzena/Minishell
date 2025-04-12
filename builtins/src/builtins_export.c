@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 20:34:28 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:41:41 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,50 +28,41 @@ static int	ft_valid_key(const char *key)
 	return (1);
 }
 
-static int ft_parse_key_value(char *arg, char **key, char **value, char **dup)
+static int	ft_parse_key_value(char *arg, char **key, char **value, char **dup)
 {
-    *dup = ft_strdup(arg);  // Asignar la memoria duplicada
+	*dup = ft_strdup(arg);
 	if (!*dup)
 	{
 		ft_putstr_fd("minishell: export: dup error\n", STDERR_FILENO);
 		return (0);
 	}
-    // Procesar la clave y el valor
-    *key = ft_strtok(*dup, "=");
-    *value = ft_strtok(NULL, "");
-
-    // Verificar si las claves y valores son válidos
-    if (!(*key && *value))
-    {
-        ft_putstr_fd("minishell: export: invalid argument\n", STDERR_FILENO);
-        return (0);
-    }
-    
-    return (1);
+	*key = ft_strtok(*dup, "=");
+	*value = ft_strtok(NULL, "");
+	if (!(*key && *value))
+	{
+		ft_putstr_fd("minishell: export: invalid argument\n", STDERR_FILENO);
+		return (0);
+	}
+	return (1);
 }
-
-
 
 static int	ft_process_export(t_Env **env, char *key)
 {
 	char	*expanded_key;
 	char	**keys_to_unset;
 
-	
 	expanded_key = ft_expand_variables(key, *env);
 	if (!ft_valid_key(expanded_key))
 	{
 		ft_putstr_fd("minishell: export: invalid key\n", STDERR_FILENO);
-		free(expanded_key);
-		return (0);
+		return (free(expanded_key), 0);
 	}
 	keys_to_unset = malloc(sizeof(char *) * 3);
 	if (!keys_to_unset)
 	{
 		ft_putstr_fd("minishell: export: memory allocation error\n",
 			STDERR_FILENO);
-		free(expanded_key);
-		return (0);
+		return (free(expanded_key), 0);
 	}
 	keys_to_unset[0] = NULL;
 	keys_to_unset[1] = ft_strdup(expanded_key);

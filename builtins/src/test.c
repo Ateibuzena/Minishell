@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
+/*   Updated: 2025/04/12 21:43:46 by azubieta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./builtinsft.h"
 
-int main(void)
+/*int	main(void)
 {
-    char *args1[] = {"echo", "Hello", "World", NULL};
+	char *args1[] = {"echo", "Hello", "World", NULL};
     char *args2[] = {"cd", "..", NULL};
     char *args3[] = {"pwd", NULL};
     char *args4[] = {"export", "TEST_VAR=42", NULL};
@@ -61,6 +73,5 @@ int main(void)
 
     // Free history (if applicable)
     ft_free_history(history);
-
-    return 0;
-}
+    return (0);
+}*/
