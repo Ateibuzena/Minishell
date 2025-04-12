@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 22:28:13 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 23:01:23 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,7 +432,7 @@ void	test_execute_builtins(t_Env **env)
 	printf("\n");
 }
 
-//gcc -o builtins_test $(find . -name "*.c") -I../../history -I../../enviroment -I../../libft ../../history/history.a ../../enviroment/enviroment.a ../../libft/libft.a -lreadline
+// gcc -o builtins_test $(find . -name "*.c") -I../../history -I../../enviroment -I../../libft ../../history/history.a ../../enviroment/enviroment.a ../../libft/libft.a -lreadline
 
 int	main(void)
 {
