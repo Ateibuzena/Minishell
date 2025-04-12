@@ -6,11 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:35:42 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 21:37:28 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:15:59 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell/minishellft.h"
+#include "../builtinsft.h"
 
 static int	ft_is_delimiter(char c, const char *delimiter)
 {

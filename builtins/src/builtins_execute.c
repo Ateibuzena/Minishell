@@ -6,11 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:02:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 17:43:28 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:16:26 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell/minishellft.h"
+#include "../builtinsft.h"
 
 int	ft_execute_builtins(char **args, t_History *history, t_Env **env)
 {
