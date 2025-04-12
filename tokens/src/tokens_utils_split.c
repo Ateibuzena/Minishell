@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:35:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 13:39:47 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:54:33 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,12 @@ size_t	ft_handle_delimiter(const char **current, char **result, size_t i)
 		|| (**current == '>' && *(*current + 1) == '>'))
 	{
 		result[i++] = ft_process_double_delimiter(*current);
-		(*current)++;
+		(*current) += 2;
 	}
 	else if (**current != ' ')
+	{
 		result[i++] = ft_process_delimiter(*current);
+		(*current)++;
+	}
 	return (i);
 }

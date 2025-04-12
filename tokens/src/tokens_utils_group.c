@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:31:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 13:35:25 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:34:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ void	ft_remove_pipes(char **result)
 		{
 			result[j] = result[i];
 			j++;
+		}
+		else
+		{
+			free(result[i]);
+			result[i] = NULL;
 		}
 		i++;
 	}
