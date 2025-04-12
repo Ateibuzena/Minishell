@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 23:01:23 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:06:46 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,8 @@ void	test_is_builtins(void)
 	printf("'pwd': %s\n", ft_is_builtins("pwd") ? "TRUE" : "FALSE");
 	printf("'export VAR=val': %s\n", 
 		ft_is_builtins("export VAR=val") ? "TRUE" : "FALSE");
-	printf("'unset PATH': %s\n", ft_is_builtins("unset PATH") ? "TRUE" : "FALSE");
+	printf("'unset PATH': %s\n",
+		ft_is_builtins("unset PATH") ? "TRUE" : "FALSE");
 	printf("'env': %s\n", ft_is_builtins("env") ? "TRUE" : "FALSE");
 	printf("'exit 0': %s\n", ft_is_builtins("exit 0") ? "TRUE" : "FALSE");
 	printf("'ls -la': %s\n", ft_is_builtins("ls -la") ? "TRUE" : "FALSE");
@@ -432,7 +433,9 @@ void	test_execute_builtins(t_Env **env)
 	printf("\n");
 }
 
-// gcc -o builtins_test $(find . -name "*.c") -I../../history -I../../enviroment -I../../libft ../../history/history.a ../../enviroment/enviroment.a ../../libft/libft.a -lreadline
+// gcc -o builtins_test $(find . -name "*.c") -I../../history -I../../enviroment
+-I../../libft ../../history/history.a ../../enviroment/enviroment.a
+../../libft/libft.a -lreadline
 
 int	main(void)
 {

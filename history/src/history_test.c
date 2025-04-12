@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:43:44 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 00:59:32 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:09:30 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../historyft.h"
-
+/*
 void clear_bash_history(void)
 {
     pid_t pid;
@@ -109,7 +109,8 @@ void	test_new_entry(void)
 	printf("New entry created with line: '%s'\n", entry->line);
 	printf("Entry next pointer: %p\n", (void *)entry->next);
 	
-	if (entry->line && ft_strcmp(entry->line, test_line) == 0 && entry->next == NULL)
+	if (entry->line && ft_strcmp(entry->line, test_line) == 0
+		&& entry->next == NULL)
 		printf("✅ New entry test PASSED\n");
 	else
 		printf("❌ New entry test FAILED\n");
@@ -313,9 +314,11 @@ void	test_memory_management(void)
 	printf("Memory management test completed.\n\n");
 }
 
-// gcc -o history_test $(find . -name "*.c") -I../libft ../libft/libft.a -lreadline
-// Nota: readline mantiene 4KB de memoria "reachable" que no se pueden liberar.
-// No es un memory leak del programa, sino de la propia implementación de readline.
+// gcc -o history_test $(find . -name "*.c")
+-I../libft ../libft/libft.a -lreadline
+// Note: readline keeps 4KB of "reachable" memory that cannot be freed.
+// This is not a memory leak of the program,
+// but rather a limitation of readline's implementation.
 
 int	main(void)
 {
@@ -343,4 +346,4 @@ int	main(void)
 	clear_history();
 	
 	return (0);
-}
+}*/

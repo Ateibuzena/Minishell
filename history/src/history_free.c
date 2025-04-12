@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:58:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 23:29:09 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:08:19 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ void	ft_free_history(t_History *history)
 	}
 	free(history);
 }
-
