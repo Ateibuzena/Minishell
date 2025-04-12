@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:46:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 20:16:13 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:39:00 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,6 @@ t_Env	*ft_create_node(const char *key, const char *value)
 		exit(1);
 	}
 	node->key = ft_strdup(key);
-	if (value)
-	{
-		node->value = ft_strdup(value);
-	}
 	if (value)
 		node->value = ft_strdup(value);
 	else
