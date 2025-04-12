@@ -74,15 +74,37 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
 
 # 🧹 Limpieza de objetos
 clean:
-	@echo "$(RED)🗑️ Eliminando archivos objeto...$(RESET)"
+	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
 
 # 🧹 Limpieza total (elimina objetos y archivo .a)
 fclean: clean
-	@echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"
-	@$(RM) $(NAME)
-	@echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"
+	@if [ -d "$(OBJDIR)" ]; then \
+		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
+		$(RM) -rf $(OBJDIR); \
+		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
+	fi
+	@if [ -f "$(NAME)" ]; then \
+		echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"; \
+		$(RM) $(NAME); \
+		echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"; \
+	fi
+	@if [ -f "$(ENVIROMENT_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(ENVIROMENT_LIB)...$(RESET)"; \
+		make -C $(ENVIROMENT_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(ENVIROMENT_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(HISTORY_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(HISTORY_LIB)...$(RESET)"; \
+		make -C $(HISTORY_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(HISTORY_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(LIBFT_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(LIBFT_LIB)...$(RESET)"; \
+		make -C $(LIBFT_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(LIBFT_LIB) eliminada.$(RESET)"; \
+	fi
 
 # 🔄 Recompilación completa
 re: fclean all

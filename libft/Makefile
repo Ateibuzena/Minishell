@@ -49,15 +49,22 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
 
 # 🧹 Limpiar archivos objeto
 clean:
-	@echo "$(RED)🗑️ Eliminando archivos objeto...$(RESET)"
+	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
 
 # 🧹 Limpiar completamente (incluye la librería)
 fclean: clean
-	@echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"
-	@$(RM) $(NAME)
-	@echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"
+	@if [ -d "$(OBJDIR)" ]; then \
+		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
+		$(RM) -rf $(OBJDIR); \
+		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
+	fi
+	@if [ -f "$(NAME)" ]; then \
+		echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"; \
+		$(RM) $(NAME); \
+		echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"; \
+	fi
 
 # 🔄 Recompilación completa
 re: fclean all
