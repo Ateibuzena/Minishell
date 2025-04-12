@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:07:31 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:26:24 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ void	test_edge_cases(void)
 	printf("Edge case tests completed.\n\n");
 }
 
-// gcc -o env_test $(find . -name "*.c") -I../../enviroment -I../../libft
-../../enviroment/enviroment.a ../../libft/libft.a -lreadline
+// gcc -o env_test $(find . -name "*.c")-I../../libft
+../../libft/libft.a -lreadline
 
 int	main(void)
 {

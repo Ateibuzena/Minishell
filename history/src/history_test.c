@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:43:44 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:09:30 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:25:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,7 @@ void	test_memory_management(void)
 }
 
 // gcc -o history_test $(find . -name "*.c")
--I../libft ../libft/libft.a -lreadline
+-I../../libft ../../libft/libft.a -lreadline
 // Note: readline keeps 4KB of "reachable" memory that cannot be freed.
 // This is not a memory leak of the program,
 // but rather a limitation of readline's implementation.
