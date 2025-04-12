@@ -77,14 +77,14 @@ clean:
 	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
-
-# 🧹 Limpieza total (elimina objetos y archivo .a)
-fclean: clean
 	@if [ -d "$(OBJDIR)" ]; then \
 		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
 		$(RM) -rf $(OBJDIR); \
 		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
 	fi
+
+# 🧹 Limpieza total (elimina objetos y archivo .a)
+fclean: clean
 	@if [ -f "$(NAME)" ]; then \
 		echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"; \
 		$(RM) $(NAME); \
