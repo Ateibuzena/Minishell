@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:16:38 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:34:28 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,36 @@ static int	ft_valid_key(const char *key)
 	return (1);
 }
 
-static int	ft_parse_key_value(char *arg, char **key, char **value)
+static int ft_parse_key_value(char *arg, char **key, char **value, char **dup)
 {
-	*key = ft_strtok(arg, "=");
-	*value = ft_strtok(NULL, "");
-	if (!(*key && *value))
+    *dup = ft_strdup(arg);  // Asignar la memoria duplicada
+	if (!*dup)
 	{
-		ft_putstr_fd("minishell: export: invalid argument\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: export: dup error\n", STDERR_FILENO);
 		return (0);
 	}
-	return (1);
+    // Procesar la clave y el valor
+    *key = ft_strtok(*dup, "=");
+    *value = ft_strtok(NULL, "");
+
+    // Verificar si las claves y valores son válidos
+    if (!(*key && *value))
+    {
+        ft_putstr_fd("minishell: export: invalid argument\n", STDERR_FILENO);
+        return (0);
+    }
+    
+    return (1);
 }
+
+
 
 static int	ft_process_export(t_Env **env, char *key)
 {
 	char	*expanded_key;
 	char	**keys_to_unset;
 
+	
 	expanded_key = ft_expand_variables(key, *env);
 	if (!ft_valid_key(expanded_key))
 	{
@@ -66,6 +79,7 @@ static int	ft_process_export(t_Env **env, char *key)
 	ft_unset(env, keys_to_unset);
 	free(keys_to_unset[1]);
 	free(keys_to_unset);
+	free(expanded_key);
 	return (1);
 }
 
@@ -86,15 +100,18 @@ int	ft_export(t_Env **env, char **args)
 	int		i;
 	char	*key;
 	char	*value;
+	char	*dup;
 
 	i = 1;
+	dup = NULL;
 	while (args[i] != NULL)
 	{
-		if (!ft_parse_key_value(args[i], &key, &value))
-			return (0);
+		if (!ft_parse_key_value(args[i], &key, &value, &dup))
+			return (free(dup), 0);
 		if (!ft_process_export(env, key))
-			return (0);
+			return (free(dup), 0);
 		ft_store_env_variable(env, key, value);
+		free(dup);
 		i++;
 	}
 	return (1);
