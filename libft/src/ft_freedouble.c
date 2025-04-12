@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:10:52 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 19:11:08 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:55:02 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,14 @@
 
 void	ft_freedouble(char **ptr)
 {
-	int	i;
+	int	i = 0;
 
-	i = 0;
-	if (ptr[i])
+	while (ptr && ptr[i])
 	{
-		while (ptr[i])
-		{
-			ptr[i] = NULL;
-			free(ptr[i]);
-			i++;
-		}
-		ptr = NULL;
-		free(ptr);
+		free(ptr[i]);
+		i++;
 	}
+	free(ptr);
 }
 
 void	ft_freedouble_array(int **pipes, int len)
