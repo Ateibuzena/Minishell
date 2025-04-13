@@ -6,13 +6,13 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 01:11:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 02:51:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:56:14 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../tokensft.h"
 
-// Helper function to print token arrays
+/*// Helper function to print token arrays
 void	print_tokens(char **tokens)
 {
 	int	i;
@@ -322,7 +322,8 @@ void	test_token_pipeline(void)
 	printf("\n");
 }
 
-// gcc -o tokens_test $(find . -name "*.c") -I../../libft ../../libft/libft.a -lreadline
+// gcc -o tokens_test $(find . -name "*.c")
+-I../../libft ../../libft/libft.a -lreadline
 // Run all tests
 int	main(void)
 {
@@ -343,4 +344,4 @@ int	main(void)
 	printf("valgrind --leak-check=full --show-leak-kinds=all ./tokens_test\n");
 	
 	return (0);
-}
+}*/

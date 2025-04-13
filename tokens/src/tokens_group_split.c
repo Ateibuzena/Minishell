@@ -6,92 +6,79 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:29:04 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 02:50:21 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:55:37 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../tokensft.h"
 
-static int	ft_split_loop(const char *input, char ***result, int *size, int i)
+static void	ft_init_token(t_token *split)
 {
-	const char	*start;
-	const char	*current;
-
-	start = input;
-	current = input;
-	while (*current)
+	split->capacity = INITIAL_CAPACITY;
+	split->result = malloc(split->capacity * sizeof(char *));
+	if (!split->result)
 	{
-		if (*current == '<' || *current == '>'
-			|| *current == '|' || *current == ' ')
-		{
-			if (current > start)
-				(*result)[i++] = ft_process_token(start, current);
-			(*result)[i++] = ft_process_token(current, current + 1);
-			current++;
-			start = current;
-		}
-		else
-			current++;
-		if (i >= *size)
-			*result = ft_resize_result(*result, size);
+		perror("malloc");
+		exit(EXIT_FAILURE);
 	}
-	if (current > start)
-		(*result)[i++] = ft_process_token(start, current);
-	(*result)[i] = NULL;
-	return (i);
+	split->start = NULL;
+	split->current = NULL;
+	split->i = 0;
 }
 
 char	**ft_split_command(const char *input)
 {
-	int		capacity;
-	char	**result;
-	int		i;
+	t_token	s;
 
-	i = 0;
-	capacity = INITIAL_CAPACITY;
-	result = malloc(capacity * sizeof(char *));
-	if (!result)
+	ft_init_token(&s);
+	s.start = input;
+	s.current = input;
+	while (*s.current)
 	{
-		perror("Tokens: Malloc Error");
-		exit(EXIT_FAILURE);
+		if (*s.current == ' ' || *s.current == '<'
+			|| *s.current == '>' || *s.current == '|')
+		{
+			if (s.current > s.start)
+				s.result[s.i++] = ft_process_token(s.start, s.current);
+			s.i = ft_handle_delimiter(&s.current, s.result, s.i);
+			s.start = s.current + 1;
+		}
+		if (s.i >= s.capacity)
+			s.result = ft_resize_result(s.result, &s.capacity);
+		s.current++;
 	}
-	i = ft_split_loop(input, &result, &capacity, i);
-	return (result);
-}
-
-static void	ft_group_loop(char **input, char **result)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (input[i])
-	{
-		if (ft_is_redirect(input[i]))
-			result[j] = ft_process_redirect(input, &i);
-		else if (ft_strcmp(input[i], "|") != 0)
-			result[j] = ft_process_pipe(input, &i);
-		else
-			result[j] = ft_process_command(input, &i);
-		j++;
-	}
-	result[j] = NULL;
+	if (s.current > s.start)
+		s.result[s.i++] = ft_process_token(s.start, s.current);
+	if (s.i >= s.capacity)
+		s.result = ft_resize_result(s.result, &s.capacity);
+	s.result[s.i] = NULL;
+	return (s.result);
 }
 
 char	**ft_group_tokens(char *entry)
 {
-	char	**input;
-	char	**result;
+	t_group	group;
 
-	input = ft_split_command(entry);
-	result = malloc(MAX_TOKENS * sizeof(char *));
-	if (!result)
+	group.input = ft_split_command(entry);
+	group.result = malloc(MAX_TOKENS * sizeof(char *));
+	if (!group.result)
 	{
-		perror("Token: Malloc Error");
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	ft_group_loop(input, result);
-	ft_freedouble(input);
-	return (result);
+	group.i = 0;
+	group.j = 0;
+	while (group.input[group.i])
+	{
+		if (ft_is_redirect(group.input[group.i]))
+			group.result[group.j] = ft_process_redirect(group.input, &group.i);
+		else if (ft_strcmp(group.input[group.i], "|") != 0)
+			group.result[group.j] = ft_process_pipe(group.input, &group.i);
+		else
+			group.result[group.j] = ft_process_command(group.input, &group.i);
+		group.j++;
+	}
+	group.result[group.j] = NULL;
+	ft_freedouble(group.input);
+	return (group.result);
 }

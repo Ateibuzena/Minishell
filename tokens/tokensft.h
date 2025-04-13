@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:19:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 02:40:14 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:51:59 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,33 @@
 
 # define INITIAL_CAPACITY 10
 # define MAX_TOKENS 100
+
+# ifndef S_TOKEN
+#  define S_TOKEN
+
+typedef struct s_token
+{
+	int			capacity;
+	char		**result;
+	const char	*start;
+	const char	*current;
+	int			i;
+}	t_token;
+
+# endif
+
+# ifndef S_GROUP
+#  define S_GROUP
+
+typedef struct s_group
+{
+	char	**input;
+	char	**result;
+	int		i;
+	int		j;
+}	t_group;
+
+# endif
 
 /*ft_snprintf.c*/
 void	ft_snprintf(char *result,
