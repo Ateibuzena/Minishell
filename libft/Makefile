@@ -43,7 +43,7 @@ $(OBJ_DIR):
 
 # 🏗 Compilar archivos `.c` en `.o`, respetando subdirectorios
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
-	@mkdir -p $(dir $@)   # <- 🔥 ESTA LÍNEA ES LA CLAVE
+	@mkdir -p $(dir $@)
 	@echo "$(YELLOW)🔹 Compilando $< -> $@$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(GREEN)✅ Compilado: $@$(RESET)"
