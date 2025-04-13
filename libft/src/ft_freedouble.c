@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:10:52 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:55:02 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:04:22 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	ft_freedouble(char **ptr)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (ptr && ptr[i])
 	{
 		free(ptr[i]);
