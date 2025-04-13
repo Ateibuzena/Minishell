@@ -64,6 +64,8 @@ void ft_handle_pipes(char *input, t_History *history, char **env)
     commands = ft_group_tokens(input); //cambio group for split?
     if (!commands)
         return ft_perror("Pipex error: Tokens\n");
+    if (!ft_strchr(input, '|') && ft_strcmp(commands[0], "exit"))
+        ft_exit(commands);
     status = ft_pipex(commands, env, history);
     fprintf(stderr, "\n");
     fprintf(stderr, "\nft_pipex retornó: %d\n", status); // Depuración
