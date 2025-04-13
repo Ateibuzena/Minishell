@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:13:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 22:35:10 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:08:48 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,18 @@ typedef unsigned int	t_size;
 
 # endif
 
-// Struct to ft_split
-# ifndef COUNTERS
-#  define COUNTERS
+//Struct to split
+# ifndef S_SPLIT
+#  define S_SPLIT
 
-typedef struct Counters
+typedef struct s_split
 {
-	t_size		i;
-	long int	sign;
-	t_size		n;
-	t_size		words;
-}	t_Counters;
-
-# endif
-
-// Struct to ft_split
-# ifndef POINTERS
-#  define POINTERS
-
-typedef struct Pointers
-{
-	char		**ptr;
-	char		*temp;
-}	t_Pointers;
+	char	**mtx;
+	int		i;
+	int		init;
+	int		j;
+	int		word;
+}	t_split;
 
 # endif
 
@@ -216,7 +205,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 /*SRC/*/
 int			ft_printf(char const *format, ...);
 int			ft_atoi(const char *str);
-char		**ft_split(char const *s, char c);
+char		**ft_split(char const *str, char c);
 char		*ft_itoa(int n);
 void		ft_freedouble(char **ptr);
 void		ft_freedouble_array(int **pipes, int len);

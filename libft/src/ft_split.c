@@ -5,77 +5,80 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/28 18:31:55 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 19:12:13 by azubieta         ###   ########.fr       */
+/*   Created: 2025/04/13 04:57:27 by azubieta          #+#    #+#             */
+/*   Updated: 2025/04/13 21:36:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-static struct Counters	ft_struct(t_size o, t_size t, t_size th, t_size f)
+static int	ft_word_count(char const *s, char c)
 {
-	t_Counters	sign_index;
-
-	sign_index.i = o;
-	sign_index.sign = t;
-	sign_index.n = th;
-	sign_index.words = f;
-	return (sign_index);
-}
-
-static t_size	ft_wordscount(char const *s, char c)
-{
-	t_size	count;
-	t_size	word;
+	int	count;
+	int	i;
 
 	count = 0;
-	word = 0;
-	if (!s)
-		return (0);
-	if (s[count] != c && s[count] != '\0')
-		word++;
-	while (s[count] != '\0')
+	i = 0;
+	while (s[i])
 	{
-		if (s[count] == c && s[count + 1] != c && s[count + 1] != '\0')
-			word++;
-		count++;
+		while (s[i] == c)
+			i++;
+		if (s[i])
+			count++;
+		while (s[i] && s[i] != c)
+			i++;
 	}
-	if (s[count] == '\0' && word == 0)
-		return (word);
-	return (word);
+	return (count);
 }
 
-static char	**ft_nullcase_split(char **pointer)
+static int	skip_delimiters(const char *s, char c, int i)
 {
-	ft_freedouble(pointer);
-	return (NULL);
+	while (s[i] == c)
+		i++;
+	return (i);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**allocate_result(int word_count)
 {
-	t_Pointers	pointers;
-	t_Counters	counters;
+	char	**result;
 
-	counters = ft_struct(0, 0, 0, ft_wordscount(s, c));
-	pointers.ptr = malloc((counters.words + 1) * sizeof(char *));
-	if (pointers.ptr == NULL)
+	result = (char **)malloc(sizeof(char *) * (word_count + 1));
+	if (!result)
 		return (NULL);
-	while (counters.words--)
+	return (result);
+}
+
+static void	skip_until_delim(const char *str, t_split *s, char c)
+{
+	while (str[s->i] && str[s->i] != c)
+		(s->i)++;
+}
+
+char	**ft_split(char const *str, char c)
+{
+	t_split	s;
+
+	if (!str)
+		return (NULL);
+	(s.i) = 0;
+	(s.j) = 0;
+	(s.word) = ft_word_count(str, c);
+	(s.mtx) = allocate_result((s.word));
+	if (!(s.mtx))
+		return (NULL);
+	while (str[(s.i)])
 	{
-		while (*s == c)
-			s++;
-		counters.n = 0;
-		while (s[counters.n] != '\0' && s[counters.n] != c)
-			counters.n++;
-		pointers.temp = malloc((counters.n + 1) * sizeof(char));
-		if (pointers.temp == NULL)
-			return (ft_nullcase_split(pointers.ptr));
-		ft_strlcpy(pointers.temp, s, counters.n + 1);
-		pointers.ptr[counters.i++] = pointers.temp;
-		pointers.temp = NULL;
-		free(pointers.temp);
-		s += counters.n;
+		(s.i) = skip_delimiters(str, c, (s.i));
+		(s.init) = (s.i);
+		skip_until_delim(str, &s, c);
+		if ((s.i) > (s.init))
+		{
+			(s.mtx)[(s.j)] = ft_strndup(str + (s.init), (s.i) - (s.init));
+			if (!(s.mtx)[(s.j)])
+				return (ft_freedouble((s.mtx)), NULL);
+			(s.j)++;
+		}
 	}
-	pointers.ptr[counters.i] = 0;
-	return (pointers.ptr);
+	(s.mtx)[(s.j)] = NULL;
+	return (s.mtx);
 }
