@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:46:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 22:39:00 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 03:16:56 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,15 @@ void	ft_add_env(t_Env **env, const char *key, const char *value)
 	t_Env	*new_node;
 	t_Env	*current;
 
+	if (!env || !key || !value)
+		return ;
 	new_node = (t_Env *)malloc(sizeof(t_Env));
-	current = *env;
 	if (!new_node)
 	{
-		perror("Error al agregar variable de entorno");
+		perror("Enviroment: malloc failed");
 		exit(1);
 	}
+	current = *env;
 	new_node->key = ft_strdup(key);
 	new_node->value = ft_strdup(value);
 	new_node->next = NULL;
@@ -117,9 +119,7 @@ void	ft_add_env(t_Env **env, const char *key, const char *value)
 	else
 	{
 		while (current->next)
-		{
 			current = current->next;
-		}
 		current->next = new_node;
 	}
 }
