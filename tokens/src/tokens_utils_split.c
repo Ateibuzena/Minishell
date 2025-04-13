@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:35:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:54:33 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:51:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_process_double_delimiter(const char *current)
 	token = malloc(3);
 	if (!token)
 	{
-		perror("malloc");
+		perror("Tokens: Malloc Error");
 		exit(EXIT_FAILURE);
 	}
 	token[0] = *current;
@@ -30,14 +30,14 @@ char	*ft_process_double_delimiter(const char *current)
 
 char	*ft_process_token(const char *start, const char *current)
 {
-	size_t	length;
+	int		length;
 	char	*token;
 
 	length = current - start;
 	token = malloc(length + 1);
 	if (!token)
 	{
-		perror("malloc");
+		perror("Tokens: Malloc Error");
 		exit(EXIT_FAILURE);
 	}
 	ft_strncpy(token, start, length);
@@ -52,7 +52,7 @@ char	*ft_process_delimiter(const char *current)
 	token = malloc(2);
 	if (!token)
 	{
-		perror("malloc");
+		perror("Tokens: Malloc Error");
 		exit(EXIT_FAILURE);
 	}
 	token[0] = *current;
@@ -60,16 +60,16 @@ char	*ft_process_delimiter(const char *current)
 	return (token);
 }
 
-char	**ft_resize_result(char **result, size_t *capacity)
+char	**ft_resize_result(char **result, int *capacity)
 {
 	char	**new_result;
-	size_t	i;
+	int		i;
 
 	(*capacity) *= 2;
 	new_result = malloc((*capacity) * sizeof(char *));
 	if (!new_result)
 	{
-		perror("malloc");
+		perror("Tokens: Malloc Error");
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
@@ -82,7 +82,7 @@ char	**ft_resize_result(char **result, size_t *capacity)
 	return (new_result);
 }
 
-size_t	ft_handle_delimiter(const char **current, char **result, size_t i)
+int	ft_handle_delimiter(const char **current, char **result, int i)
 {
 	if ((**current == '<' && *(*current + 1) == '<')
 		|| (**current == '>' && *(*current + 1) == '>'))

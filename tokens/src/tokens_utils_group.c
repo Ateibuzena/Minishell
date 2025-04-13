@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:31:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:34:13 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:50:51 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	ft_is_redirect(const char *token)
 	return (0);
 }
 
-char	*ft_process_redirect(char **input, size_t *i)
+char	*ft_process_redirect(char **input, int *i)
 {
-	size_t	length;
+	int		length;
 	char	*result;
 
 	length = ft_strlen(input[(*i)]) + ft_strlen(input[(*i) + 1]) + 2;
@@ -37,7 +37,7 @@ char	*ft_process_redirect(char **input, size_t *i)
 	return (result);
 }
 
-char	*ft_process_pipe(char **input, size_t *i)
+char	*ft_process_pipe(char **input, int *i)
 {
 	char	*pipe_token;
 
@@ -51,18 +51,15 @@ char	*ft_process_pipe(char **input, size_t *i)
 	return (pipe_token);
 }
 
-char	*ft_process_command(char **input, size_t *i)
+char	*ft_process_command(char **input, int *i)
 {
-	size_t	length;
+	int		length;
 	char	*command;
 
 	length = ft_strlen(input[(*i)]) + 1;
 	command = malloc(length * sizeof(char));
 	if (!command)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		(perror("Tokens: Realloc Error"), exit(EXIT_FAILURE));
 	ft_strcpy(command, input[(*i)]);
 	while (input[(*i) + 1] && ft_strcmp(input[(*i) + 1], "|") == 0
 		&& ft_strcmp(input[(*i) + 1], "<") == 0
@@ -72,10 +69,7 @@ char	*ft_process_command(char **input, size_t *i)
 		length += ft_strlen(input[(*i) + 1]) + 1;
 		command = realloc(command, length);
 		if (!command)
-		{
-			perror("realloc");
-			exit(EXIT_FAILURE);
-		}
+			(perror("Tokens: Realloc Error"), exit(EXIT_FAILURE));
 		ft_strcat(command, " ");
 		ft_strcat(command, input[(*i) + 1]);
 		((*i))++;
@@ -86,8 +80,8 @@ char	*ft_process_command(char **input, size_t *i)
 
 void	ft_remove_pipes(char **result)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;

@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 01:11:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:57:15 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:51:54 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../tokensft.h"
-/*
+
 // Helper function to print token arrays
 void	print_tokens(char **tokens)
 {
@@ -128,9 +128,9 @@ void	test_delimiter_processing(void)
 	char	*token;
 	const char *input = "<";
 	const char *double_input = "<<";
-	size_t	i;
+	int	i;
 	char	**result;
-	size_t	capacity = 10;
+	int	capacity = 10;
 
 	printf("=== Testing delimiter processing ===\n");
 	
@@ -150,7 +150,7 @@ void	test_delimiter_processing(void)
 	{
 		i = 0;
 		i = ft_handle_delimiter(&input, result, i);
-		printf("  Handle delimiter returned i=%zu\n", i);
+		printf("  Handle delimiter returned i=%d\n", i);
 		printf("  Result token: '%s'\n", result[0]);
 		free(result[0]);
 		free(result);
@@ -181,7 +181,7 @@ void	test_redirect_pipe_processing(void)
 {
 	char	**input;
 	char	*token;
-	size_t	i;
+	int	i;
 	
 	printf("=== Testing redirect and pipe processing ===\n");
 	
@@ -205,7 +205,7 @@ void	test_redirect_pipe_processing(void)
 		i = 0;
 		token = ft_process_redirect(input, &i);
 		printf("  Processed redirect: '%s'\n", token);
-		printf("  New index: %zu\n", i);
+		printf("  New index: %d\n", i);
 		free(token);
 		
 		// Free input[0] and input[1] before resetting
@@ -218,7 +218,7 @@ void	test_redirect_pipe_processing(void)
 		i = 0;
 		token = ft_process_pipe(input, &i);
 		printf("  Processed pipe: '%s'\n", token);
-		printf("  New index: %zu\n", i);
+		printf("  New index: %d\n", i);
 		free(token);
 		
 		// Free input[0]
@@ -235,7 +235,7 @@ void	test_command_processing(void)
 {
 	char	**input;
 	char	*token;
-	size_t	i;
+	int	i;
 	
 	printf("=== Testing command processing ===\n");
 	
@@ -251,7 +251,7 @@ void	test_command_processing(void)
 		i = 0;
 		token = ft_process_command(input, &i);
 		printf("  Processed command: '%s'\n", token);
-		printf("  New index: %zu\n", i);
+		printf("  New index: %d\n", i);
 		free(token);
 		
 		// Free input array
@@ -343,4 +343,4 @@ int	main(void)
 	printf("valgrind --leak-check=full --show-leak-kinds=all ./tokens_test\n");
 	
 	return (0);
-}*/
+}

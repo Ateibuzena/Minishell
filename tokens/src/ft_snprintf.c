@@ -6,18 +6,18 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:24:01 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 13:26:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:40:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../tokensft.h"
 
 void	ft_snprintf(char *result,
-			size_t length, const char *str1, const char *str2)
+			int length, const char *str1, const char *str2)
 {
-	size_t	len1;
-	size_t	len2;
-	size_t	total_length;
+	int	len1;
+	int	len2;
+	int	total_length;
 
 	len1 = ft_strlen(str1);
 	len2 = ft_strlen(str2);
