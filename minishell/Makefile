@@ -30,10 +30,10 @@ PIPEX_LIB = $(PIPEX_DIR)/pipex.a
 
 # 📂 Directorios de código y objetos
 SRCDIR = src
-OBJDIR = obj
+SRCS := $(shell find $(SRCDIR) -type f -name "*.c")
 
 # 🔍 Buscar archivos fuente en subdirectorios
-SRCS := $(shell find $(SRCDIR) -type f -name "*.c")
+OBJDIR = obj
 OBJS := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 # 🎨 Colores
@@ -46,69 +46,118 @@ WHITE    = \033[0;37m
 RESET    = \033[0m
 
 # 🚀 Compilación principal
-all: libs $(NAME)
+all: $(LIBFT_DIR) $(HISTORY_DIR) $(ENVIROMENT_DIR) $(BUILTINS_DIR) $(PROMPT_DIR) $(TOKENS_DIR) $(PIPEX_DIR) $(NAME)
 
 # 🔗 Compilar librerías en orden correcto
-libs:
-	@echo "$(CYAN)📦 Compilando librerías...$(RESET)"
-	@make --no-print-directory -C $(LIBFT_DIR)
-	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
-	@make --no-print-directory -C $(HISTORY_DIR)
-	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
-	@make --no-print-directory -C $(ENVIROMENT_DIR)
-	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
-	@make --no-print-directory -C $(BUILTINS_DIR)
-	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
-	@make --no-print-directory -C $(PROMPT_DIR)
-	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
-	@make --no-print-directory -C $(TOKENS_DIR)
-	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
-	@make --no-print-directory -C $(PIPEX_DIR)
-	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
-	@echo "$(GREEN)✅ Librerías compiladas.$(RESET)"
+$(LIBFT_LIB):
+	@echo "$(CYAN)📦 Compilando librería libft...$(RESET)"
+	@make -C $(LIBFT_DIR)
+	@echo "$(GREEN)✅ Librería libft compilada.$(RESET)"
+
+$(HISTORY_LIB): $(LIBFT_LIB)
+	@echo "$(CYAN)📦 Compilando librería history...$(RESET)"
+	@make -C $(HISTORY_DIR)
+	@echo "$(GREEN)✅ Librería history compilada.$(RESET)"
+
+$(ENVIROMENT_LIB): $(LIBFT_LIB)
+	@echo "$(CYAN)📦 Compilando librería enviroment...$(RESET)"
+	@make -C $(ENVIROMENT_DIR)
+	@echo "$(GREEN)✅ Librería enviroment compilada.$(RESET)"
+
+$(BUILTINS_LIB): $(LIBFT_LIB)
+	@echo "$(CYAN)📦 Compilando librería builtins...$(RESET)"
+	@make -C $(BUILTINS_DIR)
+	@echo "$(GREEN)✅ Librería builtins compilada.$(RESET)"
+
+$(PROMPT_LIB): $(LIBFT_LIB)
+	@echo "$(CYAN)📦 Compilando librería prompt...$(RESET)"
+	@make -C $(PROMPT_DIR)
+	@echo "$(GREEN)✅ Librería prompt compilada.$(RESET)"
+
+$(TOKENS_LIB): $(LIBFT_LIB)	
+	@echo "$(CYAN)📦 Compilando librería tokens...$(RESET)"
+	@make -C $(TOKENS_DIR)
+	@echo "$(GREEN)✅ Librería tokens compilada.$(RESET)"
+
+$(PIPEX_LIB): $(LIBFT_LIB)
+	@echo "$(CYAN)📦 Compilando librería pipex...$(RESET)"
+	@make -C $(PIPEX_DIR)
+	@echo "$(GREEN)✅ Librería pipex compilada.$(RESET)"
 
 # 🔨 Compilar programa principal
 $(NAME): $(OBJDIR) $(OBJS) $(LIBFT_LIB) $(HISTORY_LIB) $(ENVIROMENT_LIB) $(BUILTINS_LIB) $(PROMPT_LIB) $(TOKENS_LIB) $(PIPEX_LIB)
 	@echo "$(CYAN)🔗 Enlazando $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -lreadline -lhistory $(PIPEX_LIB) $(TOKENS_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT_LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(PIPEX_LIB) $(TOKENS_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT_LIB) -lreadline -lhistory -o $(NAME)
 	@echo "$(GREEN)✅ $(NAME) compilada con éxito.$(RESET)"
 
-# 📂 Crear directorios de objetos
+# 📂 Crear directorio de objetos
 $(OBJDIR):
-	@echo "$(GREEN)📂 Creando directorios de objetos...$(RESET)"
+	@echo "$(CYAN)📂 Creando directorios de objetos...$(RESET)"
 	@mkdir -p $(OBJDIR)
-	@find $(SRCDIR) -type d | sed 's|$(SRCDIR)|$(OBJDIR)|' | xargs -I {} mkdir -p {}
 	@echo "$(GREEN)✅ Directorios de objetos creados.$(RESET)"
 
-# 🏗 Compilar archivos .c en .o, respetando subdirectorios
+# 🏗 Compilar archivos `.c` en `.o`, respetando subdirectorios
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	@mkdir -p $(dir $@) > /dev/null 2>&1  # 🔹 Crear subdirectorios si no existen
+	@mkdir -p $(dir $@)
 	@echo "$(YELLOW)🔹 Compilando $< -> $@$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null 2>&1
+	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(GREEN)✅ Compilado: $@$(RESET)"
 
 # 🧹 Limpieza
 clean:
-	@echo "$(RED)🗑️ Eliminando archivos objeto...$(RESET)"
-	@$(RM) $(OBJS) > /dev/null 2>&1
+	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
+	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
+	@if [ -d "$(OBJDIR)" ]; then \
+		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
+		$(RM) -rf $(OBJDIR); \
+		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
+	fi
 
-# 🧹 Limpieza total
+# 🧹 Limpieza total (elimina objetos y archivo .a)
 fclean: clean
-	@echo "$(RED)🚮 Eliminando ejecutable $(NAME)...$(RESET)"
-	@$(RM) $(NAME) > /dev/null 2>&1
-	@echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"
-	@echo "$(RED)🧹 Limpiando librerías...$(RESET)"
-	@make --no-print-directory -C $(LIBFT_DIR) fclean > /dev/null 2>&1
-	@make --no-print-directory -C $(HISTORY_DIR) fclean > /dev/null 2>&1
-	@make --no-print-directory -C $(ENVIROMENT_DIR) fclean > /dev/null 2>&1
-	@make --no-print-directory -C $(BUILTINS_DIR) fclean > /dev/null 2>&1
-	@make --no-print-directory -C $(PROMPT_DIR) fclean > /dev/null 2>&1
-	@make --no-print-directory -C $(TOKENS_DIR) fclean > /dev/null 2>&1
-	@make --no-print-directory -C $(PIPEX_DIR) fclean > /dev/null 2>&1
-	@echo "$(MAGENTA)✅ Librerías limpiadas.$(RESET)"
+	@if [ -f "$(NAME)" ]; then \
+		echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"; \
+		$(RM) $(NAME); \
+		echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"; \
+	fi
+	@if [ -f "$(PIPEX_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(PIPEX_LIB)...$(RESET)"; \
+		make -C $(PIPEX_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(PIPEX_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(TOKENS_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(TOKENS_LIB)...$(RESET)"; \
+		make -C $(TOKENS_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(TOKENS_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(PROMPT_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(PROMPT_LIB)...$(RESET)"; \
+		make -C $(PROMPT_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(PROMPT_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(BUILTINS_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(BUILTINS_LIB)...$(RESET)"; \
+		make -C $(BUILTINS_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(BUILTINS_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(ENVIROMENT_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(ENVIROMENT_LIB)...$(RESET)"; \
+		make -C $(ENVIROMENT_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(ENVIROMENT_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(HISTORY_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(HISTORY_LIB)...$(RESET)"; \
+		make -C $(HISTORY_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(HISTORY_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(LIBFT_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(LIBFT_LIB)...$(RESET)"; \
+		make -C $(LIBFT_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(LIBFT_LIB) eliminada.$(RESET)"; \
+	fi
 
 # 🔄 Recompilación completa
 re: fclean all
 
-.PHONY: all clean fclean re libs
+.PHONY: all clean fclean re

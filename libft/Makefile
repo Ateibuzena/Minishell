@@ -43,6 +43,7 @@ $(OBJ_DIR):
 
 # 🏗 Compilar archivos `.c` en `.o`, respetando subdirectorios
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
+	@mkdir -p $(dir $@)   # <- 🔥 ESTA LÍNEA ES LA CLAVE
 	@echo "$(YELLOW)🔹 Compilando $< -> $@$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(GREEN)✅ Compilado: $@$(RESET)"
@@ -52,9 +53,9 @@ clean:
 	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
-	@if [ -d "$(OBJDIR)" ]; then \
+	@if [ -d "$(OBJ_DIR)" ]; then \
 		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
-		$(RM) -rf $(OBJDIR); \
+		$(RM) -rf $(OBJ_DIR); \
 		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
 	fi
 

@@ -52,6 +52,7 @@ $(OBJDIR):
 
 # 🏗 Compilar archivos `.c` en `.o`, respetando subdirectorios
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
+	@mkdir -p $(dir $@)
 	@echo "$(YELLOW)🔹 Compilando $< -> $@$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(GREEN)✅ Compilado: $@$(RESET)"
