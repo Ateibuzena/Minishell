@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 13:48:38 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 14:22:48 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_handle_lecture(t_pipex *pipex, char **split)
 		pipex->infile = open(split[1], O_RDONLY);
 		if (pipex->infile < 0)
 		{
+			fprintf(stderr, "entro con: %s\n", split[1]);
 			ft_errno(pipex->argv[pipex->i]);
 			ft_free_pipex(&pipex);
 			exit(1);

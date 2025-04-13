@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 15:15:01 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:31:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,20 @@ typedef struct s_par
 	int	i;
 	int	j;
 }	t_par;
+
+typedef struct s_command
+{
+	char	**cmd;       // Ej: {"cat", NULL}
+	char	*infile;     // Ej: "infile" si hay redirección "< infile"
+	char	*outfile;    // Ej: "outfile" si hay redirección "> outfile"
+	int		append;      // 1 si ">>", 0 si ">"
+}	t_command;
+
+typedef struct s_executor
+{
+	t_command	**commands;
+	int			count;     // número de comandos en el pipeline
+}	t_executor;
 
 typedef struct s_pipex
 {

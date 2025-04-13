@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 14:02:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 04:54:07 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,19 @@ void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname)
 		{
 			(ft_perror("pipex: "), ft_perror(argv));
 			(ft_perror(": permission denied\n"), ft_free_pipex(&pipex));
-			(free(pathname), exit(126));
+			if (pathname && pathname != pipex->commands[0]) // Verificación
+				free(pathname);  // Solo se libera si fue asignado dinámicamente
+			exit(126);
 		}
 		else
 		{
 			(ft_perror(pipex->commands[0]), ft_perror(": command not found\n"));
-			(ft_free_pipex(&pipex), free(pathname), exit(127));
+			(ft_free_pipex(&pipex));
+			if (pathname && pathname != pipex->commands[0]) // Verificación
+				free(pathname);  // Solo se libera si fue asignado dinámicamente
+			exit(127);
 		}
-	}
+		}
 }
 
 void	ft_execute(t_pipex *pipex, char **env)

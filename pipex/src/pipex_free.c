@@ -6,12 +6,13 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:37:57 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 20:20:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 14:16:38 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
+// Actualizamos la función ft_free_pipes
 static void	ft_free_pipes(int **pipes, int n)
 {
 	int	i;
@@ -25,32 +26,58 @@ static void	ft_free_pipes(int **pipes, int n)
 			free(pipes[i]);
 		i++;
 	}
-	free(pipes);
-	pipes = NULL;
+	free(pipes);  // Libera el array de punteros
 }
 
+// Actualización de ft_free_pipex
 void	ft_free_pipex(t_pipex **pipex)
 {
 	if (!pipex || !(*pipex))
 		return ;
+
+	// Verificamos y mostramos las direcciones antes de liberar
 	if ((*pipex)->argv)
+	{
+		//printf("Freeing argv at address: %p\n", (void *)(*pipex)->argv);
 		ft_freedouble((*pipex)->argv);
+		(*pipex)->argv = NULL;  // Establecemos el puntero a NULL
+	}
 	if ((*pipex)->clean_paths)
+	{
+		//printf("Freeing clean_paths at address: %p\n", (void *)(*pipex)->clean_paths);
 		ft_freedouble((*pipex)->clean_paths);
+		(*pipex)->clean_paths = NULL;  // Establecemos el puntero a NULL
+	}
 	if ((*pipex)->commands)
+	{
+		//printf("Freeing commands at address: %p\n", (void *)(*pipex)->commands);
 		ft_freedouble((*pipex)->commands);
+		(*pipex)->commands = NULL;  // Establecemos el puntero a NULL
+	}
 	if ((*pipex)->found_way)
+	{
+		//printf("Freeing found_way at address: %p\n", (void *)(*pipex)->found_way);
 		free((*pipex)->found_way);
-	ft_free_pipes((*pipex)->pipes, (*pipex)->n);
+		(*pipex)->found_way = NULL;  // Establecemos el puntero a NULL
+	}
+	if ((*pipex)->pipes)
+	{
+		//printf("Freeing pipes at address: %p\n", (void *)(*pipex)->pipes);
+		ft_free_pipes((*pipex)->pipes, (*pipex)->n);
+		(*pipex)->pipes = NULL;  // Establecemos el puntero a NULL
+	}
 	if ((*pipex)->pids)
+	{
+		//printf("Freeing pids at address: %p\n", (void *)(*pipex)->pids);
 		free((*pipex)->pids);
-	(*pipex)->argv = NULL;
-	(*pipex)->clean_paths = NULL;
-	(*pipex)->commands = NULL;
-	(*pipex)->found_way = NULL;
-	(*pipex)->pids = NULL;
-	(*pipex)->pipes = NULL;
-	(*pipex)->n = 0;
-	free(*pipex);
-	*pipex = NULL;
+		(*pipex)->pids = NULL;  // Establecemos el puntero a NULL
+	}
+
+	// Liberamos la estructura principal
+	//printf("Freeing pipex structure at address: %p\n", (void *)*pipex);
+	if (pipex)
+	{
+		free(*pipex);
+		*pipex = NULL;  // Establecemos el puntero a NULL
+	}
 }
