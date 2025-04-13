@@ -1,5 +1,143 @@
 #include "../minishellft.h"
 
+char	*normalize_input(const char *input)
+{
+	int		i = 0;
+	int		j = 0;
+	char	*res = malloc(ft_strlen(input) * 3 + 1); // reserva de más por los espacios
+
+	if (!res)
+		return (NULL);
+
+	while (input[i])
+	{
+		if ((input[i] == '|' || input[i] == '<' || input[i] == '>'))
+		{
+			// Manejar dobles redirecciones: << >>
+			if ((input[i] == '<' || input[i] == '>') && input[i] == input[i + 1])
+			{
+				res[j++] = ' ';
+				res[j++] = input[i++];
+				res[j++] = input[i++];
+				res[j++] = ' ';
+			}
+			else
+			{
+				res[j++] = ' ';
+				res[j++] = input[i++];
+				res[j++] = ' ';
+			}
+		}
+		else
+			res[j++] = input[i++];
+	}
+	res[j] = '\0';
+	return (res);
+}
+
+
+int	is_quote(char c)
+{
+	return (c == '\'' || c == '"');
+}
+
+int	is_pipe(const char *s)
+{
+	return (ft_strcmp(s, "|") != 0);
+}
+
+int	is_redirection(const char *s)
+{
+	return (ft_strcmp(s, "<") != 0 || ft_strcmp(s, ">") != 0 ||
+			ft_strcmp(s, ">>") != 0 || ft_strcmp(s, "<<") != 0);
+}
+
+int	is_operator(const char *s)
+{
+	return (!ft_strncmp(s, "||", 2) || !ft_strncmp(s, "&&", 2));
+}
+
+int	validate_quotes(const char *input)
+{
+	char	open = 0;
+
+	while (*input)
+	{
+		if (is_quote(*input))
+		{
+			if (!open)
+				open = *input;
+			else if (*input == open)
+				open = 0;
+		}
+		input++;
+	}
+	return (open == 0);
+}
+
+/*int	is_redirection_token(char *s)
+{
+	return (!ft_strncmp(s, "<", 1) || !ft_strncmp(s, ">", 1));
+}*/
+
+/*int	invalid_redirection(char *token)
+{
+	return (!token || is_redirection_token(token));
+}*/
+
+int	validate_tokens(char **tokens)
+{
+	int	i = 0;
+
+	if (!tokens[0])
+		return (0);
+
+	// No puede empezar ni terminar con una pipe
+	if (is_pipe(tokens[0]) || (tokens[1] == NULL && is_pipe(tokens[0])))
+		return (0);
+
+	while (tokens[i])
+	{
+		// Detectar operadores no permitidos
+		if (is_operator(tokens[i]))
+			return (0);
+
+		// Pipes seguidas no permitidas: |
+		if (is_pipe(tokens[i]) && tokens[i + 1] && is_pipe(tokens[i + 1]))
+			return (0);
+
+		// Redirecciones sin argumento después o con otra redirección justo después
+		if (is_redirection(tokens[i]))
+		{
+			if (!tokens[i + 1] || is_redirection(tokens[i + 1]) || is_pipe(tokens[i + 1]))
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	validate_syntax(char *input)
+{
+	char	**tokens;
+
+	if (!validate_quotes(input))
+		return (0);
+
+	tokens = ft_split(input, ' ');
+	if (!tokens)
+		return (0);
+
+	if (!validate_tokens(tokens))
+	{
+		ft_freedouble(tokens);
+		return (0);
+	}
+
+	ft_freedouble(tokens);
+	return (1);
+}
+
 int main(int argc, char **argv, char **envp)
 {
     char *prompt;
@@ -25,25 +163,45 @@ int main(int argc, char **argv, char **envp)
         fprintf(stderr, "\nInput: %s\n", input);
         free(prompt);
         // Salir si la entrada es NULL (Ctrl+D)
-        if (input == NULL)
-            break ;
+        if (!input)
+            continue ;
+        char *normalized = normalize_input(input);
+        if (!normalized)
+        {
+            ft_perror("minishell: error al normalizar la entrada\n");
+            free(input);
+            continue ;
+        }
         // Procesar entrada si no está vacía
-        if (ft_strlen(input) > 0)
+        if (ft_strlen(normalized) > 0)
         {
             char *cleaned;
 
-            cleaned = ft_handle_quotes(input);
+            if (!validate_syntax(normalized))
+            {
+                ft_perror("minishell: syntax error\n");
+                free(normalized);
+                free(input);
+                continue ;
+            }
+            cleaned = ft_handle_quotes(normalized);
             /*if (ft_strcmp(input, "./minishell"))
             {
                 ft_export(env, )
             }*/
+            free(normalized);
             if (!cleaned)
-                break ;
+            {
+                ft_perror("minishell: error al manejar comillas\n");
+                free(input);
+                continue ;
+            }
             fprintf(stderr, "\nSin comillas: %s\n", cleaned);
-            if (ft_strchr(cleaned, '|') || !ft_is_builtins(cleaned)) // Si hay un pipe
+            ft_handle_pipes(cleaned, history, envp);
+            /*if (ft_strchr(cleaned, '|') || !ft_is_builtins(cleaned)) // Si hay un pipe
                 ft_handle_pipes(cleaned, history, envp);
             else // Si no hay pipes
-                ft_handle_builtin(cleaned, history, &env);
+                ft_handle_builtin(cleaned, history, &env);*/
             free(cleaned);    
         }
         free(input); 
