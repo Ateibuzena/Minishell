@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:31:11 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:34:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:49:18 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ int	ft_unset(t_Env **env, char **args)
 			ft_delete_env(env, args[i]);
 		i++;
 	}
-	return (1);
+	return (0);
 }

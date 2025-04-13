@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:34:41 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 20:41:19 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:47:50 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ int	ft_echo(char **args, t_Env *env)
 	}
 	if (newline)
 		printf("\n");
-	return (1);
+	return (0);
 }

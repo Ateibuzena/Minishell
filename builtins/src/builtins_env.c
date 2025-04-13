@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:01:07 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:20:07 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:49:29 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ int	ft_env(t_Env *env, char **args)
 			printf("minishell: env: invalid environment variable\n");
 		current = current->next;
 	}
-	return (1);
+	return (0);
 }

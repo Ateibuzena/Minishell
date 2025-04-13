@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 21:41:41 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:48:48 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ int	ft_export(t_Env **env, char **args)
 	while (args[i] != NULL)
 	{
 		if (!ft_parse_key_value(args[i], &key, &value, &dup))
-			return (free(dup), 0);
+			return (free(dup), 1);
 		if (!ft_process_export(env, key))
-			return (free(dup), 0);
+			return (free(dup), 1);
 		ft_store_env_variable(env, key, value);
 		free(dup);
 		i++;
 	}
-	return (1);
+	return (0);
 }

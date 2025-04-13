@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:16:59 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:21:31 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:48:57 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ int	ft_pwd(void)
 	}
 	else
 		perror("minishell: pwd");
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:02:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 22:16:26 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:56:25 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,26 @@
 int	ft_execute_builtins(char **args, t_History *history, t_Env **env)
 {
 	if (ft_strcmp(args[0], "echo"))
-		ft_echo(args, *env);
+		return (ft_echo(args, *env));
 	else if (ft_strcmp(args[0], "cd"))
-		ft_cd(args);
+		return (ft_cd(args));
 	else if (ft_strcmp(args[0], "clear"))
-		ft_clear();
+		return (ft_clear(), 0);
 	else if (ft_strcmp(args[0], "pwd"))
-		ft_pwd();
+		return (ft_pwd());
 	else if (ft_strcmp(args[0], "export"))
-		ft_export(env, args);
+		return (ft_export(env, args));
 	else if (ft_strcmp(args[0], "unset"))
-		ft_unset(env, args);
+		return (ft_unset(env, args));
 	else if (ft_strcmp(args[0], "env"))
-		ft_env(*env, args);
+		return (ft_env(*env, args));
 	else if (ft_strcmp(args[0], "exit"))
-		ft_exit(args);
+		return (ft_exit(args));
 	else if (ft_strcmp(args[0], "history"))
-		ft_show_history(history);
+		return (ft_show_history(history), 0);
 	else
-		printf("%s: Command not found\n", args[0]);
-	return (1);
+		return (printf("%s: Command not found\n", args[0]));
+	return (0);
 }
 
 int	ft_is_builtins(char *argv)
