@@ -75,16 +75,6 @@ int	validate_quotes(const char *input)
 	return (open == 0);
 }
 
-/*int	is_redirection_token(char *s)
-{
-	return (!ft_strncmp(s, "<", 1) || !ft_strncmp(s, ">", 1));
-}*/
-
-/*int	invalid_redirection(char *token)
-{
-	return (!token || is_redirection_token(token));
-}*/
-
 int	validate_tokens(char **tokens)
 {
 	int	i = 0;
@@ -138,6 +128,8 @@ int	validate_syntax(char *input)
 	return (1);
 }
 
+int g_last_exit_code = 0;
+
 int main(int argc, char **argv, char **envp)
 {
     char *prompt;
@@ -153,18 +145,20 @@ int main(int argc, char **argv, char **envp)
     
     history = (t_History *)malloc(sizeof(t_History));
     if (!history)
-    return (ft_perror("Malloc error: History\n"), 1);
+    	return (ft_perror("Malloc error: History\n"), 1);
     ft_init_history(history);
     while (1)
     {
         // Construir el prompt
         prompt = ft_prompt(env);
         input = readline(prompt);
-        fprintf(stderr, "\nInput: %s\n", input);
+        //fprintf(stderr, "\nInput: %s\n", input);
         free(prompt);
         // Salir si la entrada es NULL (Ctrl+D)
         if (!input)
             continue ;
+		ft_add_entry(history, input);
+		//ft_show_history(history);
         char *normalized = normalize_input(input);
         if (!normalized)
         {
@@ -173,37 +167,46 @@ int main(int argc, char **argv, char **envp)
             continue ;
         }
         // Procesar entrada si no está vacía
-        if (ft_strlen(normalized) > 0)
-        {
-            char *cleaned;
+		if (ft_strlen(normalized) > 0)
+		{
+			char *cleaned;
+			char *expanded;
+			
+			// 1. Validar sintaxis de la línea original
+			if (!validate_syntax(normalized))
+			{
+				ft_perror("minishell: syntax error\n");
+				free(normalized);
+				free(input);
+				continue ;
+			}
 
-            if (!validate_syntax(normalized))
-            {
-                ft_perror("minishell: syntax error\n");
-                free(normalized);
-                free(input);
-                continue ;
-            }
-            cleaned = ft_handle_quotes(normalized);
-            /*if (ft_strcmp(input, "./minishell"))
-            {
-                ft_export(env, )
-            }*/
-            free(normalized);
-            if (!cleaned)
-            {
-                ft_perror("minishell: error al manejar comillas\n");
-                free(input);
-                continue ;
-            }
-            fprintf(stderr, "\nSin comillas: %s\n", cleaned);
-            ft_handle_pipes(cleaned, history, envp);
-            /*if (ft_strchr(cleaned, '|') || !ft_is_builtins(cleaned)) // Si hay un pipe
-                ft_handle_pipes(cleaned, history, envp);
-            else // Si no hay pipes
-                ft_handle_builtin(cleaned, history, &env);*/
-            free(cleaned);    
-        }
+			// 3. Expandir variables
+			expanded = ft_expand_variables(normalized, env, g_last_exit_code); // suponiendo que tienes last_exit global
+			free(normalized);
+			if (!expanded)
+			{
+				ft_perror("minishell: error al expandir variables\n");
+				free(input);
+				continue ;
+			}
+			fprintf(stderr, "Expanded: %s\n", expanded);
+
+			// 2. Manejar comillas
+			cleaned = ft_handle_quotes(expanded);
+			free(expanded);
+			if (!cleaned)
+			{
+				ft_perror("minishell: error al manejar comillas\n");
+				free(input);
+				continue ;
+			}
+			
+			// 4. Ejecutar comandos (pipes o builtin)
+			ft_handle_pipes(cleaned, history, envp);
+			free(cleaned);
+		}
+        
         free(input); 
     }
     ft_free_history(history);
