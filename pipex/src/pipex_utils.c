@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 14:22:48 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:31:06 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-
+/*
 void	ft_close_pipes(t_pipex *pipex)
 {
 	int	i;
@@ -143,3 +143,4 @@ int	ft_here_doc(char *delimiter)
 	close(temp_pipe[WRITE]);
 	return (temp_pipe[READ]);
 }
+*/

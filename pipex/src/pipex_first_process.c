@@ -6,13 +6,13 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 20:27:44 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 14:41:37 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:29:15 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
-
+/*
 void print_open_fds()
 {
     fprintf(stderr, "\n--- FD abiertos antes de outfile ---\n");
@@ -96,3 +96,4 @@ void ft_first_process(t_pipex *pipex, char **env)
     pipex->i++;
     pipex->count++;
 }
+*/

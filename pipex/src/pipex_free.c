@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:37:57 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 14:16:38 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:29:26 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-
+/*
 // Actualizamos la función ft_free_pipes
 static void	ft_free_pipes(int **pipes, int n)
 {
@@ -81,3 +81,4 @@ void	ft_free_pipex(t_pipex **pipex)
 		*pipex = NULL;  // Establecemos el puntero a NULL
 	}
 }
+*/

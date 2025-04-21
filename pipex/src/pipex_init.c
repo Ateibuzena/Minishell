@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:15:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 21:04:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:29:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-
+/*
 // Contar comandos
 static void	ft_count_cmds(t_pipex *pipex, char *input[])
 {
@@ -73,3 +73,4 @@ void	ft_init(t_pipex *pipex, char *input[], t_History *history)
 	if (!ft_copy_argv(pipex, input) || !ft_alloc_pids(pipex))
 		return (ft_free_pipex(&pipex), exit(EXIT_FAILURE));
 }
+*/

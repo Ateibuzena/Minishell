@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:30:00 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 15:29:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:30:52 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-
+/*
 static void ft_middle_fork(t_pipex *pipex, char **env)
 {
     fprintf(stderr, "\nEntro en middle fork con pipex->argv[pipex->cmd]: %s\n", pipex->argv[pipex->cmd]);
@@ -75,3 +75,4 @@ void ft_middle_process(t_pipex *pipex, char **env)
         pipex->count += 1;
     }
 }
+*/

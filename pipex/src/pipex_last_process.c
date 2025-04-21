@@ -6,30 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 20:44:17 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 15:29:09 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:30:36 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipex_last_process.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 20:27:44 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/01 14:40:41 by azubieta         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../pipexft.h"
-
-
+/*
 static void ft_last_fork(t_pipex *pipex, char **env)
 {
 	fprintf(stderr, "\nEntro en last fork con pipex->argv[pipex->cmd]: %s\n", pipex->argv[pipex->cmd]);
@@ -83,3 +65,4 @@ void ft_last_process(t_pipex *pipex, char **env)
         pipex->status = ft_waitpid(pipex->pids[pipex->count]);
     }
 }
+*/

@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:32:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 04:54:07 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:29:05 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-
+/*
 char	*ft_find_env_value(const char *key, char **env, size_t len)
 {
 	size_t	i;
@@ -129,3 +129,4 @@ void	ft_execute(t_pipex *pipex, char **env)
 	else if ((pipex->cmd >= 0) && !ft_is_builtins(pipex->argv[pipex->cmd]))
 		ft_execute_cmd(pipex, pipex->argv[pipex->cmd], env, NULL);
 }
+*/
