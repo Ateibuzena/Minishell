@@ -6,12 +6,14 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:06:46 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:14:29 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../builtinsft.h"
 /*
+int g_last_exit = 27;
+
 // Helper function to print environment list
 void	print_env_list(t_Env *env_list)
 {
@@ -42,7 +44,7 @@ t_Env	*setup_test_env(void)
 	ft_add_env(&env, "PWD", "/current/path");
 	ft_add_env(&env, "OLDPWD", "/previous/path");
 	ft_add_env(&env, "PATH", "/usr/bin:/bin");
-	ft_add_env(&env, "USER", "testuser");
+	ft_add_env(&env, "USER", "azubieta");
 	ft_add_env(&env, "TERM", "xterm");
 	return (env);
 }
@@ -50,35 +52,41 @@ t_Env	*setup_test_env(void)
 // Test echo command
 void	test_echo(t_Env *env)
 {
+	char	*expanded = ft_expand_variables("$USER", env, g_last_exit);
 	char	*args1[] = {"echo", "Hello", "World", NULL};
 	char	*args2[] = {"echo", "-n", "No", "newline", NULL};
 	char	*args3[] = {"echo", "-nnnn", "Multiple", "flags", NULL};
-	char	*args4[] = {"echo", "Hello", "$USER", "variable", NULL};
+	char	*args4[] = {"echo", "Hello", expanded, "variable", NULL}; // Variable already expanded
 	char	*args5[] = {"echo", "-n", NULL};
 	char	*args6[] = {"echo", NULL};
+	char	*args7[] = {"echo", "-na", "newline", NULL};
 
 	printf("=== Testing echo command ===\n");
 	
 	printf("Test 1 - Basic echo:\n");
-	ft_echo(args1, env);
+	ft_echo(args1);
 	
 	printf("\nTest 2 - Echo with no newline:\n");
-	ft_echo(args2, env);
+	ft_echo(args2);
 	printf("\n<end of output>\n");
 	
 	printf("\nTest 3 - Echo with multiple flags:\n");
-	ft_echo(args3, env);
+	ft_echo(args3);
 	printf("\n<end of output>\n");
 	
-	printf("\nTest 4 - Echo with variable expansion:\n");
-	ft_echo(args4, env);
+	printf("\nTest 4 - Echo with pre-expanded variable $USER:\n");
+	ft_echo(args4);
+	free(expanded);
 	
 	printf("\nTest 5 - Echo with just -n flag:\n");
-	ft_echo(args5, env);
+	ft_echo(args5);
 	printf("\n<end of output>\n");
 	
 	printf("\nTest 6 - Echo with no arguments:\n");
-	ft_echo(args6, env);
+	ft_echo(args6);
+
+	printf("\nTest 7 - Echo with invalid flag:\n");
+	ft_echo(args7);
 	
 	printf("\n");
 }
@@ -187,7 +195,6 @@ void	test_export(t_Env **env)
 	char	*args4[] = {"export", "123INVALID=test", NULL};
 	char	*args5[] = {"export", "MULTI_VAR1=val1", "MULTI_VAR2=val2", NULL};
 	char	*args6[] = {"export", NULL};
-	char	*args7[] = {"export", "$USER=expanded", NULL};
 
 	printf("=== Testing export command ===\n");
 	
@@ -218,10 +225,6 @@ void	test_export(t_Env **env)
 	
 	printf("Test 6 - Export with no arguments:\n");
 	ft_export(env, args6);
-	print_env_list(*env);
-	
-	printf("Test 7 - Export with variable expansion in key:\n");
-	ft_export(env, args7);
 	print_env_list(*env);
 	
 	printf("\n");
@@ -264,24 +267,38 @@ void	test_unset(t_Env **env)
 	printf("\n");
 }
 
+
 // Test variable expansion
 void	test_variable_expansion(t_Env *env)
 {
 	printf("=== Testing variable expansion ===\n");
 	
 	printf("Test 1 - Expand existing variable:\n");
-	printf("$USER expands to: %s\n", ft_expand_variables("$USER", env));
+	printf("$USER expands to: %s\n", ft_expand_variables("$HOME", env, g_last_exit));
 	
 	printf("Test 2 - Expand non-existent variable:\n");
 	printf("$NONEXISTENT expands to: %s\n", 
-		ft_expand_variables("$NONEXISTENT", env));
+		ft_expand_variables("$NONEXISTENT", env, g_last_exit));
 	
 	printf("Test 3 - Regular string (no expansion):\n");
 	printf("'Regular string' expands to: %s\n", 
-		ft_expand_variables("Regular string", env));
+		ft_expand_variables("Regular string", env, g_last_exit));
 	
 	printf("Test 4 - NULL input:\n");
-	printf("NULL expands to: %s\n", ft_expand_variables(NULL, env));
+	printf("NULL expands to: %s\n", ft_expand_variables(NULL, env, g_last_exit));
+	
+	printf("Test 5 - Expand last exit code ($?):\n");
+	printf("$? expands to: %s\n", ft_expand_variables("$?", env, g_last_exit));
+	
+	printf("Test 6 - Expand inside double quotes:\n");
+	printf("\"$HOME\" expands to: %s\n", ft_expand_variables("\"$HOME\"", env, g_last_exit));
+	
+	printf("Test 7 - Ignore expansion inside single quotes:\n");
+	printf("'$HOME' expands to: %s\n", ft_expand_variables("'$HOME'", env, g_last_exit));
+	
+	printf("Test 8 - Mixed content:\n");
+	printf("Hello \"$HOME\" World expands to: %s\n", 
+		ft_expand_variables("Hello \"$HOME\" World", env, g_last_exit));
 	
 	printf("\n");
 }
@@ -385,30 +402,32 @@ void	test_strtok(void)
 }
 
 // Mock history for testing
-t_History	*create_test_history(void)
+void	create_test_history(t_History *history)
 {
-	t_History	*history;
-
-	history = NULL;
+	// Add some test commands to the history
 	ft_add_entry(history, "echo first command");
 	ft_add_entry(history, "cd /tmp");
 	ft_add_entry(history, "pwd");
 	ft_add_entry(history, "export TEST=value");
 	ft_add_entry(history, "env");
-	return (history);
+
 }
 
 // Test execute_builtins
 void	test_execute_builtins(t_Env **env)
 {
 	t_History	*history;
-	char		*args1[] = {"echo", "test", "execute", NULL};
+	char		*args1[] = {"echo", "echo", "execute", NULL};
 	char		*args2[] = {"pwd", NULL};
 	char		*args3[] = {"env", NULL};
 	char		*args4[] = {"history", NULL};
 	char		*args5[] = {"invalid_command", NULL};
 
-	history = create_test_history();
+	history = (t_History *)malloc(sizeof(t_History));
+    if (!history)
+    	perror("Malloc error: History\n");
+    ft_init_history(history);
+	create_test_history(history);
 	
 	printf("=== Testing ft_execute_builtins ===\n");
 	
@@ -433,16 +452,14 @@ void	test_execute_builtins(t_Env **env)
 	printf("\n");
 }
 
-// gcc -o builtins_test $(find . -name "*.c") -I../../history -I../../enviroment
--I../../libft ../../history/history.a ../../enviroment/enviroment.a
-../../libft/libft.a -lreadline
+// gcc -o builtins_test $(find . -name "*.c") -I../../history -I../../enviroment -I../../libft ../../history/history.a ../../enviroment/enviroment.a ../../libft/libft.a -lreadline
 
 int	main(void)
 {
 	t_Env	*test_env;
 
 	printf("===== BUILTINS FUNCTIONS TEST SUITE =====\n\n");
-	
+
 	test_env = setup_test_env();
 
 	test_echo(test_env);
@@ -463,4 +480,5 @@ int	main(void)
 	printf("All tests completed successfully!\n");
 	printf("If running with Valgrind, check for memory leaks.\n");
 	return (0);
-}*/
+}
+*/
