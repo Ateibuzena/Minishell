@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:26:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:23:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,7 @@ void	test_edge_cases(void)
 	printf("Edge case tests completed.\n\n");
 }
 
-// gcc -o env_test $(find . -name "*.c")-I../../libft
-../../libft/libft.a -lreadline
+// gcc -o env_test $(find . -name "*.c")-I../../libft ../../libft/libft.a -lreadline
 
 int	main(void)
 {
@@ -189,4 +188,5 @@ int	main(void)
 	printf("All tests completed successfully!\n");
 	printf("If running with Valgrind, check for memory leaks.\n");
 	return (0);
-}*/
+}
+*/
