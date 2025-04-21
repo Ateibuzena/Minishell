@@ -181,7 +181,7 @@ int main(int argc, char **argv, char **envp)
 				continue ;
 			}
 
-			// 3. Expandir variables
+			// 2. Expandir variables
 			expanded = ft_expand_variables(normalized, env, g_last_exit_code); // suponiendo que tienes last_exit global
 			free(normalized);
 			if (!expanded)
@@ -190,9 +190,7 @@ int main(int argc, char **argv, char **envp)
 				free(input);
 				continue ;
 			}
-			fprintf(stderr, "Expanded: %s\n", expanded);
-
-			// 2. Manejar comillas
+			// 3. Manejar comillas
 			cleaned = ft_handle_quotes(expanded);
 			free(expanded);
 			if (!cleaned)
