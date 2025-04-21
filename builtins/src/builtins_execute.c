@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:02:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 17:56:25 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:08:23 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_execute_builtins(char **args, t_History *history, t_Env **env)
 {
 	if (ft_strcmp(args[0], "echo"))
-		return (ft_echo(args, *env));
+		return (ft_echo(args));
 	else if (ft_strcmp(args[0], "cd"))
 		return (ft_cd(args));
 	else if (ft_strcmp(args[0], "clear"))
