@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:31:11 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 17:49:18 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:21:20 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ int	ft_unset(t_Env **env, char **args)
 	}
 	while (args[i] != NULL)
 	{
-		if (!ft_valid_key(args[i]))
+		if (ft_valid_key(args[i]))
+			ft_delete_key(env, args[i]);
+		else
 		{
 			printf("minishell: unset: invalid key: %s\n", args[i]);
+			i++;
 			continue ;
 		}
-		else
-			ft_delete_env(env, args[i]);
 		i++;
 	}
 	return (0);

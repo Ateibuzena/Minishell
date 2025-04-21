@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:46:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 03:16:56 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:21:26 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_add_node(t_Env **env_list, t_Env *new_node)
 	current->next = new_node;
 }
 
-void	ft_delete_env(t_Env **head, const char *key)
+void	ft_delete_key(t_Env **head, const char *key)
 {
 	t_Env	*temp;
 	t_Env	*prev;
