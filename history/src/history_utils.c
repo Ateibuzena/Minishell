@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:48:47 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 23:04:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:06:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ void	ft_show_history(t_History *history)
 	int				i;
 
 	current = history->head;
-	printf("\nCommand history\n");
 	i = 1;
 	while (current)
 	{
-		printf("%d: %s\n", i, current->line);
+		printf("%d  %s\n", i, current->line);
 		current = current->next;
 		i++;
 	}
