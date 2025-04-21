@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:34:41 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 17:47:50 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:28:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ static int	ft_n_flag(const char *arg)
 }
 
 // Función para manejar el comando echo
-int	ft_echo(char **args, t_Env *env)
+int	ft_echo(char **args)
 {
 	int		i;
 	int		newline;
-	char	*expanded;
 
-	newline = 1;
 	i = 1;
+	newline = 1;
 	while (args[i] && ft_n_flag(args[i]))
 	{
 		newline = 0;
@@ -45,14 +44,14 @@ int	ft_echo(char **args, t_Env *env)
 	}
 	while (args[i])
 	{
-		expanded = ft_expand_variables(args[i], env);
-		printf("%s", expanded);
-		free(expanded);
+		printf("%s", args[i]);
 		if (args[i + 1])
-			printf(" ");
+		printf(" ");
 		i++;
 	}
 	if (newline)
+	{
 		printf("\n");
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 17:48:48 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:37:58 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,43 +38,50 @@ static int	ft_parse_key_value(char *arg, char **key, char **value, char **dup)
 	}
 	*key = ft_strtok(*dup, "=");
 	*value = ft_strtok(NULL, "");
-	if (!(*key && *value))
+	if (!(*key))
 	{
 		ft_putstr_fd("minishell: export: invalid argument\n", STDERR_FILENO);
 		return (0);
 	}
+	if (!*value)
+		*value = "";
+
 	return (1);
 }
 
 static int	ft_process_export(t_Env **env, char *key)
 {
-	char	*expanded_key;
+	//char	*expanded_key;
 	char	**keys_to_unset;
 
-	expanded_key = ft_expand_variables(key, *env);
+	/*expanded_key = ft_expand_variables(key, *env);
 	if (!ft_valid_key(expanded_key))
 	{
 		ft_putstr_fd("minishell: export: invalid key\n", STDERR_FILENO);
 		return (free(expanded_key), 0);
+	}*/
+	if (!ft_valid_key(key))
+	{
+		ft_putstr_fd("minishell: export: invalid key\n", STDERR_FILENO);
+		return (0);
 	}
 	keys_to_unset = malloc(sizeof(char *) * 3);
 	if (!keys_to_unset)
 	{
 		ft_putstr_fd("minishell: export: memory allocation error\n",
 			STDERR_FILENO);
-		return (free(expanded_key), 0);
+		return (0);
 	}
 	keys_to_unset[0] = NULL;
-	keys_to_unset[1] = ft_strdup(expanded_key);
+	keys_to_unset[1] = ft_strdup(key);
 	keys_to_unset[2] = NULL;
 	ft_unset(env, keys_to_unset);
 	free(keys_to_unset[1]);
 	free(keys_to_unset);
-	free(expanded_key);
 	return (1);
 }
 
-static void	ft_store_env_variable(t_Env **env, char *key, char *value)
+/*static void	ft_store_env_variable(t_Env **env, char *key, char *value)
 {
 	char	*expanded_value;
 	char	*expanded_key;
@@ -84,7 +91,7 @@ static void	ft_store_env_variable(t_Env **env, char *key, char *value)
 	ft_add_env(env, expanded_key, expanded_value);
 	free(expanded_key);
 	free(expanded_value);
-}
+}*/
 
 int	ft_export(t_Env **env, char **args)
 {
@@ -101,7 +108,8 @@ int	ft_export(t_Env **env, char **args)
 			return (free(dup), 1);
 		if (!ft_process_export(env, key))
 			return (free(dup), 1);
-		ft_store_env_variable(env, key, value);
+		ft_add_env(env, key, value);
+		//ft_store_env_variable(env, key, value);
 		free(dup);
 		i++;
 	}

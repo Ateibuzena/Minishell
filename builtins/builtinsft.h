@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:42:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:46:00 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:28:54 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		ft_expand_directory(const char *path);
 void	ft_clear(void);
 
 /*builtins_echo.c*/
-int		ft_echo(char **args, t_Env *env);
+int		ft_echo(char **args);
 
 /*builtins_env.c*/
 int		ft_env(t_Env *env, char **args);
@@ -54,7 +54,8 @@ int		ft_unset(t_Env **env, char **args);
 char	*ft_strtok(char *str, const char *delim);
 
 /*builtins_utils*/
-char	*ft_expand_variables(const char *arg, t_Env *env);
+//char	*ft_expand_variables(const char *arg, t_Env *env);
+char	*ft_expand_variables(const char *line, t_Env *env, int last_exit);
 
 /*builtins_execute.c*/
 int		ft_is_builtins(char *argv);
