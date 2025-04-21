@@ -55,24 +55,25 @@ char *ft_handle_quotes(const char *input)
 void ft_handle_pipes(char *input, t_History *history, char **env)
 {
     char **commands;
-    char *entry;
+    //char *entry;
     int status;
 
-    entry = ft_strdup(input);
-    ft_add_entry(history, entry);
-    free(entry);
+    //entry = ft_strdup(input);
+    //ft_add_entry(history, entry);
+    //free(entry);
     commands = ft_group_tokens(input); //cambio group for split?
     if (!commands)
         return ft_perror("Pipex error: Tokens\n");
     if (!ft_strchr(input, '|') && ft_strcmp(commands[0], "exit"))
         ft_exit(commands);
     status = ft_pipex(commands, env, history);
-    fprintf(stderr, "\n");
-    fprintf(stderr, "\nft_pipex retornó: %d\n", status); // Depuración
+    //fprintf(stderr, "\n");
+    //fprintf(stderr, "ft_pipex retornó: %d\n", status); // Depuración
+    (void)status;
     ft_freedouble(commands);
 }
 
-void    ft_tokenize(char *input, char *args[])
+/*void    ft_tokenize(char *input, char *args[])
 {
     char    *token;
     int     i;
@@ -87,9 +88,9 @@ void    ft_tokenize(char *input, char *args[])
     args[i] = NULL;
 	if (!args[0])
 		ft_perror("Builtins error: Tokens\n");
-}
+}*/
 
-void ft_handle_builtin(char *input, t_History *history, t_Env **env)
+/*void ft_handle_builtin(char *input, t_History *history, t_Env **env)
 {
     char    *args[100];
     char    *entry;
@@ -112,4 +113,4 @@ void ft_handle_builtin(char *input, t_History *history, t_Env **env)
     ft_add_entry(history, entry);
     ft_execute_builtins(args, history, env);
     free(entry);
-}
+}*/
