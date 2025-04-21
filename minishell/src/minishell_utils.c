@@ -54,23 +54,21 @@ char *ft_handle_quotes(const char *input)
 
 void ft_handle_pipes(char *input, t_History *history, char **env)
 {
-    char **commands;
-    //char *entry;
+    char **argv;
+    char *exit;
     int status;
 
-    //entry = ft_strdup(input);
-    //ft_add_entry(history, entry);
-    //free(entry);
-    commands = ft_group_tokens(input); //cambio group for split?
-    if (!commands)
+    argv = ft_group_tokens(input);
+    if (!argv)
         return ft_perror("Pipex error: Tokens\n");
-    if (!ft_strchr(input, '|') && ft_strcmp(commands[0], "exit"))
-        ft_exit(commands);
-    status = ft_pipex(commands, env, history);
+    exit = ft_strtok(argv[0], " \t");
+    if (!ft_strchr(input, '|') && ft_strcmp(exit, "exit"))
+        ft_exit(argv);
+    status = ft_pipex(argv, env, history);
     //fprintf(stderr, "\n");
     //fprintf(stderr, "ft_pipex retornó: %d\n", status); // Depuración
     (void)status;
-    ft_freedouble(commands);
+    ft_freedouble(argv);
 }
 
 /*void    ft_tokenize(char *input, char *args[])
