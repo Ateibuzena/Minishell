@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 17:58:50 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:01:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ void	free_executor(t_executor *exec)
 	free(exec);
 }
 
-void	execute_pipeline(t_executor *exec, char **env)
+void	execute_pipeline(t_executor *exec, char **env, t_History *history)
 {
 	int		i;
 	int		fd[2];
@@ -304,7 +304,7 @@ void	execute_pipeline(t_executor *exec, char **env)
 			if (prev_fd != -1) close(prev_fd);
 			if (ft_is_builtins(exec->commands[i]->cmd[0]))
 			{
-				if (ft_execute_builtins(exec->commands[i]->cmd, NULL, (t_Env **)env))
+				if (ft_execute_builtins(exec->commands[i]->cmd, history, (t_Env **)env))
 				{
 					ft_errno(exec->commands[i]->cmd[0]);
 					exit(1);
@@ -345,7 +345,7 @@ int	ft_pipex(char **argv, char **env, t_History *history)
 
 	(void)history;
 	exec = parse_commands(argv);
-	execute_pipeline(exec, env);
+	execute_pipeline(exec, env, history);
 	free_executor(exec);
 	return (0);
 }
