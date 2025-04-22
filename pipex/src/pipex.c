@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 21:01:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 02:46:22 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,104 +246,200 @@ void	free_executor(t_executor *exec)
 	free(exec);
 }
 
-void	execute_pipeline(t_executor *exec, char **env, t_History *history)
+static char **env_to_array(t_Env *env)
 {
-	int		i;
-	int		fd[2];
-	int		prev_fd = -1;
-	pid_t	pid;
+	t_Env *tmp = env;
+	int count = 0;
+	char **env_array;
 
-	i = 0;
-	while (i < exec->count)
+	// 1. Contamos cuántas variables hay
+	while (tmp)
 	{
-		if (i < exec->count - 1 && pipe(fd) == -1)
-		{
-			perror("pipe");
-			exit(1);
-		}
-
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		if (pid == 0)
-		{
-			if (exec->commands[i]->infile)
-			{
-				int in = open(exec->commands[i]->infile, O_RDONLY);
-				if (in < 0)
-				{
-					ft_errno(exec->commands[i]->infile);
-					exit(1);
-				}
-				dup2(in, STDIN_FILENO);
-				close(in);
-			}
-			else if (prev_fd != -1)
-				dup2(prev_fd, STDIN_FILENO);
-
-			if (exec->commands[i]->outfile)
-			{
-				int out = open(exec->commands[i]->outfile,
-					O_WRONLY | O_CREAT | (exec->commands[i]->append ? O_APPEND : O_TRUNC), 0644);
-				if (out < 0)
-				{
-					ft_errno(exec->commands[i]->outfile);
-					exit(1);
-				}
-				dup2(out, STDOUT_FILENO);
-				close(out);
-			}
-			else if (i < exec->count - 1)
-				dup2(fd[1], STDOUT_FILENO);
-
-			if (fd[0] != -1) close(fd[0]);
-			if (fd[1] != -1) close(fd[1]);
-			if (prev_fd != -1) close(prev_fd);
-			if (ft_is_builtins(exec->commands[i]->cmd[0]))
-			{
-				if (ft_execute_builtins(exec->commands[i]->cmd, history, (t_Env **)env))
-				{
-					ft_errno(exec->commands[i]->cmd[0]);
-					exit(1);
-				}
-				exit(0);
-			}
-			else
-			{
-				char *path = resolve_path(exec->commands[i]->cmd[0], (char **)env);
-				if (!path)
-				{
-					ft_perror("pipex: ");
-					ft_perror(exec->commands[i]->cmd[0]);
-					ft_perror(": command not found\n");
-					exit(127);
-				}
-				execve(path, exec->commands[i]->cmd, env);
-				ft_errno(exec->commands[i]->cmd[0]);
-				exit(1);
-			}
-		}
-		if (prev_fd != -1)
-			close(prev_fd);
-		if (i < exec->count - 1)
-		{
-			close(fd[1]);
-			prev_fd = fd[0];
-		}
-		i++;
+		if (tmp->key && tmp->value)
+			count++;
+		tmp = tmp->next;
 	}
-	while (wait(NULL) > 0);
+
+	// 2. Reservamos espacio (+1 para el NULL final)
+	env_array = malloc(sizeof(char *) * (count + 1));
+	if (!env_array)
+		return (NULL);
+
+	// 3. Rellenamos el array
+	tmp = env;
+	int i = 0;
+	while (tmp)
+	{
+		if (tmp->key && tmp->value)
+		{
+			int len = strlen(tmp->key) + strlen(tmp->value) + 2; // '=' y '\0'
+			env_array[i] = malloc(sizeof(char) * len);
+			if (!env_array[i])
+			{
+				// Manejo de error: liberar todo lo anterior
+				while (i-- > 0)
+					free(env_array[i]);
+				free(env_array);
+				return (NULL);
+			}
+			strcpy(env_array[i], tmp->key);
+			strcat(env_array[i], "=");
+			strcat(env_array[i], tmp->value);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	env_array[i] = NULL; // NULL final para execve
+
+	return env_array;
 }
 
 
-int	ft_pipex(char **argv, char **env, t_History *history)
+void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
+{
+    int i;
+    int fd[2];
+    int prev_fd = -1;
+    pid_t pid;
+    char **env_array = env_to_array(env);
+
+    if (!env_array)
+    {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
+    i = 0;
+    while (i < exec->count)
+    {
+        fd[0] = -1;
+        fd[1] = -1;
+        
+        // Crear el pipe entre los comandos
+        if (i < exec->count - 1 && pipe(fd) == -1)
+        {
+            perror("pipe");
+            exit(1);
+        }
+
+        pid = fork();
+        if (pid == -1)
+        {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+        
+        if (pid == 0)  // Proceso hijo
+        {
+            // Entrada: Redirección de archivo
+            if (exec->commands[i]->infile)
+            {
+                int in = open(exec->commands[i]->infile, O_RDONLY);
+                if (in < 0)
+                {
+                    ft_errno(exec->commands[i]->infile);
+                    exit(1);  // Terminar si falla la entrada
+                }
+                if (dup2(in, STDIN_FILENO) < 0)  // Redirigir stdin
+                {
+                    perror("dup2 in");
+                    exit(1);
+                }
+                close(in);
+            }
+            else if (prev_fd != -1)  // Si existe un archivo descriptor anterior (pipeline)
+            {
+                if (dup2(prev_fd, STDIN_FILENO) < 0)
+                {
+                    perror("dup2 prev_fd");
+                    exit(1);
+                }
+            }
+
+            // Salida: Redirección de archivo
+            if (exec->commands[i]->outfile)
+            {
+                int out = open(exec->commands[i]->outfile,
+                    O_WRONLY | O_CREAT | (exec->commands[i]->append ? O_APPEND : O_TRUNC), 0644);
+                if (out < 0)
+                {
+                    ft_errno(exec->commands[i]->outfile);
+                    exit(1);  // Terminar si falla la salida
+                }
+                if (dup2(out, STDOUT_FILENO) < 0)  // Redirigir stdout
+                {
+                    perror("dup2 out");
+                    exit(1);
+                }
+                close(out);
+            }
+            else if (i < exec->count - 1)  // Si no hay archivo de salida, pero hay más comandos
+            {
+                if (dup2(fd[1], STDOUT_FILENO) < 0)  // Redirigir a pipe
+                {
+                    perror("dup2 fd[1]");
+                    exit(1);
+                }
+            }
+
+            // Cerrar descriptores no utilizados
+            if (fd[0] != -1)
+                close(fd[0]);
+            if (fd[1] != -1)
+                close(fd[1]);
+            if (prev_fd != -1)
+                close(prev_fd);
+
+            // Ejecutar el comando
+            if (ft_is_builtins(exec->commands[i]->cmd[0]))
+            {
+                if (ft_execute_builtins(exec->commands[i]->cmd, history, &env))
+                {
+                    ft_errno(exec->commands[i]->cmd[0]);
+                    exit(1);
+                }
+                exit(0);
+            }
+            else
+            {
+                char *path = resolve_path(exec->commands[i]->cmd[0], env_array);
+                if (!path)
+                {
+                    ft_perror("pipex: ");
+                    ft_perror(exec->commands[i]->cmd[0]);
+                    ft_perror(": command not found\n");
+                    ft_freedouble(env_array);
+                    exit(127);  // Comando no encontrado
+                }
+                execve(path, exec->commands[i]->cmd, env_array);
+                ft_errno(exec->commands[i]->cmd[0]);
+                ft_freedouble(env_array);
+                exit(1);
+            }
+        }
+
+        // Padre: Cerrar descriptores usados
+        if (prev_fd != -1)
+            close(prev_fd);
+        if (i < exec->count - 1)
+        {
+            close(fd[1]);      // Cerrar escritura del pipe ya usado
+            prev_fd = fd[0];   // Mantener la lectura para el siguiente comando
+        }
+        i++;
+    }
+
+    // Esperar a que todos los procesos hijos terminen
+    while (wait(NULL) > 0);
+}
+
+
+
+int	ft_pipex(char **argv, t_Env *env, t_History *history)
 {
 	t_executor	*exec;
-
-	(void)history;
+	if (!argv || !argv[0])
+		return (ft_perror("Pipex error: No input\n"), 1);
 	exec = parse_commands(argv);
 	execute_pipeline(exec, env, history);
 	free_executor(exec);

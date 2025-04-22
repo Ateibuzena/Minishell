@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 21:33:10 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:33:17 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ void	ft_errno(char *argument);
 //void	ft_free_pipex(t_pipex **pipex);
 
 /*pipex.c*/
-int	ft_pipex(char **input, char **env, t_History *history);
+int	ft_pipex(char **input, t_Env *env, t_History *history);
 
 #endif
