@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:13:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:35:33 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ char	*ft_find_user(t_Env *env)
 	while (env)
 	{
 		if (env->key && ft_strcmp(env->key, "USER") != 0)
-		{
-			printf("Found USER: %s\n", env->value);
 			return (env->value);
-		}
 		env = env->next;
 	}
 	return (NULL);
