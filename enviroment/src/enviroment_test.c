@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 03:36:44 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 03:49:45 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../enviromentft.h"
-
+/*
 // Helper function to print environment list
 void	print_env_list(t_Env *env_list)
 {
@@ -187,3 +187,4 @@ int	main(void)
 	printf("If running with Valgrind, check for memory leaks.\n");
 	return (0);
 }
+*/
