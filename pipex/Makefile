@@ -66,9 +66,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
 
 # 🧹 Limpieza de objetos
 clean:
-	@echo "$(RED)🗑️ Eliminando archivos objeto...$(RESET)"
+	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
+	@if [ -d "$(OBJDIR)" ]; then \
+		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
+		$(RM) -rf $(OBJDIR); \
+		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
+	fi
 
 # 🧹 Limpieza total (elimina objetos y archivo .a)
 fclean: clean

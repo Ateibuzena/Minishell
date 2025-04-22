@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 04:50:17 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:33:24 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,64 +47,29 @@ typedef struct s_executor
 	t_command	**commands;
 	int			count;     // número de comandos en el pipeline
 }	t_executor;
-/*
-typedef struct s_pipex
-{
-	int		n;
-	int		i;
-	int		cmd;
-	int		count;
-	int		size;
-	char	**argv;
-	int		**pipes;
-	pid_t	*pids;
-	char	*found_way;
-	char	**clean_paths;
-	char	**commands;
-	int		status;
-	int		infile;
-	int		outfile;
-	t_History *history;
-}	t_pipex;
-*/
-/*SRC/*/
-void print_open_fds();
-/*pipex_first_process.c*/
-//void	ft_first_process(t_pipex *pipex, char **env);
-
-/*pipex_middle_process.c*/
-//void	ft_middle_process(t_pipex *pipex, char **env);
-
-/*pipex_last_process.c*/
-//void	ft_last_process(t_pipex *pipex, char **env);
 
 /*pipex_execute.c*/
-//char	*ft_find_env_value(const char *key, char **env, size_t len);
-//char	*ft_find_executable(char **paths, char *command);
-//void	ft_resolve_cmd(t_pipex *pipex, char *argv, char **env, char **pathname);
-//void	ft_execute_cmd(t_pipex *pipex, char *argv, char **env, char *pathname);
-//void	ft_execute(t_pipex *pipex, char **env);
+char		*resolve_path(char *cmd, char **env);
+void		execute_pipeline(t_executor *exec, t_Env *env, t_History *history);
+
+/*pipex_parse.c*/
+t_command	*init_command(void);
+t_executor	*parse_commands(char **argv);
 
 /*pipex_utils.c*/
-//void	ft_close_pipes(t_pipex *pipex);
-//void	ft_is_command(t_pipex *pipex, char *str);
-//void 	ft_create_pipe(t_pipex *pipex);
-//void 	ft_handle_lecture(t_pipex *pipex, char **split);
-//void 	ft_handle_redirection(t_pipex *pipex, char **split);
-int		ft_here_doc(char *delimiter);
+int			ft_here_doc(char *delimiter);
+char		*ft_strjoin_free(char *s1, char *s2);
+char		**env_to_array(t_Env *env);
 
 /*pipex_error.c*/
-void	ft_perror(const char *str);
-void	ft_errno(char *argument);
-//int		ft_waitpid(pid_t pid);
-
-/*pipex_init.c*/
-//void	ft_init(t_pipex *pipex, char *input[], t_History *history);
+void		ft_perror(const char *str);
+void		ft_errno(char *argument);
 
 /*pipex_free.c*/
-//void	ft_free_pipex(t_pipex **pipex);
+void		free_executor(t_executor *exec);
+void		free_partial_executor(t_executor *exec);
 
 /*pipex.c*/
-int	ft_pipex(char **input, t_Env *env, t_History *history);
+int			ft_pipex(char **input, t_Env *env, t_History *history);
 
 #endif

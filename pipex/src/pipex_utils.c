@@ -6,120 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 05:18:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:32:16 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-/*
-void	ft_close_pipes(t_pipex *pipex)
-{
-	int	i;
-
-	if (!pipex || !pipex->pipes)
-		return ;
-	i = 0;
-	while (i < pipex->n - 1)
-	{
-		if (pipex->pipes[i])
-		{
-			if (close(pipex->pipes[i][READ]) == -1)
-				ft_perror("Error closing pipe (READ)\n");
-			if (close(pipex->pipes[i][WRITE]) == -1)
-				ft_perror("Error closing pipe (WRITE)\n");
-		}
-		i++;
-	}
-}
-
-
-void	ft_is_command(t_pipex *pipex, char *str)
-{
-	if ((ft_strcmp(str, "<") == 0) && (ft_strcmp(str, "<<") == 0)
-		&& (ft_strcmp(str, ">") == 0) && (ft_strcmp(str, ">>") == 0))
-		pipex->cmd = pipex->i;
-}
-
-void	ft_create_pipe(t_pipex *pipex)
-{
-	int	**new_pipes;
-
-	new_pipes = realloc(pipex->pipes, sizeof(int *) * (pipex->count + 1));
-	if (!new_pipes)
-	{
-		ft_perror("Error al redimensionar pipes\n");
-		ft_free_pipex(&pipex);
-		exit(1);
-	}
-	pipex->pipes = new_pipes;
-	pipex->pipes[pipex->count] = malloc(sizeof(int) * 2);
-	if (!pipex->pipes[pipex->count])
-	{
-		ft_perror("Error al asignar memoria a pipes[count]\n");
-		ft_free_pipex(&pipex);
-		exit(1);
-	}
-	if (pipe(pipex->pipes[pipex->count]) < 0)
-	{
-		free(pipex->pipes[pipex->count]);
-		ft_perror("Error al crear pipe\n");
-		ft_free_pipex(&pipex);
-		exit(1);
-	}
-}
-
-// Manejo de lectura
-void	ft_handle_lecture(t_pipex *pipex, char **split)
-{
-	if (ft_strcmp(split[0], "<") != 0)
-	{
-		pipex->infile = open(split[1], O_RDONLY);
-		if (pipex->infile < 0)
-		{
-			fprintf(stderr, "entro con: %s\n", split[1]);
-			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(&pipex);
-			exit(1);
-		}
-	}
-	else if (ft_strcmp(split[0], "<<") != 0)
-	{
-		pipex->infile = ft_here_doc(split[1]);
-		if (pipex->infile < 0)
-		{
-			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(&pipex);
-			exit(1);
-		}
-	}
-}
-
-// Manejo de redirecciones
-void	ft_handle_redirection(t_pipex *pipex, char **split)
-{
-	if (ft_strcmp(split[0], ">") != 0)
-	{
-		pipex->outfile = open(split[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (pipex->outfile < 0)
-		{
-			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(&pipex);
-			exit(1);
-		}
-	}
-	else if (ft_strcmp(split[0], ">>") != 0)
-	{
-		pipex->outfile = open(split[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		printf("\nsplit[1]: %s\n", split[1]);
-		if (pipex->outfile < 0)
-		{
-			ft_errno(pipex->argv[pipex->i]);
-			ft_free_pipex(&pipex);
-			exit(1);
-		}
-		printf("\noutfile FD antes de dup2 justo despues de abrir el archivo: %d\n", pipex->outfile);
-	}
-}*/
 
 int	ft_here_doc(char *delimiter)
 {
@@ -142,4 +33,71 @@ int	ft_here_doc(char *delimiter)
 	}
 	close(temp_pipe[WRITE]);
 	return (temp_pipe[READ]);
+}
+
+char *ft_strjoin_free(char *s1, char *s2)
+{
+    char *result;
+    size_t len1, len2;
+
+    if (!s1 || !s2)
+        return (NULL);
+    len1 = ft_strlen(s1);
+    len2 = ft_strlen(s2);
+    result = malloc(len1 + len2 + 1);
+    if (!result)
+        return (NULL);
+    ft_memcpy(result, s1, len1);
+    ft_memcpy(result + len1, s2, len2);
+    result[len1 + len2] = '\0';
+    free(s1);  // Libera la primera cadena
+    return (result);
+}
+
+char **env_to_array(t_Env *env)
+{
+	t_Env *tmp = env;
+	int count = 0;
+	char **env_array;
+
+	// 1. Contamos cuántas variables hay
+	while (tmp)
+	{
+		if (tmp->key && tmp->value)
+			count++;
+		tmp = tmp->next;
+	}
+
+	// 2. Reservamos espacio (+1 para el NULL final)
+	env_array = malloc(sizeof(char *) * (count + 1));
+	if (!env_array)
+		return (NULL);
+
+	// 3. Rellenamos el array
+	tmp = env;
+	int i = 0;
+	while (tmp)
+	{
+		if (tmp->key && tmp->value)
+		{
+			int len = strlen(tmp->key) + strlen(tmp->value) + 2; // '=' y '\0'
+			env_array[i] = malloc(sizeof(char) * len);
+			if (!env_array[i])
+			{
+				// Manejo de error: liberar todo lo anterior
+				while (i-- > 0)
+					free(env_array[i]);
+				free(env_array);
+				return (NULL);
+			}
+			strcpy(env_array[i], tmp->key);
+			strcat(env_array[i], "=");
+			strcat(env_array[i], tmp->value);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	env_array[i] = NULL; // NULL final para execve
+
+	return env_array;
 }

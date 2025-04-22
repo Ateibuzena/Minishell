@@ -6,25 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:03:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 21:32:48 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:21:59 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
-
-/*int ft_waitpid(pid_t pid)
-{
-    int status;
-
-    waitpid(pid, &status, 0);  // Espera al proceso hijo y recoge el status
-
-	if (WIFSIGNALED(status))  // Si terminó por señal
-        return (128 + WTERMSIG(status));  // Convención: 128 + número de señal
-    else if (WIFEXITED(status))  // Si terminó normalmente
-        return (WEXITSTATUS(status));  // Devuelve el código de salida
-    else
-        return (1);  // Si terminó por señal u otro error, devuelve 1
-}*/
 
 void	ft_perror(const char *str)
 {
