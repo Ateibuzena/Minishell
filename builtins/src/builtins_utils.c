@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:34:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 03:17:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 04:17:03 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char	*ft_expand_variables(const char *line, t_Env *env, int last_exit)
 		{
 			if (line[i + 1] == '?')
 			{
+
 				exit_code = ft_itoa(last_exit);
 				result = ft_strjoin_free(result, exit_code);
 				free(exit_code);
@@ -85,6 +86,7 @@ char	*ft_expand_variables(const char *line, t_Env *env, int last_exit)
 			}
 			else
 			{
+
 				start = ++i;
 				while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
 					i++;
@@ -103,8 +105,8 @@ char	*ft_expand_variables(const char *line, t_Env *env, int last_exit)
 		}
 		else
 		{
-			buf[1] = line[i++];
-			buf[0] = '\0';
+			buf[0] = line[i++];
+			buf[1] = '\0';
 			result = ft_strjoin_free(result, buf);
 			//free(buf);
 		}
