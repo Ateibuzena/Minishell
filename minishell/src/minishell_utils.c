@@ -52,7 +52,7 @@ char *ft_handle_quotes(const char *input)
     return (output);
 }
 
-void ft_handle_pipes(char *input, t_History *history, char **env)
+void ft_handle_pipes(char *input, t_History *history, t_Env *env)
 {
     char **argv;
     char *exit;
@@ -61,15 +61,44 @@ void ft_handle_pipes(char *input, t_History *history, char **env)
     argv = ft_group_tokens(input);
     if (!argv)
         return ft_perror("Pipex error: Tokens\n");
-    exit = ft_strtok(argv[0], " \t");
+    exit = ft_strdup(argv[0]);
+    if (!exit)
+        return ft_perror("Pipex error: strdup\n");
+    exit = ft_strtok(exit, " \t");
     if (!ft_strchr(input, '|') && ft_strcmp(exit, "exit"))
+    {
+        free(exit);
         ft_exit(argv);
+    }
+    free(exit);
     status = ft_pipex(argv, env, history);
     //fprintf(stderr, "\n");
     //fprintf(stderr, "ft_pipex retornó: %d\n", status); // Depuración
     (void)status;
     ft_freedouble(argv);
 }
+/*
+void ft_handle_pipes(char *input, t_History *history, t_Env *env)
+{
+
+    char **commands;
+ 
+    int status;
+
+    
+    commands = ft_group_tokens(input); //cambio group for split?
+    if (!commands)
+        return ft_perror("Pipex error: Tokens\n");
+    //exit = ft_strtok(argv[0], " \t");
+    if (!ft_strchr(input, '|') && ft_strcmp(commands[0], "exit"))
+         ft_exit(commands);
+    status = ft_pipex(commands, env, history);
+  
+    (void)status;
+    ft_freedouble(commands);
+    //ft_freedouble(argv);
+}*/
+
 
 /*void    ft_tokenize(char *input, char *args[])
 {

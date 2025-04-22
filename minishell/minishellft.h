@@ -39,7 +39,7 @@ typedef enum
 } t_quoteState;
 
 /*minishell_utils.c*/
-void    ft_handle_pipes(char *input, t_History *history, char **env);
+void    ft_handle_pipes(char *input, t_History *history, t_Env *env);
 //void    ft_tokenize(char *input, char **args);
 //void    ft_handle_builtin(char *input, t_History *history, t_Env **env);
 char    *ft_handle_quotes(const char *input);

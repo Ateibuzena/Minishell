@@ -201,7 +201,7 @@ int main(int argc, char **argv, char **envp)
 			}
 			
 			// 4. Ejecutar comandos (pipes o builtin)
-			ft_handle_pipes(cleaned, history, envp);
+			ft_handle_pipes(cleaned, history, env);
 			free(cleaned);
 		}
         
