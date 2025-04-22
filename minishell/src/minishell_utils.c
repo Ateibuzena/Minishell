@@ -58,6 +58,8 @@ void ft_handle_pipes(char *input, t_History *history, t_Env *env)
     char *exit;
     int status;
 
+    if (!input)
+        return ft_perror("Pipex error: NULL input\n");
     argv = ft_group_tokens(input);
     if (!argv)
         return ft_perror("Pipex error: Tokens\n");

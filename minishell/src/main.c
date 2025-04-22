@@ -160,6 +160,7 @@ int main(int argc, char **argv, char **envp)
 		ft_add_entry(history, input);
 		//ft_show_history(history);
         char *normalized = normalize_input(input);
+		fprintf(stderr, "\nNormalized: %s\n", normalized);
         if (!normalized)
         {
             ft_perror("minishell: error al normalizar la entrada\n");
@@ -183,6 +184,7 @@ int main(int argc, char **argv, char **envp)
 
 			// 2. Expandir variables
 			expanded = ft_expand_variables(normalized, env, g_last_exit_code); // suponiendo que tienes last_exit global
+			fprintf(stderr, "\nExpanded: %s\n", expanded);
 			free(normalized);
 			if (!expanded)
 			{
@@ -192,6 +194,7 @@ int main(int argc, char **argv, char **envp)
 			}
 			// 3. Manejar comillas
 			cleaned = ft_handle_quotes(expanded);
+			fprintf(stderr, "\nCleaned: %s\n", cleaned);
 			free(expanded);
 			if (!cleaned)
 			{
