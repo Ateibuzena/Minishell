@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:16:59 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 17:48:57 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:13:38 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ int	ft_pwd(void)
 	{
 		printf("%s\n", cwd);
 		free(cwd);
+		return (0);
 	}
 	else
+	{
 		perror("minishell: pwd");
-	return (0);
+		return (1);
+	}
 }
