@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 23:13:43 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 03:19:35 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../builtinsft.h"
-
+/*
 int g_last_exit = 27;
 
 // Helper function to print environment list
@@ -267,38 +267,59 @@ void	test_unset(t_Env **env)
 	printf("\n");
 }
 
-
 // Test variable expansion
 void	test_variable_expansion(t_Env *env)
 {
+	char *expanded;
 	printf("=== Testing variable expansion ===\n");
 	
+	// Test 1 - Expand existing variable
+	expanded = ft_expand_variables("$HOME", env, g_last_exit);
 	printf("Test 1 - Expand existing variable:\n");
-	printf("$USER expands to: %s\n", ft_expand_variables("$HOME", env, g_last_exit));
+	printf("$HOME expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
+	// Test 2 - Expand non-existent variable
+	expanded = ft_expand_variables("$NONEXISTENT", env, g_last_exit);
 	printf("Test 2 - Expand non-existent variable:\n");
-	printf("$NONEXISTENT expands to: %s\n", 
-		ft_expand_variables("$NONEXISTENT", env, g_last_exit));
+	printf("$NONEXISTENT expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
+	// Test 3 - Regular string (no expansion)
+	expanded = ft_expand_variables("Regular string", env, g_last_exit);
 	printf("Test 3 - Regular string (no expansion):\n");
-	printf("'Regular string' expands to: %s\n", 
-		ft_expand_variables("Regular string", env, g_last_exit));
+	printf("'Regular string' expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
+	// Test 4 - NULL input
+	expanded = ft_expand_variables(NULL, env, g_last_exit);
 	printf("Test 4 - NULL input:\n");
-	printf("NULL expands to: %s\n", ft_expand_variables(NULL, env, g_last_exit));
+	printf("NULL expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
+	// Test 5 - Expand last exit code ($?)
+	expanded = ft_expand_variables("$?", env, g_last_exit);
 	printf("Test 5 - Expand last exit code ($?):\n");
-	printf("$? expands to: %s\n", ft_expand_variables("$?", env, g_last_exit));
+	printf("$? expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
+	// Test 6 - Expand inside double quotes
+	expanded = ft_expand_variables("\"$HOME\"", env, g_last_exit);
 	printf("Test 6 - Expand inside double quotes:\n");
-	printf("\"$HOME\" expands to: %s\n", ft_expand_variables("\"$HOME\"", env, g_last_exit));
+	printf("\"$HOME\" expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
+	// Test 7 - Ignore expansion inside single quotes
+	expanded = ft_expand_variables("'$HOME'", env, g_last_exit);
 	printf("Test 7 - Ignore expansion inside single quotes:\n");
-	printf("'$HOME' expands to: %s\n", ft_expand_variables("'$HOME'", env, g_last_exit));
+	printf("'$HOME' expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
+	// Test 8 - Mixed content
+	expanded = ft_expand_variables("Hello \"$HOME\" World", env, g_last_exit);
 	printf("Test 8 - Mixed content:\n");
-	printf("Hello \"$HOME\" World expands to: %s\n", 
-		ft_expand_variables("Hello \"$HOME\" World", env, g_last_exit));
+	printf("Hello \"$HOME\" World expands to: %s\n", expanded);
+	free(expanded);  // Liberamos la memoria después de usarla
 	
 	printf("\n");
 }
@@ -481,3 +502,4 @@ int	main(void)
 	printf("If running with Valgrind, check for memory leaks.\n");
 	return (0);
 }
+*/
