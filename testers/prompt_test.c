@@ -6,11 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 02:00:52 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 03:46:46 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:12:59 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../promptft.h"
+#include "../prompt/promptft.h"
 /*
 // Helper function to print environment list
 void	print_env_list(t_Env *env_list)
@@ -38,9 +38,9 @@ t_Env	*setup_test_env(void)
 	t_Env	*env;
 
 	env = NULL;
-	ft_add_env(&env, "HOME", "/home/testuser");
+	ft_add_env(&env, "HOME", "/home/azubieta");
 	ft_add_env(&env, "USER", "azubieta");
-	ft_add_env(&env, "PWD", "/home/testuser/projects");
+	ft_add_env(&env, "PWD", "/home/azubieta/Desktop");
 	char	*part1;
 	char	*part2;
 	char	*session;
@@ -159,7 +159,10 @@ void	test_user_functions(void)
 	
 	// Test with env without USER
 	ft_free_env(env);
-	env->next = NULL; // Remove USER entry
+
+	env = NULL;
+	ft_add_env(&env, "HOME", "/home/azubieta");
+
 	printf("Testing with env without USER var:\n");
 	user = ft_extract_user(env);
 	if (user)
@@ -169,7 +172,9 @@ void	test_user_functions(void)
 	}
 	else
 		printf("  No user extracted (expected for missing USER)\n");
-	
+		
+	ft_free_env(env);
+
 	printf("\n");
 }
 
@@ -334,9 +339,7 @@ void	test_edge_cases(void)
 	printf("\n");
 }
 
-//gcc -o prompt_test $(find . -name "*.c")
--I../../enviroment -I../../libft
-../../enviroment/enviroment.a ../../libft/libft.a -lreadline
+// gcc -o prompt_test $(find ../prompt -name "*.c") ./prompt_test.c -I../enviroment -I../libft ../enviroment/enviroment.a ../libft/libft.a -lreadline
 
 int	main(void)
 {
@@ -354,4 +357,5 @@ int	main(void)
 	printf("valgrind --leak-check=full --show-leak-kinds=all ./prompt_test\n");
 	
 	return (0);
-}*/
+}
+*/

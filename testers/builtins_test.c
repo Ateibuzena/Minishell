@@ -6,11 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 03:29:07 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:12:54 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../builtinsft.h"
+#include "../builtins/builtinsft.h"
 /*
 int g_last_exit = 27;
 
@@ -473,7 +473,7 @@ void	test_execute_builtins(t_Env **env)
 	printf("\n");
 }
 
-// gcc -o builtins_test $(find . -name "*.c") -I../../history -I../../enviroment -I../../libft ../../history/history.a ../../enviroment/enviroment.a ../../libft/libft.a -lreadline
+// gcc -o builtins_test $(find ../builtins -name "*.c") ./builtins_test.c -I../history -I../enviroment -I../libft ../history/history.a ../enviroment/enviroment.a ../libft/libft.a -lreadline
 
 int	main(void)
 {
@@ -500,6 +500,7 @@ int	main(void)
 	
 	printf("All tests completed successfully!\n");
 	printf("If running with Valgrind, check for memory leaks.\n");
+	printf("valgrind --leak-check=full --show-leak-kinds=all ./builtins_test\n");
 	return (0);
 }
 */

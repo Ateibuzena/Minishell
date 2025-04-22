@@ -6,11 +6,11 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 03:49:45 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:13:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../enviromentft.h"
+#include "../enviroment/enviromentft.h"
 /*
 // Helper function to print environment list
 void	print_env_list(t_Env *env_list)
@@ -172,7 +172,7 @@ void	test_edge_cases(void)
 	printf("Edge case tests completed.\n\n");
 }
 
-// gcc -o env_test $(find . -name "*.c") -I../../libft ../../libft/libft.a -lreadline
+// gcc -o enviroment_test $(find ../enviroment -name "*.c") ./enviroment_test.c -I../libft ../libft/libft.a -lreadline
 
 int	main(void)
 {
@@ -185,6 +185,7 @@ int	main(void)
 	
 	printf("All tests completed successfully!\n");
 	printf("If running with Valgrind, check for memory leaks.\n");
+	printf("valgrind --leak-check=full --show-leak-kinds=all ./enviroment_test\n");
 	return (0);
 }
 */
