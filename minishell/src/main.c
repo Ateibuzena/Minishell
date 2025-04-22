@@ -136,6 +136,8 @@ int main(int argc, char **argv, char **envp)
     char *input;
     t_History *history;
     t_Env *env;
+	char *cleaned;
+	char *expanded;
 
     (void)argc;
     (void)argv;
@@ -161,54 +163,52 @@ int main(int argc, char **argv, char **envp)
 		//ft_show_history(history);
         char *normalized = normalize_input(input);
 		fprintf(stderr, "\nNormalized: %s\n", normalized);
-        if (!normalized)
+        if (!normalized || normalized[0] == '\0')
         {
             ft_perror("minishell: error al normalizar la entrada\n");
             free(input);
             continue ;
         }
         // Procesar entrada si no está vacía
-		if (ft_strlen(normalized) > 0)
+		// 1. Validar sintaxis de la línea original
+		if (!validate_syntax(normalized))
 		{
-			char *cleaned;
-			char *expanded;
-			
-			// 1. Validar sintaxis de la línea original
-			if (!validate_syntax(normalized))
-			{
-				ft_perror("minishell: syntax error\n");
-				free(normalized);
-				free(input);
-				continue ;
-			}
-
-			// 2. Expandir variables
-			expanded = ft_expand_variables(normalized, env, g_last_exit_code); // suponiendo que tienes last_exit global
-			fprintf(stderr, "\nExpanded: %s\n", expanded);
+			ft_perror("minishell: syntax error\n");
 			free(normalized);
-			if (!expanded)
-			{
-				ft_perror("minishell: error al expandir variables\n");
-				free(input);
-				continue ;
-			}
-			// 3. Manejar comillas
-			cleaned = ft_handle_quotes(expanded);
-			fprintf(stderr, "\nCleaned: %s\n", cleaned);
-			free(expanded);
-			if (!cleaned)
-			{
-				ft_perror("minishell: error al manejar comillas\n");
-				free(input);
-				continue ;
-			}
-			
-			// 4. Ejecutar comandos (pipes o builtin)
+			free(input);
+			continue ;
+		}
+
+		// 2. Expandir variables
+		expanded = ft_expand_variables(normalized, env, g_last_exit_code); // suponiendo que tienes last_exit global
+		fprintf(stderr, "\nExpanded: %s\n", expanded);
+		free(normalized);
+		if (!expanded || expanded[0] == '\0')
+		{
+			ft_perror("minishell: error al expandir variables\n");
+			free(input);
+			continue ;
+		}
+
+		// 3. Manejar comillas
+		cleaned = ft_handle_quotes(expanded);
+		fprintf(stderr, "\nCleaned: %s\n", cleaned);
+		free(expanded);
+		if (!cleaned || cleaned[0] == '\0')
+		{
+			ft_perror("minishell: error al manejar comillas\n");
+			free(input);
+			continue ;
+		}
+	
+		// 4. Ejecutar comandos (pipes o builtin)
+		if (cleaned[0] != '\0')
+		{
 			ft_handle_pipes(cleaned, history, env);
 			free(cleaned);
+
 		}
-        
-        free(input); 
+		free(input);
     }
     ft_free_history(history);
     ft_free_env(env);

@@ -58,14 +58,14 @@ void ft_handle_pipes(char *input, t_History *history, t_Env *env)
     char *exit;
     int status;
 
-    if (!input)
-        return ft_perror("Pipex error: NULL input\n");
+    if (!input || !input[0])
+        return (ft_perror("Pipex error: NULL input\n"));
     argv = ft_group_tokens(input);
-    if (!argv)
-        return ft_perror("Pipex error: Tokens\n");
+    if (!argv || !argv[0] || !argv[0][0])
+        return (ft_perror("Pipex error: Tokens\n"));
     exit = ft_strdup(argv[0]);
-    if (!exit)
-        return ft_perror("Pipex error: strdup\n");
+    if (!exit || exit[0] == '\0')
+        return (ft_perror("Pipex error: strdup\n"));
     exit = ft_strtok(exit, " \t");
     if (!ft_strchr(input, '|') && ft_strcmp(exit, "exit"))
     {
