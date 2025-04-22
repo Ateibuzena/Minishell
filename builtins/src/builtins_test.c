@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 03:19:35 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 03:29:07 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_Env	*setup_test_env(void)
 	t_Env	*env;
 
 	env = NULL;
-	ft_add_env(&env, "HOME", "/home/user");
+	ft_add_env(&env, "HOME", "/home/azubieta");
 	ft_add_env(&env, "PWD", "/current/path");
 	ft_add_env(&env, "OLDPWD", "/previous/path");
 	ft_add_env(&env, "PATH", "/usr/bin:/bin");

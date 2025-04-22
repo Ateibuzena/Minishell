@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 21:23:43 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 03:36:44 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../enviromentft.h"
-/*
+
 // Helper function to print environment list
 void	print_env_list(t_Env *env_list)
 {
@@ -39,7 +39,6 @@ void	test_split_env(void)
 	char	*value;
 
 	printf("=== Testing ft_split_env ===\n");
-	
 	// Test normal case
 	ft_split_env("HOME=/Users/user", &key, &value);
 	printf("Normal case: '%s'='%s'\n", key, value);
@@ -60,8 +59,7 @@ void	test_split_env(void)
 
 	// Test NULL input (should handle gracefully)
 	ft_split_env(NULL, &key, &value);
-	printf("NULL input case handled\n");
-
+	printf("NULL input case handled");
 	printf("\n");
 }
 
@@ -75,7 +73,7 @@ void	test_node_operations(void)
 	env_list = NULL;
 
 	// Test creating nodes
-	node = ft_create_node("HOME", "/Users/user");
+	node = ft_create_node("HOME", "/Users/azubieta");
 	printf("Created node: %s=%s\n", node->key, node->value);
 	ft_add_node(&env_list, node);
 	
@@ -98,7 +96,7 @@ void	test_node_operations(void)
 	
 	// Test delete
 	printf("Deleting USER...\n");
-	ft_delete_env(&env_list, "USER");
+	ft_delete_key(&env_list, "USER");
 	print_env_list(env_list);
 	
 	// Test add_env function
@@ -136,7 +134,7 @@ void	test_copy_env(void)
 	print_env_list(env_list);
 	
 	printf("Deleting PATH...\n");
-	ft_delete_env(&env_list, "PATH");
+	ft_delete_key(&env_list, "PATH");
 	print_env_list(env_list);
 	
 	// Free the list
@@ -154,7 +152,7 @@ void	test_edge_cases(void)
 	
 	// Test with empty list
 	printf("Testing delete on empty list...\n");
-	ft_delete_env(&env_list, "NONEXISTENT");
+	ft_delete_key(&env_list, "NONEXISTENT");
 	printf("Empty list after delete attempt (should still be empty)\n");
 	print_env_list(env_list);
 	
@@ -174,7 +172,7 @@ void	test_edge_cases(void)
 	printf("Edge case tests completed.\n\n");
 }
 
-// gcc -o env_test $(find . -name "*.c")-I../../libft ../../libft/libft.a -lreadline
+// gcc -o env_test $(find . -name "*.c") -I../../libft ../../libft/libft.a -lreadline
 
 int	main(void)
 {
@@ -189,4 +187,3 @@ int	main(void)
 	printf("If running with Valgrind, check for memory leaks.\n");
 	return (0);
 }
-*/
