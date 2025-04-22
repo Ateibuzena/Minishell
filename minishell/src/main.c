@@ -157,18 +157,18 @@ int main(int argc, char **argv, char **envp)
         //fprintf(stderr, "\nInput: %s\n", input);
         free(prompt);
         // Salir si la entrada es NULL (Ctrl+D)
-        if (!input)
+        if (!input || !input[0])
             continue ;
 		ft_add_entry(history, input);
 		//ft_show_history(history);
         char *normalized = normalize_input(input);
 		fprintf(stderr, "\nNormalized: %s\n", normalized);
         if (!normalized || normalized[0] == '\0')
-        {
-            ft_perror("minishell error: normalize\n");
-            free(input);
-            continue ;
-        }
+		{
+			ft_perror("minishell error: normalize\n");
+			free(input);
+			continue ;
+		}
         // Procesar entrada si no está vacía
 		// 1. Validar sintaxis de la línea original
 		if (!validate_syntax(normalized))
@@ -183,7 +183,7 @@ int main(int argc, char **argv, char **envp)
 		expanded = ft_expand_variables(normalized, env, g_last_exit_code); // suponiendo que tienes last_exit global
 		fprintf(stderr, "\nExpanded: %s\n", expanded);
 		free(normalized);
-		if (!expanded || expanded[0] == '\0')
+		if (!expanded)
 		{
 			ft_perror("minishell error: expand\n");
 			free(input);
@@ -194,7 +194,7 @@ int main(int argc, char **argv, char **envp)
 		cleaned = ft_handle_quotes(expanded);
 		fprintf(stderr, "\nCleaned: %s\n", cleaned);
 		free(expanded);
-		if (!cleaned || cleaned[0] == '\0')
+		if (!cleaned)
 		{
 			ft_perror("minishell error: handle_quotes\n");
 			free(input);
