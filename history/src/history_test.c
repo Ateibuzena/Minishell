@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:43:44 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 01:25:40 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 04:22:45 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../historyft.h"
-/*
+
 void clear_bash_history(void)
 {
     pid_t pid;
@@ -109,7 +109,7 @@ void	test_new_entry(void)
 	printf("New entry created with line: '%s'\n", entry->line);
 	printf("Entry next pointer: %p\n", (void *)entry->next);
 	
-	if (entry->line && ft_strcmp(entry->line, test_line) == 0
+	if (entry->line && ft_strcmp(entry->line, test_line)
 		&& entry->next == NULL)
 		printf("✅ New entry test PASSED\n");
 	else
@@ -200,45 +200,10 @@ void	test_show_history(void)
 	printf("\n");
 }
 
-// Test navigation through history
-void	test_navigation(void)
-{
-	t_History	*history;
-	char		*cmd;
-	int			index;
-
-	printf("=== Testing ft_navigate_history ===\n");
-	
-	history = (t_History *)malloc(sizeof(t_History));
-	if (!history)
-	{
-		printf("Failed to allocate memory for history\n");
-		return;
-	}
-	
-	ft_init_history(history);
-	
-	// Populate history with dummy commands
-	ft_add_entry(history, "first command");
-	ft_add_entry(history, "second command");
-	ft_add_entry(history, "third command");
-	ft_add_entry(history, "fourth command");
-	ft_add_entry(history, "fifth command");
-	
-	printf("History populated with 5 commands:\n");
-	print_history_list(history);
-	
-	ft_free_history(history);
-	clear_history();
-	printf("\n");
-}
-
 // Test edge cases
 void	test_edge_cases(void)
 {
 	t_History	*history;
-	char		*cmd;
-	int			index;
 
 	printf("=== Testing edge cases ===\n");
 	
@@ -314,8 +279,7 @@ void	test_memory_management(void)
 	printf("Memory management test completed.\n\n");
 }
 
-// gcc -o history_test $(find . -name "*.c")
--I../../libft ../../libft/libft.a -lreadline
+// gcc -o history_test $(find . -name "*.c") -I../../libft ../../libft/libft.a -lreadline
 // Note: readline keeps 4KB of "reachable" memory that cannot be freed.
 // This is not a memory leak of the program,
 // but rather a limitation of readline's implementation.
@@ -332,8 +296,6 @@ int	main(void)
 	clear_history();
 	test_show_history();
 	clear_history();
-	test_navigation();
-	clear_history();
 	test_edge_cases();
 	clear_history();
 	test_memory_management();
@@ -346,4 +308,4 @@ int	main(void)
 	clear_history();
 	
 	return (0);
-}*/
+}

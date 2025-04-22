@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:48:47 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 21:06:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 05:21:27 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_add_entry(t_History *history, const char *line)
 {
 	t_HistoryEntry	*entry;
 
-	if (!history || !line)
+	if (!history || !line || !line[0])
 		return ;
 	entry = ft_new_entry(line);
 	if (!entry)
