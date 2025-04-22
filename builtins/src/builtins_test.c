@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 21:14:29 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/21 23:13:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../builtinsft.h"
-/*
+
 int g_last_exit = 27;
 
 // Helper function to print environment list
@@ -481,4 +481,3 @@ int	main(void)
 	printf("If running with Valgrind, check for memory leaks.\n");
 	return (0);
 }
-*/
