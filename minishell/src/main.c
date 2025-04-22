@@ -165,7 +165,7 @@ int main(int argc, char **argv, char **envp)
 		fprintf(stderr, "\nNormalized: %s\n", normalized);
         if (!normalized || normalized[0] == '\0')
         {
-            ft_perror("minishell: error al normalizar la entrada\n");
+            ft_perror("minishell error: normalize\n");
             free(input);
             continue ;
         }
@@ -185,7 +185,7 @@ int main(int argc, char **argv, char **envp)
 		free(normalized);
 		if (!expanded || expanded[0] == '\0')
 		{
-			ft_perror("minishell: error al expandir variables\n");
+			ft_perror("minishell error: expand\n");
 			free(input);
 			continue ;
 		}
@@ -196,7 +196,7 @@ int main(int argc, char **argv, char **envp)
 		free(expanded);
 		if (!cleaned || cleaned[0] == '\0')
 		{
-			ft_perror("minishell: error al manejar comillas\n");
+			ft_perror("minishell error: handle_quotes\n");
 			free(input);
 			continue ;
 		}

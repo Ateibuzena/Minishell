@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 02:46:22 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 05:17:52 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,13 @@ t_executor	*parse_commands(char **argv)
 			curr->cmd = malloc(sizeof(char *) * 256);
 			cmd_idx = 0;
 		}
-		else if (ft_strncmp(argv[i], "<", 1) == 0)
+		else if (ft_strncmp(argv[i], "<<", 2) == 0)
+		{
+			curr->heredoc = extract_file(argv[i]);
+		}
+		else if (ft_strncmp(argv[i], "<", 1) == 0 && ft_strncmp(argv[i], "<<", 2) != 0)
 			curr->infile = extract_file(argv[i]);
-		else if (ft_strncmp(argv[i], ">>", 2) == 0)
+		else if (ft_strncmp(argv[i], ">>", 2) == 0 && ft_strncmp(argv[i], ">", 1) != 0)
 		{
 			curr->outfile = extract_file(argv[i]);
 			curr->append = 1;
@@ -297,18 +301,19 @@ static char **env_to_array(t_Env *env)
 
 void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
 {
-    int i;
+	int i;
     int fd[2];
     int prev_fd = -1;
     pid_t pid;
     char **env_array = env_to_array(env);
-
+	
     if (!env_array)
     {
-        perror("malloc");
+		perror("malloc");
         exit(EXIT_FAILURE);
     }
-
+	fprintf(stderr, "exec->commands \n");
+	fprintf(stderr, "exec->count %d\n", exec->count);
     i = 0;
     while (i < exec->count)
     {
@@ -332,9 +337,13 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
         if (pid == 0)  // Proceso hijo
         {
             // Entrada: Redirección de archivo
-            if (exec->commands[i]->infile)
+            if (exec->commands[i]->infile || exec->commands[i]->heredoc)
             {
-                int in = open(exec->commands[i]->infile, O_RDONLY);
+				int in;
+				if (exec->commands[i]->heredoc)
+					in = ft_here_doc(exec->commands[i]->heredoc);
+				else
+                	in = open(exec->commands[i]->infile, O_RDONLY);
                 if (in < 0)
                 {
                     ft_errno(exec->commands[i]->infile);
@@ -438,10 +447,12 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
 int	ft_pipex(char **argv, t_Env *env, t_History *history)
 {
 	t_executor	*exec;
+
 	if (!argv || !argv[0])
-		return (ft_perror("Pipex error: No input\n"), 1);
+	return (ft_perror("Pipex error: No input\n"), 1);
 	exec = parse_commands(argv);
 	execute_pipeline(exec, env, history);
+	
 	free_executor(exec);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 22:33:17 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 04:50:17 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_command
 	char	**cmd;       // Ej: {"cat", NULL}
 	char	*infile;     // Ej: "infile" si hay redirección "< infile"
 	char	*outfile;    // Ej: "outfile" si hay redirección "> outfile"
+	char	*heredoc;    // Ej: "heredoc" si hay redirección "<< heredoc"
 	int		append;      // 1 si ">>", 0 si ">"
 }	t_command;
 
@@ -90,7 +91,7 @@ void print_open_fds();
 //void 	ft_create_pipe(t_pipex *pipex);
 //void 	ft_handle_lecture(t_pipex *pipex, char **split);
 //void 	ft_handle_redirection(t_pipex *pipex, char **split);
-//int		ft_here_doc(char *delimiter);
+int		ft_here_doc(char *delimiter);
 
 /*pipex_error.c*/
 void	ft_perror(const char *str);
