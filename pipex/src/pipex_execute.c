@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:27:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:32:09 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/22 22:37:23 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
 		perror("malloc");
         exit(EXIT_FAILURE);
     }
-	fprintf(stderr, "exec->commands \n");
-	fprintf(stderr, "exec->count %d\n", exec->count);
     i = 0;
     while (i < exec->count)
     {
@@ -152,8 +150,7 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
                 close(fd[1]);
             if (prev_fd != -1)
                 close(prev_fd);
-
-            // Ejecutar el comando
+                // Ejecutar el comando
             if (ft_is_builtins(exec->commands[i]->cmd[0]))
             {
                 if (ft_execute_builtins(exec->commands[i]->cmd, history, &env))

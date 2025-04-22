@@ -52,33 +52,128 @@ char *ft_handle_quotes(const char *input)
     return (output);
 }
 
+static int ft_handle_redirections(char **argv, int *saved_stdin, int *saved_stdout)
+{
+    int i = 0;
+    int fd;
+
+    *saved_stdin = dup(STDIN_FILENO);
+    *saved_stdout = dup(STDOUT_FILENO);
+
+    while (argv[i])
+    {
+        if (!ft_strncmp(argv[i], "<", 1))
+        {
+            fd = open(argv[i] + 2, O_RDONLY);
+            if (fd == -1)
+            {
+                perror(argv[i] + 2);
+                return (-1);
+            }
+            dup2(fd, STDIN_FILENO);
+            close(fd);
+        }
+        else if (!ft_strncmp(argv[i], ">", 1))
+        {
+            fd = open(argv[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd == -1)
+            {
+                perror(argv[i] + 2);
+                return (-1);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        else if (!ft_strncmp(argv[i], ">>", 2))
+        {
+            fd = open(argv[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd == -1)
+            {
+                perror(argv[i] + 3);
+                return (-1);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        i++;
+    }
+    return (0);
+}
+
+
 void ft_handle_pipes(char *input, t_History *history, t_Env *env)
 {
-    char **argv;
-    char *exit;
-    int status;
+    char    **argv;
+    int     status;
+    int     i;
+    int     builtin;
 
     if (!input || !input[0])
         return (ft_perror("Pipex error: NULL input\n"));
+    
     argv = ft_group_tokens(input);
     if (!argv || !argv[0] || !argv[0][0])
         return (ft_perror("Pipex error: Tokens\n"));
-    exit = ft_strdup(argv[0]);
-    if (!exit || exit[0] == '\0')
-        return (ft_perror("Pipex error: strdup\n"));
-    exit = ft_strtok(exit, " \t");
-    if (!ft_strchr(input, '|') && ft_strcmp(exit, "exit"))
+    
+    // Si hay pipes, pasamos a pipex
+    if (ft_strchr(input, '|'))
     {
-        free(exit);
-        ft_exit(argv);
+        fprintf(stderr, "\nPipex con pipes: %s\n", argv[0]);
+        status = ft_pipex(argv, env, history);
     }
-    free(exit);
-    status = ft_pipex(argv, env, history);
-    //fprintf(stderr, "\n");
-    //fprintf(stderr, "ft_pipex retornó: %d\n", status); // Depuración
+    else
+    {
+        // Comprobamos si el comando es un builtin
+        i = 0;
+        builtin = -1;
+        while (argv[i])
+        {
+            // Verificamos si hay redirecciones
+            if (argv[i][0] && (argv[i][0] != '|' || argv[i][0] != '<' || argv[i][0] != '>'))
+            {
+                char **split = ft_split(argv[i], ' ');
+                if (ft_is_builtins(split[0]))
+                {
+                    //builtin = 1;
+                    builtin = i;
+                    
+                    break;
+                }
+            }
+            i++;
+        }
+
+        // Si es un builtin, ejecutamos en el padre
+        int stdin_backup;
+        int stdout_backup;
+
+        if (builtin > -1)
+        {
+            fprintf(stderr, "\nBuiltins: %s\n", argv[builtin]);
+            if (ft_handle_redirections(argv, &stdin_backup, &stdout_backup) == -1)
+                return (ft_freedouble(argv));
+
+            char **split = ft_split(argv[builtin], ' ');
+            status = ft_execute_builtins(split, history, &env);
+            ft_freedouble(split);
+
+            // Restaurar stdin y stdout originales
+            dup2(stdin_backup, STDIN_FILENO);
+            dup2(stdout_backup, STDOUT_FILENO);
+            close(stdin_backup);
+            close(stdout_backup);
+        }
+        else
+        {
+            fprintf(stderr, "pipex con un comando: %s\n", argv[0]);
+            status = ft_pipex(argv, env, history);
+        }
+    }
+
     (void)status;
     ft_freedouble(argv);
 }
+
 /*
 void ft_handle_pipes(char *input, t_History *history, t_Env *env)
 {
