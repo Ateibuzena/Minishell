@@ -138,6 +138,7 @@ int main(int argc, char **argv, char **envp)
     t_Env *env;
 	char *cleaned;
 	char *expanded;
+	char *normalized;
 
     (void)argc;
     (void)argv;
@@ -154,19 +155,19 @@ int main(int argc, char **argv, char **envp)
         // Construir el prompt
         prompt = ft_prompt(env);
         input = readline(prompt);
-        //fprintf(stderr, "\nInput: %s\n", input);
         free(prompt);
+        //fprintf(stderr, "\nInput: %s\n", input);
         // Salir si la entrada es NULL (Ctrl+D)
         if (!input || !input[0])
             continue ;
 		ft_add_entry(history, input);
 		//ft_show_history(history);
-        char *normalized = normalize_input(input);
+        normalized = normalize_input(input);
+		free(input);
 		fprintf(stderr, "\nNormalized: %s\n", normalized);
         if (!normalized || normalized[0] == '\0')
 		{
 			ft_perror("minishell error: normalize\n");
-			free(input);
 			continue ;
 		}
         // Procesar entrada si no está vacía
@@ -175,7 +176,6 @@ int main(int argc, char **argv, char **envp)
 		{
 			ft_perror("minishell: syntax error\n");
 			free(normalized);
-			free(input);
 			continue ;
 		}
 
@@ -186,7 +186,6 @@ int main(int argc, char **argv, char **envp)
 		if (!expanded)
 		{
 			ft_perror("minishell error: expand\n");
-			free(input);
 			continue ;
 		}
 
@@ -197,18 +196,12 @@ int main(int argc, char **argv, char **envp)
 		if (!cleaned)
 		{
 			ft_perror("minishell error: handle_quotes\n");
-			free(input);
 			continue ;
 		}
 	
 		// 4. Ejecutar comandos (pipes o builtin)
 		if (cleaned[0] != '\0')
-		{
 			ft_handle_pipes(cleaned, history, env);
-			free(cleaned);
-
-		}
-		free(input);
     }
     ft_free_history(history);
     ft_free_env(env);
