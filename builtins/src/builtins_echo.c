@@ -6,13 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:34:41 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 20:28:43 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:07:39 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../builtinsft.h"
 
-// Función para verificar si el argumento es un "-n" válido
 static int	ft_n_flag(const char *arg)
 {
 	int	i;
@@ -29,7 +28,6 @@ static int	ft_n_flag(const char *arg)
 	return (1);
 }
 
-// Función para manejar el comando echo
 int	ft_echo(char **args)
 {
 	int		i;
@@ -46,7 +44,7 @@ int	ft_echo(char **args)
 	{
 		printf("%s", args[i]);
 		if (args[i + 1])
-		printf(" ");
+			printf(" ");
 		i++;
 	}
 	if (newline)
