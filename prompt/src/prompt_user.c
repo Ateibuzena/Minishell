@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:06 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:35:33 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:09:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*ft_find_user(t_Env *env)
 	}
 	return (NULL);
 }
-
 
 char	*ft_extract_user(t_Env *env)
 {
