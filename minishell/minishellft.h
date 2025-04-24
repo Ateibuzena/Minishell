@@ -38,10 +38,20 @@ typedef enum
     DOUBLE_QUOTE
 } t_quoteState;
 
+extern volatile sig_atomic_t g_in_readline;
+
 /*minishell_utils.c*/
-void    ft_handle_pipes(char *input, t_History *history, t_Env *env);
+int    ft_handle_pipes(char *input, t_History *history, t_Env *env);
 //void    ft_tokenize(char *input, char **args);
 //void    ft_handle_builtin(char *input, t_History *history, t_Env **env);
 char    *ft_handle_quotes(const char *input);
+
+void    sigint_handler(int sig);
+void    sigtstp_handler(int sig);
+void    sigquit_handler(int sig);
+void    sigterm_handler(int sig);
+void    sigchld_handler(int sig);
+void    sigwinch_handler(int sig);
+void    setup_signals();
 
 #endif // MINISHELL_H

@@ -1,13 +1,18 @@
 #include "../minishellft.h"
-/*
+
+volatile sig_atomic_t g_in_readline = 0;
+
 // Manejador de la señal SIGINT (Ctrl+C)
 void sigint_handler(int sig)
 {
-    (void)sig;  // Ignorar el valor del signo
-    write(1, "\n", 1);  // Imprimir una nueva línea al recibir Ctrl+C
-    rl_on_new_line();  // Indicar que estamos en una nueva línea
-    rl_replace_line("", 0);  // Limpiar la línea de entrada en readline
-    rl_redisplay();  // Redibujar el prompt
+    (void)sig;
+    write(1, "\n", 1);
+    if (g_in_readline)
+    {
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
 }
 
 // Manejador de la señal SIGTSTP (Ctrl+Z)
@@ -15,7 +20,7 @@ void sigtstp_handler(int sig)
 {
     (void)sig;
     // Puedes suspender el proceso o tomar alguna acción personalizada
-    write(1, "\nProcess suspended. Type 'fg' to resume.\n", 45); 
+    write(1, "\nProcess suspended. Type 'fg' to resume.\n", 42); 
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
@@ -66,4 +71,3 @@ void setup_signals()
     signal(SIGCHLD, sigchld_handler);  // Manejar SIGCHLD (cuando un proceso hijo termina)
     signal(SIGWINCH, sigwinch_handler);  // Manejar SIGWINCH (cambio de tamaño de la terminal)
 }
-*/
