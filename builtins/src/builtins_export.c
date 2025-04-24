@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:03:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 20:37:58 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:27:33 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,13 @@ static int	ft_parse_key_value(char *arg, char **key, char **value, char **dup)
 	}
 	if (!*value)
 		*value = "";
-
 	return (1);
 }
 
 static int	ft_process_export(t_Env **env, char *key)
 {
-	//char	*expanded_key;
 	char	**keys_to_unset;
 
-	/*expanded_key = ft_expand_variables(key, *env);
-	if (!ft_valid_key(expanded_key))
-	{
-		ft_putstr_fd("minishell: export: invalid key\n", STDERR_FILENO);
-		return (free(expanded_key), 0);
-	}*/
 	if (!ft_valid_key(key))
 	{
 		ft_putstr_fd("minishell: export: invalid key\n", STDERR_FILENO);
@@ -81,18 +73,6 @@ static int	ft_process_export(t_Env **env, char *key)
 	return (1);
 }
 
-/*static void	ft_store_env_variable(t_Env **env, char *key, char *value)
-{
-	char	*expanded_value;
-	char	*expanded_key;
-
-	expanded_key = ft_expand_variables(key, *env);
-	expanded_value = ft_expand_variables(value, *env);
-	ft_add_env(env, expanded_key, expanded_value);
-	free(expanded_key);
-	free(expanded_value);
-}*/
-
 int	ft_export(t_Env **env, char **args)
 {
 	int		i;
@@ -109,7 +89,6 @@ int	ft_export(t_Env **env, char **args)
 		if (!ft_process_export(env, key))
 			return (free(dup), 1);
 		ft_add_env(env, key, value);
-		//ft_store_env_variable(env, key, value);
 		free(dup);
 		i++;
 	}

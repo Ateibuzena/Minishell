@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:28:36 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 21:18:30 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:26:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,28 @@ char	*ft_expand_tilde(const char *path)
 	return (ft_strdup(path));
 }
 
-int ft_change_directory(char *path)
+int	ft_change_directory(char *path)
 {
-    char *old_pwd;
-    char *current_pwd;
+	char	*old_pwd;
+	char	*current_pwd;
 
-    old_pwd = getenv("PWD");
-    if (chdir(path) == 0)
-    {
-        current_pwd = getcwd(NULL, 0);
-        if (current_pwd)
-        {
-            if (old_pwd)
-                setenv("OLDPWD", old_pwd, 1);
-            setenv("PWD", current_pwd, 1);
-            free(current_pwd);
-        }
-		//fprintf(stderr, "error en cd change directory: %d\n", 0);
-        return (0); // Cambio de directorio exitoso
-    }
-    ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-    ft_putstr_fd(path, STDERR_FILENO);
-    ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-    return (1); // Error al cambiar el directorio
+	old_pwd = getenv("PWD");
+	if (chdir(path) == 0)
+	{
+		current_pwd = getcwd(NULL, 0);
+		if (current_pwd)
+		{
+			if (old_pwd)
+				setenv("OLDPWD", old_pwd, 1);
+			setenv("PWD", current_pwd, 1);
+			free(current_pwd);
+		}
+		return (0);
+	}
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	return (1);
 }
 
 int	ft_change_home(void)
@@ -63,10 +62,7 @@ int	ft_change_home(void)
 
 	home = getenv("HOME");
 	if (home)
-	{
-		//fprintf(stderr, "error en cd home: %d\n", ft_change_directory(home));
 		return (ft_change_directory(home));
-	}
 	ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
 	return (1);
 }
