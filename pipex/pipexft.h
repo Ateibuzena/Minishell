@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:33:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:40:01 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include "../builtins/builtinsft.h"
+# include <signal.h>
 # include <errno.h>
 # include <sys/wait.h>
 # include <aio.h>
@@ -50,7 +51,7 @@ typedef struct s_executor
 
 /*pipex_execute.c*/
 char		*resolve_path(char *cmd, char **env);
-void		execute_pipeline(t_executor *exec, t_Env *env, t_History *history);
+pid_t		execute_pipeline(t_executor *exec, t_Env *env, t_History *history);
 
 /*pipex_parse.c*/
 t_command	*init_command(void);

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:27:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 22:37:23 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:39:25 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char *resolve_path(char *cmd, char **env)
 	return (NULL); // No encontrado
 }
 
-void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
+pid_t execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
 {
 	int i;
     int fd[2];
@@ -61,6 +61,7 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
     pid_t pid;
     char **env_array = env_to_array(env);
 	
+    pid_t last_pid = -1;
     if (!env_array)
     {
 		perror("malloc");
@@ -153,6 +154,7 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
                 // Ejecutar el comando
             if (ft_is_builtins(exec->commands[i]->cmd[0]))
             {
+                signal(SIGINT, SIG_DFL); // hijo: comportamiento por defecto
                 if (ft_execute_builtins(exec->commands[i]->cmd, history, &env))
                 {
                     ft_errno(exec->commands[i]->cmd[0]);
@@ -171,6 +173,7 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
                     ft_freedouble(env_array);
                     exit(127);  // Comando no encontrado
                 }
+                signal(SIGINT, SIG_DFL); // hijo: comportamiento por defecto
                 execve(path, exec->commands[i]->cmd, env_array);
                 ft_errno(exec->commands[i]->cmd[0]);
                 ft_freedouble(env_array);
@@ -186,9 +189,8 @@ void execute_pipeline(t_executor *exec, t_Env *env, t_History *history)
             close(fd[1]);      // Cerrar escritura del pipe ya usado
             prev_fd = fd[0];   // Mantener la lectura para el siguiente comando
         }
+        last_pid = pid;
         i++;
     }
-
-    // Esperar a que todos los procesos hijos terminen
-    while (wait(NULL) > 0);
+    return (last_pid);
 }
