@@ -128,33 +128,36 @@ int	validate_syntax(char *input)
 	return (1);
 }
 
-int g_last_exit_code = 0;
-
 int main(int argc, char **argv, char **envp)
 {
-    char *prompt;
+	char *prompt;
     char *input;
     t_History *history;
     t_Env *env;
 	char *cleaned;
 	char *expanded;
 	char *normalized;
+	int status = 0;
 
-    (void)argc;
+    if (argc > 1)
+		return (ft_perror("minishell error: arguments\n"), !status);
     (void)argv;
     //CONFIGURAR SEÑALES
+	setup_signals();
     // Copiar el entorno y asignar memoria para el historial
     env = ft_copy_env(envp);
     
     history = (t_History *)malloc(sizeof(t_History));
     if (!history)
-    	return (ft_perror("Malloc error: History\n"), 1);
+    	return (ft_perror("Malloc error: History\n"), !status);
     ft_init_history(history);
     while (1)
     {
         // Construir el prompt
         prompt = ft_prompt(env);
+		g_in_readline = 1;  // <-- estás en readline ahora
         input = readline(prompt);
+		g_in_readline = 0;  // <-- saliste de readline
         free(prompt);
         //fprintf(stderr, "\nInput: %s\n", input);
         // Salir si la entrada es NULL (Ctrl+D)
@@ -180,7 +183,7 @@ int main(int argc, char **argv, char **envp)
 		}
 
 		// 2. Expandir variables
-		expanded = ft_expand_variables(normalized, env, g_last_exit_code); // suponiendo que tienes last_exit global
+		expanded = ft_expand_variables(normalized, env, status); // suponiendo que tienes last_exit global
 		fprintf(stderr, "\nExpanded: %s\n", expanded);
 		free(normalized);
 		if (!expanded)
@@ -201,7 +204,7 @@ int main(int argc, char **argv, char **envp)
 	
 		// 4. Ejecutar comandos (pipes o builtin)
 		if (cleaned[0] != '\0')
-			ft_handle_pipes(cleaned, history, env);
+			status = ft_handle_pipes(cleaned, history, env);
     }
     ft_free_history(history);
     ft_free_env(env);
