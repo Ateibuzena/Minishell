@@ -101,19 +101,19 @@ static int ft_handle_redirections(char **argv, int *saved_stdin, int *saved_stdo
 }
 
 
-void ft_handle_pipes(char *input, t_History *history, t_Env *env)
+int ft_handle_pipes(char *input, t_History *history, t_Env *env)
 {
     char    **argv;
-    int     status;
+    int     status = 0;
     int     i;
     int     builtin;
 
     if (!input || !input[0])
-        return (ft_perror("Pipex error: NULL input\n"));
+        return (ft_perror("Pipex error: NULL input\n"), 1);
     
     argv = ft_group_tokens(input);
     if (!argv || !argv[0] || !argv[0][0])
-        return (ft_perror("Pipex error: Tokens\n"));
+        return (ft_perror("Pipex error: Tokens\n"), 1);
     
     // Si hay pipes, pasamos a pipex
     if (ft_strchr(input, '|'))
@@ -151,7 +151,7 @@ void ft_handle_pipes(char *input, t_History *history, t_Env *env)
         {
             fprintf(stderr, "\nBuiltins: %s\n", argv[builtin]);
             if (ft_handle_redirections(argv, &stdin_backup, &stdout_backup) == -1)
-                return (ft_freedouble(argv));
+                return (ft_freedouble(argv), 1);
 
             char **split = ft_split(argv[builtin], ' ');
             status = ft_execute_builtins(split, history, &env);
@@ -170,8 +170,9 @@ void ft_handle_pipes(char *input, t_History *history, t_Env *env)
         }
     }
 
-    (void)status;
+    printf("\nstatus: %d\n", status);
     ft_freedouble(argv);
+    return (status);
 }
 
 /*
