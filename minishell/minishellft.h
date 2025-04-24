@@ -46,6 +46,8 @@ int    ft_handle_pipes(char *input, t_History *history, t_Env *env);
 //void    ft_handle_builtin(char *input, t_History *history, t_Env **env);
 char    *ft_handle_quotes(const char *input);
 
+char	*ft_expand_variables(const char *line, t_Env *env, int last_exit);
+
 void    sigint_handler(int sig);
 void    sigtstp_handler(int sig);
 void    sigquit_handler(int sig);

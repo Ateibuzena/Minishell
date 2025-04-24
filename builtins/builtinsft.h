@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:42:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/21 20:28:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:33:35 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_strtok(char *str, const char *delim);
 
 /*builtins_utils*/
 //char	*ft_expand_variables(const char *arg, t_Env *env);
-char	*ft_expand_variables(const char *line, t_Env *env, int last_exit);
+//char	*ft_expand_variables(const char *line, t_Env *env, int last_exit);
 
 /*builtins_execute.c*/
 int		ft_is_builtins(char *argv);
