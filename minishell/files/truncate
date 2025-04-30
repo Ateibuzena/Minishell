@@ -1,1 +1,6 @@
-outfile
+files
+Makefile
+minishell
+minishellft.h
+obj
+src
