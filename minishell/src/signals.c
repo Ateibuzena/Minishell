@@ -70,4 +70,5 @@ void setup_signals()
     signal(SIGTERM, sigterm_handler);  // Manejar SIGTERM
     signal(SIGCHLD, sigchld_handler);  // Manejar SIGCHLD (cuando un proceso hijo termina)
     signal(SIGWINCH, sigwinch_handler);  // Manejar SIGWINCH (cambio de tamaño de la terminal)
+
 }

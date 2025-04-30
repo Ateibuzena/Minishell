@@ -161,8 +161,17 @@ int main(int argc, char **argv, char **envp)
         free(prompt);
         //fprintf(stderr, "\nInput: %s\n", input);
         // Salir si la entrada es NULL (Ctrl+D)
-        if (!input || !input[0])
-            continue ;
+        if (!input)
+		{
+			write(1, "exit\n", 5);
+        	break ;
+		}
+		if (input[0] == '\0')
+		{
+			free(input);
+			continue ;
+		}
+		// Agregar la entrada al historial
 		ft_add_entry(history, input);
 		//ft_show_history(history);
         normalized = normalize_input(input);
