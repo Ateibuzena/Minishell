@@ -6,11 +6,53 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:32:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:37:42 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
+
+static int	ft_count_vars(t_Env *env)
+{
+	int		count;
+
+	count = 0;
+	while (env)
+	{
+		if (env->key && env->value)
+			count++;
+		env = env->next;
+	}
+	return (count);
+}
+
+char	**ft_envtoarray(t_Env *env)
+{
+	char	**env_array;
+	int		i;
+
+	env_array = malloc(sizeof(char *) * (ft_count_vars(env) + 1));
+	i = 0;
+	if (!env_array)
+		return (NULL);
+	while (env)
+	{
+		if (env->key && env->value)
+		{
+			env_array[i] = malloc(sizeof(char)
+					* (ft_strlen(env->key) + ft_strlen(env->value) + 2));
+			if (!env_array[i])
+				return (ft_free_partialdouble(env_array, i), NULL);
+			ft_strcpy(env_array[i], env->key);
+			ft_strcat(env_array[i], "=");
+			ft_strcat(env_array[i], env->value);
+			i++;
+		}
+		env = env->next;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}
 
 int	ft_here_doc(char *delimiter)
 {
@@ -33,71 +75,4 @@ int	ft_here_doc(char *delimiter)
 	}
 	close(temp_pipe[WRITE]);
 	return (temp_pipe[READ]);
-}
-
-char *ft_strjoin_free(char *s1, char *s2)
-{
-    char *result;
-    size_t len1, len2;
-
-    if (!s1 || !s2)
-        return (NULL);
-    len1 = ft_strlen(s1);
-    len2 = ft_strlen(s2);
-    result = malloc(len1 + len2 + 1);
-    if (!result)
-        return (NULL);
-    ft_memcpy(result, s1, len1);
-    ft_memcpy(result + len1, s2, len2);
-    result[len1 + len2] = '\0';
-    free(s1);  // Libera la primera cadena
-    return (result);
-}
-
-char **env_to_array(t_Env *env)
-{
-	t_Env *tmp = env;
-	int count = 0;
-	char **env_array;
-
-	// 1. Contamos cuántas variables hay
-	while (tmp)
-	{
-		if (tmp->key && tmp->value)
-			count++;
-		tmp = tmp->next;
-	}
-
-	// 2. Reservamos espacio (+1 para el NULL final)
-	env_array = malloc(sizeof(char *) * (count + 1));
-	if (!env_array)
-		return (NULL);
-
-	// 3. Rellenamos el array
-	tmp = env;
-	int i = 0;
-	while (tmp)
-	{
-		if (tmp->key && tmp->value)
-		{
-			int len = strlen(tmp->key) + strlen(tmp->value) + 2; // '=' y '\0'
-			env_array[i] = malloc(sizeof(char) * len);
-			if (!env_array[i])
-			{
-				// Manejo de error: liberar todo lo anterior
-				while (i-- > 0)
-					free(env_array[i]);
-				free(env_array);
-				return (NULL);
-			}
-			strcpy(env_array[i], tmp->key);
-			strcat(env_array[i], "=");
-			strcat(env_array[i], tmp->value);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-	env_array[i] = NULL; // NULL final para execve
-
-	return env_array;
 }

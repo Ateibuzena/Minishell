@@ -6,38 +6,53 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/23 19:36:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:00:06 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
-int	ft_pipex(char **argv, t_Env *env, t_History *history)
+static int	ft_waitpid(pid_t *last_pid)
 {
-	t_executor	*exec;
-	int			last_status = 0;
-	pid_t		last_pid;
+	pid_t		pid;
+	int			status;
+	int			last_status;
 
-	if (!argv || !argv[0])
-		return (ft_perror("Pipex error: No input\n"), 1);
-
-	exec = parse_commands(argv);
-	last_pid = execute_pipeline(exec, env, history);
-	
-	int status;
-	pid_t pid;
-	while ((pid = wait(&status)) > 0)
+	last_status = 0;
+	pid = wait(&status);
+	while (pid > 0)
 	{
-		if (pid == last_pid)
+		if (pid == (*last_pid))
 		{
 			if (WIFEXITED(status))
 				last_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				last_status = 128 + WTERMSIG(status);
 		}
+		pid = wait(&status);
 	}
-
-	free_executor(exec);
 	return (last_status);
 }
 
+int	ft_pipex(char **argv, t_Env *env, t_History *history)
+{
+	pid_t		last_pid;
+	int			last_status;
+	t_pipex		pipex;
+
+	if (!argv || !argv[0])
+		return (ft_perror("Pipex error: No input\n"), 1);
+	pipex.exec = ft_parse_commands(argv);
+	pipex.env_array = ft_envtoarray(env);
+	if (!pipex.env_array)
+		(ft_perror("malloc\n"), exit(EXIT_FAILURE));
+	pipex.history = history;
+	pipex.env = &env;
+	pipex.i = 0;
+	pipex.prev_fd = -1;
+	last_pid = ft_process_pipeline(&pipex);
+	ft_freedouble(pipex.env_array);
+	last_status = ft_waitpid(&last_pid);
+	ft_free_executor(pipex.exec);
+	return (last_status);
+}

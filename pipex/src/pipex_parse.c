@@ -6,14 +6,31 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:29:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:29:27 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:12:06 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
+static t_command	*ft_new_command(t_command *curr, int *i, t_executor *exec)
+{
+	curr->cmd[(*i)] = NULL;
+	exec->commands[exec->count++] = curr;
+	curr = malloc(sizeof(t_command));
+	if (!curr)
+		return (NULL);
+	ft_memset(curr, 0, sizeof(t_command));
+	curr->cmd = malloc(sizeof(char *) * 256);
+	if (!curr->cmd)
+	{
+		free(curr);
+		return (NULL);
+	}
+	(*i) = 0;
+	return (curr);
+}
 
-static char	*extract_file(char *token)
+static char	*ft_extract_file(char *token)
 {
 	char	*res;
 
@@ -23,85 +40,60 @@ static char	*extract_file(char *token)
 	return (ft_strdup(res + 1));
 }
 
-t_command	*init_command(void)
+static void	ft_add_args(char *argv, t_command *curr, int *i)
 {
-	t_command *cmd;
+	char	**split;
+	int		k;
 
-	cmd = malloc(sizeof(t_command));
-	if (!cmd)
-		return (NULL);
-	ft_memset(cmd, 0, sizeof(t_command));
-	cmd->cmd = malloc(sizeof(char *) * 256);
-	if (!cmd->cmd)
-	{
-		free(cmd);
-		return (NULL);
-	}
-	return (cmd);
+	k = 0;
+	split = ft_split(argv, ' ');
+	while (split[k])
+		curr->cmd[(*i)++] = ft_strdup(split[k++]);
+	ft_freedouble(split);
 }
 
-t_executor	*parse_commands(char **argv)
+static void	ft_process_token(char *token, t_command *curr, int *i)
+{
+	if (ft_strncmp(token, "<<", 2) == 0)
+		curr->heredoc = ft_extract_file(token);
+	else if (ft_strncmp(token, "<", 1) == 0)
+		curr->infile = ft_extract_file(token);
+	else if (ft_strncmp(token, ">>", 2) == 0)
+	{
+		curr->outfile = ft_extract_file(token);
+		curr->append = 1;
+	}
+	else if (ft_strncmp(token, ">", 1) == 0)
+	{
+		curr->outfile = ft_extract_file(token);
+		curr->append = 0;
+	}
+	else
+		ft_add_args(token, curr, i);
+}
+
+t_executor	*ft_parse_commands(char **argv)
 {
 	t_executor	*exec;
 	t_command	*curr;
-	int			i, cmd_idx;
+	int			i;
+	int			j;
 
-	exec = malloc(sizeof(t_executor));
-	if (!exec)
-		return (NULL);  // primer malloc crítico
-	exec->commands = malloc(sizeof(t_command *) * 256); // max comandos
-	if (!exec->commands)
-	{
-		free(exec);
-		return (NULL);  // liberar lo anterior
-	}
-	exec->count = 0;
-	curr = init_command();
+	exec = ft_init_executor();
+	curr = ft_init_command();
 	if (!curr)
-	{
-		free_partial_executor(exec);
-		return (NULL);
-	}
-	cmd_idx = 0;
-
+		return (ft_free_executor(exec), NULL);
 	i = 0;
-	while (argv[i])
+	j = 0;
+	while (argv[j])
 	{
-		if (ft_strncmp(argv[i], "|", 1) == 0)
-		{
-			curr->cmd[cmd_idx] = NULL;
-			exec->commands[exec->count++] = curr;
-			curr = malloc(sizeof(t_command));
-			ft_memset(curr, 0, sizeof(t_command));
-			curr->cmd = malloc(sizeof(char *) * 256);
-			cmd_idx = 0;
-		}
-		else if (ft_strncmp(argv[i], "<<", 2) == 0)
-		{
-			curr->heredoc = extract_file(argv[i]);
-		}
-		else if (ft_strncmp(argv[i], "<", 1) == 0 && ft_strncmp(argv[i], "<<", 2) != 0)
-			curr->infile = extract_file(argv[i]);
-		else if (ft_strncmp(argv[i], ">>", 2) == 0 && ft_strncmp(argv[i], ">", 1) != 0)
-		{
-			curr->outfile = extract_file(argv[i]);
-			curr->append = 1;
-		}
-		else if (ft_strncmp(argv[i], ">", 1) == 0)
-		{
-			curr->outfile = extract_file(argv[i]);
-			curr->append = 0;
-		}
+		if (ft_strncmp(argv[j], "|", 1) == 0)
+			curr = ft_new_command(curr, &i, exec);
 		else
-		{
-			char **split = ft_split(argv[i], ' ');
-			for (int k = 0; split[k]; k++)
-				curr->cmd[cmd_idx++] = ft_strdup(split[k]);
-			ft_freedouble(split);
-		}
-		i++;
+			ft_process_token(argv[j], curr, &i);
+		j++;
 	}
-	curr->cmd[cmd_idx] = NULL;
+	curr->cmd[i] = NULL;
 	exec->commands[exec->count++] = curr;
 	return (exec);
 }
