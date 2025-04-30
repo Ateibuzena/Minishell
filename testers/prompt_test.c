@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 02:00:52 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:12:59 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:13:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,7 +339,8 @@ void	test_edge_cases(void)
 	printf("\n");
 }
 
-// gcc -o prompt_test $(find ../prompt -name "*.c") ./prompt_test.c -I../enviroment -I../libft ../enviroment/enviroment.a ../libft/libft.a -lreadline
+// gcc -o prompt_test $(find ../prompt -name "*.c") ./prompt_test.c 
+-I../enviroment -I../libft ../enviroment/enviroment.a ../libft/libft.a -lreadline
 
 int	main(void)
 {

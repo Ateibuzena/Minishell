@@ -6,13 +6,12 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:42:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 19:12:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:33:35 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../builtins/builtinsft.h"
 /*
-int g_last_exit = 27;
 
 // Helper function to print environment list
 void	print_env_list(t_Env *env_list)
@@ -56,7 +55,7 @@ void	test_echo(t_Env *env)
 	char	*args1[] = {"echo", "Hello", "World", NULL};
 	char	*args2[] = {"echo", "-n", "No", "newline", NULL};
 	char	*args3[] = {"echo", "-nnnn", "Multiple", "flags", NULL};
-	char	*args4[] = {"echo", "Hello", expanded, "variable", NULL}; // Variable already expanded
+	char	*args4[] = {"echo", "Hello", expanded, "variable", NULL};
 	char	*args5[] = {"echo", "-n", NULL};
 	char	*args6[] = {"echo", NULL};
 	char	*args7[] = {"echo", "-na", "newline", NULL};
@@ -473,7 +472,9 @@ void	test_execute_builtins(t_Env **env)
 	printf("\n");
 }
 
-// gcc -o builtins_test $(find ../builtins -name "*.c") ./builtins_test.c -I../history -I../enviroment -I../libft ../history/history.a ../enviroment/enviroment.a ../libft/libft.a -lreadline
+// gcc -o builtins_test $(find ../builtins -name "*.c") ./builtins_test.c 
+-I../history -I../enviroment -I../libft 
+../history/history.a ../enviroment/enviroment.a ../libft/libft.a -lreadline
 
 int	main(void)
 {
