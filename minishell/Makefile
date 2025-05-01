@@ -28,6 +28,9 @@ TOKENS_LIB = $(TOKENS_DIR)/tokens.a
 PIPEX_DIR = ../pipex
 PIPEX_LIB = $(PIPEX_DIR)/pipex.a
 
+SIGNALS_DIR = ../signals
+SIGNALS_LIB = $(SIGNALS_DIR)/signals.a
+
 # 📂 Directorios de código y objetos
 SRCDIR = src
 OBJDIR = obj
@@ -65,12 +68,14 @@ libs:
 	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
 	@make --no-print-directory -C $(PIPEX_DIR)
 	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
+	@make --no-print-directory -C $(SIGNALS_DIR)
+	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
 	@echo "$(GREEN)✅ Librerías compiladas.$(RESET)"
 
 # 🔨 Compilar programa principal
-$(NAME): $(OBJDIR) $(OBJS) $(LIBFT_LIB) $(HISTORY_LIB) $(ENVIROMENT_LIB) $(BUILTINS_LIB) $(PROMPT_LIB) $(TOKENS_LIB) $(PIPEX_LIB)
+$(NAME): $(OBJDIR) $(OBJS) $(LIBFT_LIB) $(HISTORY_LIB) $(ENVIROMENT_LIB) $(BUILTINS_LIB) $(PROMPT_LIB) $(TOKENS_LIB) $(PIPEX_LIB) $(SIGNALS_LIB)
 	@echo "$(CYAN)🔗 Enlazando $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -lreadline -lhistory $(PIPEX_LIB) $(TOKENS_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT_LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -lreadline -lhistory $(SIGNALS_LIB) $(PIPEX_LIB) $(TOKENS_LIB) $(PROMPT_LIB) $(BUILTINS_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(LIBFT_LIB) -o $(NAME)
 	@echo "$(GREEN)✅ $(NAME) compilada con éxito.$(RESET)"
 
 # 📂 Crear directorios de objetos
@@ -104,6 +109,11 @@ fclean: clean
 		echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"; \
 		$(RM) $(NAME); \
 		echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"; \
+	fi
+	@if [ -f "$(SIGNALS_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(SIGNALS_LIB)...$(RESET)"; \
+		make -C $(SIGNALS_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(SIGNALS_LIB) eliminada.$(RESET)"; \
 	fi
 	@if [ -f "$(PIPEX_LIB)" ]; then \
 		echo "$(RED)🚮 Eliminando librería externa $(PIPEX_LIB)...$(RESET)"; \
