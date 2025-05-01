@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/30 12:37:42 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:39:12 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,12 @@ int	ft_here_doc(char *delimiter)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(STDIN_FILENO);
-		if (!line || ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		if (!line || (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
+				&& line[ft_strlen(delimiter)] == '\n'))
 		{
-			free(line);
+			ft_perror("Pipex error: Here_doc\n");
+			if (line)
+				free(line);
 			break ;
 		}
 		write(temp_pipe[WRITE], line, ft_strlen(line));
