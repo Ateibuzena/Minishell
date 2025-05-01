@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:08:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 16:09:43 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:14:21 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ void	print_executor(t_executor *exec)
 	for (i = 0; i < exec->count; i++)
 	{
 		printf("Command %d:\n", i + 1);
-		printf("  Infile: %s\n", exec->commands[i]->infile ? exec->commands[i]->infile : "(null)");
-		printf("  Outfile: %s\n", exec->commands[i]->outfile ? exec->commands[i]->outfile : "(null)");
-		printf("  Heredoc: %s\n", exec->commands[i]->heredoc ? exec->commands[i]->heredoc : "(null)");
+		printf("  Infile: %s\n",
+			exec->commands[i]->infile ? exec->commands[i]->infile : "(null)");
+		printf("  Outfile: %s\n",
+			exec->commands[i]->outfile ? exec->commands[i]->outfile : "(null)");
+		printf("  Heredoc: %s\n",
+			exec->commands[i]->heredoc ? exec->commands[i]->heredoc : "(null)");
 		printf("  Append: %d\n", exec->commands[i]->append);
 		printf("  Args: ");
 		for (j = 0; exec->commands[i]->cmd[j]; j++)
@@ -146,6 +149,7 @@ int	main()
 
 	printf("All tests completed successfully!\n");
 	printf("If running with Valgrind, check for memory leaks.\n");
-	printf("valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./pipex_test\n");
+	printf("valgrind --leak-check=full --show-leak-kinds=all
+		--track-origins=yes ./pipex_test\n");
 	return 0;
 }*/
