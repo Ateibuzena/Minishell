@@ -6,13 +6,13 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:24:43 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 16:33:51 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/01 23:51:50 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../signalsft.h"
 
-void sigwinch_handler(int sig)
+void	sigwinch_handler(int sig)
 {
-    (void)sig;
+	(void)sig;
 }
