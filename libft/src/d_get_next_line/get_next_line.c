@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 21:47:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 18:53:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:09:10 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,26 +90,26 @@ char	*ft_read_fd(int fd, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer = NULL;
 	char		*line;
-	char		*temp;
+	char		*new_buffer;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (buffer == NULL)
-	{
-		buffer = malloc(1 * sizeof(char));
-		if (!buffer)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		buffer[0] = '\0';
-	}
+	if (!buffer)
+		buffer = ft_strdup("");
 	buffer = ft_read_fd(fd, buffer);
-	temp = buffer;
+	if (!buffer)
+		return (NULL);
 	line = ft_line(buffer);
-	buffer = ft_buffer_update(buffer);
-	free(temp);
+	if (!line)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	new_buffer = ft_buffer_update(buffer);
+	free(buffer);
+	buffer = ft_free_staticbuffer(new_buffer);
 	return (line);
 }

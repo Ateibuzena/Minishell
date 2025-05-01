@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:13:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/30 12:26:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:12:32 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ char		*ft_line(char *line);
 char		*ft_buffer_update(char *buffer);
 
 char		*ft_free(char *ptr);
+char		*ft_free_staticbuffer(char *buffer);
 char		*get_next_line_bonus(int fd);
 char		*ft_read_fd_bonus(int fd, char *buffer);
 char		*ft_line(char *line);
