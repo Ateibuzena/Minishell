@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:36:59 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 14:43:50 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:41:20 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ enum e_quoteState
 
 typedef struct s_quoteState
 {
-	enum e_quoteState state;
-	size_t			i;
-	size_t			j;
-	char			*output;
+	enum e_quoteState	state;
+	size_t				i;
+	size_t				j;
+	char				*output;
 }	t_quoteState;
 
 typedef struct s_expand_state
