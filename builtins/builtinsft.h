@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:42:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/24 17:33:35 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 22:59:25 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "../libft/libft.h"
+# include "../signals/signalsft.h"
 # include "../enviroment/enviromentft.h"
 # include "../history/historyft.h"
 

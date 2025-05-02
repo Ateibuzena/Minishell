@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:36:59 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 15:41:20 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:03:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PARSERFT_H
 
 # include <fcntl.h>
-
 //libf
 # include "../libft/libft.h"
 //pipex

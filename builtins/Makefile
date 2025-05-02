@@ -2,7 +2,7 @@ NAME = builtins.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -I. -I../enviroment -I../history -I../libft 
+CFLAGS = -Wall -Wextra -Werror -I. -I../enviroment -I../history -I../signals -I../libft 
 
 AR = ar rcs
 RM = rm -f
@@ -13,6 +13,9 @@ ENVIROMENT_LIB = $(ENVIROMENT_DIR)/enviroment.a
 
 HISTORY_DIR = ../history
 HISTORY_LIB = $(HISTORY_DIR)/history.a
+
+SIGNALS_DIR = ../signals
+SIGNALS_LIB = $(SIGNALS_DIR)/signals.a
 
 LIBFT_DIR = ../libft
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
@@ -43,6 +46,8 @@ all: libs $(NAME)
 libs:
 	@echo "$(CYAN)📦 Compilando librerías...$(RESET)"
 	@make --no-print-directory -C $(LIBFT_DIR)
+	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
+	@make --no-print-directory -C $(SIGNALS_DIR)
 	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
 	@make --no-print-directory -C $(HISTORY_DIR)
 	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
@@ -96,6 +101,11 @@ fclean: clean
 		echo "$(RED)🚮 Eliminando librería externa $(HISTORY_LIB)...$(RESET)"; \
 		make -C $(HISTORY_DIR) fclean; \
 		echo "$(MAGENTA)✅ Librería $(HISTORY_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(SIGNALS_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(SIGNALS_LIB)...$(RESET)"; \
+		make -C $(SIGNALS_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(SIGNALS_LIB) eliminada.$(RESET)"; \
 	fi
 	@if [ -f "$(LIBFT_LIB)" ]; then \
 		echo "$(RED)🚮 Eliminando librería externa $(LIBFT_LIB)...$(RESET)"; \

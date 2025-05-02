@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:37:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 21:04:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:07:11 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	ft_initialize_shell(t_Minishell *shell, char **envp)
 {
-	int g_counter;
-
-	g_counter = 0;
 	shell->status = 0;
 	ft_setup_signals();
 	shell->env = ft_copy_env(envp);
@@ -86,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_initialize_shell(&shell, envp);
 	while (1)
 	{
-		if (g_exit == 1)
+		if (g_exit || g_exit == -1)
 			break ;
 		result = ft_read_input(&shell);
 		if (result == 0)

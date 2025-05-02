@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:05:19 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 16:06:40 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:06:16 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,10 @@ int	ft_exit(char **args)
 		}
 		status = ft_atoi(args[1]);
 	}
-	exit(status);
+	//ft_putstr_fd("exit\n", STDOUT_FILENO);
+	if (status != 0)
+		g_exit = status;
+	else if (status == 0)
+		g_exit = -1;
+	return (status);
 }
