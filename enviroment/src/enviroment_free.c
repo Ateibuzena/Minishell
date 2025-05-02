@@ -6,22 +6,22 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:55:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 03:21:23 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:46:16 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../enviromentft.h"
 
-void	ft_free_env(t_Env *env_list)
+void ft_free_env(t_Env *env)
 {
-	t_Env	*tmp;
+    t_Env *temp;
 
-	while (env_list)
-	{
-		tmp = env_list->next;
-		free(env_list->key);
-		free(env_list->value);
-		free(env_list);
-		env_list = tmp;
-	}
+    while (env)
+    {
+        temp = env;
+        env = env->next;
+        free(temp->key);
+        free(temp->value);
+        free(temp);
+    }
 }
