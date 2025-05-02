@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:55:21 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 13:41:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:52:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 
 //libf
 # include "../libft/libft.h"
+//signals
+# include "../signals/signalsft.h"
 //history
 # include "../history/historyft.h"
 //env
 # include "../enviroment/enviromentft.h"
-//parser
-# include "../parser/parserft.h"
 //builtins
 # include "../builtins/builtinsft.h"
 //prompt
@@ -38,17 +38,20 @@
 # include "../tokens/tokensft.h"
 //pipex
 # include "../pipex/pipexft.h"
-//signals
-# include "../signals/signalsft.h"
+//parser
+# include "../parser/parserft.h"
 
-
-typedef struct s_minishell
+typedef struct s_Minishell
 {
 	char		*prompt;
 	char		*input;
 	t_History	*history;
 	t_Env		*env;
-}	t_minishell;
+	char		*cleaned;
+	char		*expanded;
+	char		*normalized;
+	int			status;
+}	t_Minishell;
 
 typedef struct s_context
 {
@@ -61,7 +64,7 @@ typedef struct s_context
 
 /*minishell_redirect.c*/
 int		ft_handle_redirections(char **argv, int *stdin, int *stdout);
-int		ft_handle_pipes(char *input, t_History *history, t_Env *env);
+int		ft_handle_pipeline(t_Minishell *shell);
 
 /*minishell_utils.c*/
 int		ft_redirect_input(char *file, char *heredoc_delim);

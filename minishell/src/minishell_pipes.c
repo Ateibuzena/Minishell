@@ -6,23 +6,22 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:35:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 00:02:21 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:53:04 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishellft.h"
 
-static int	handle_pipes_with_redirections(char **argv, t_context *ctx,
-		t_History *history, t_Env *env)
+static int	ft_builtin(t_context *ctx, t_Minishell *shell)
 {
 	char	**split;
 	int		status;
 
-	if (ft_handle_redirections(argv, &ctx->stdin_backup,
+	if (ft_handle_redirections(ctx->argv, &ctx->stdin_backup,
 			&ctx->stdout_backup) == -1)
-		return (ft_freedouble(argv), 1);
-	split = ft_split(argv[ctx->builtin], ' ');
-	status = ft_execute_builtins(split, history, &env);
+		return (ft_freedouble(ctx->argv), 1);
+	split = ft_split(ctx->argv[ctx->builtin], ' ');
+	status = ft_execute_builtins(split, shell->history, &shell->env);
 	ft_freedouble(split);
 	dup2(ctx->stdin_backup, STDIN_FILENO);
 	dup2(ctx->stdout_backup, STDOUT_FILENO);
@@ -31,7 +30,7 @@ static int	handle_pipes_with_redirections(char **argv, t_context *ctx,
 	return (status);
 }
 
-static int	find_builtin_command(char **argv, t_context *ctx)
+static int	ft_find_builtin(char **argv, t_context *ctx)
 {
 	int		i;
 	char	**split;
@@ -56,35 +55,27 @@ static int	find_builtin_command(char **argv, t_context *ctx)
 	return (0);
 }
 
-static int	process_with_pipe(char **argv, t_History *history, t_Env *env)
+int	ft_handle_pipeline(t_Minishell *shell)
 {
-	int	status;
-
-	fprintf(stderr, "\nPipex con pipes: %s\n", argv[0]);
-	status = ft_pipex(argv, env, history);
-	return (status);
-}
-
-int	ft_handle_pipes(char *input, t_History *history, t_Env *env)
-{
-	t_context		ctx;
-	int				status;
+	t_context	ctx;
+	int			status;
 
 	ctx.status = 0;
-	if (!input || !input[0])
+	if (!shell->cleaned || !shell->cleaned[0])
 		return (ft_perror("Pipex error: NULL input\n"), 1);
-	ctx.argv = ft_group_tokens(input);
+	
+	ctx.argv = ft_group_tokens(shell->cleaned);
 	if (!ctx.argv || !ctx.argv[0] || !ctx.argv[0][0])
 		return (ft_perror("Pipex error: Tokens\n"), 1);
-	if (ft_strchr(input, '|'))
-		status = process_with_pipe(ctx.argv, history, env);
+	
+	if (ft_strchr(shell->cleaned, '|'))
+		status = ft_pipex(ctx.argv, shell->env, shell->history);
 	else
 	{
-		if (find_builtin_command(ctx.argv, &ctx))
-			status = handle_pipes_with_redirections(ctx.argv,
-					&ctx, history, env);
+		if (ft_find_builtin(ctx.argv, &ctx))
+			status = ft_builtin(&ctx, shell);
 		else
-			status = ft_pipex(ctx.argv, env, history);
+			status = ft_pipex(ctx.argv, shell->env, shell->history);
 	}
 	ft_freedouble(ctx.argv);
 	return (status);

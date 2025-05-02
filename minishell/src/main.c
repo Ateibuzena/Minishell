@@ -1,93 +1,99 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 15:37:27 by azubieta          #+#    #+#             */
+/*   Updated: 2025/05/02 16:03:52 by azubieta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishellft.h"
 
-int main(int argc, char **argv, char **envp)
+void	ft_initialize_shell(t_Minishell *shell, char **envp)
 {
-	char *prompt;
-    char *input;
-    t_History *history;
-    t_Env *env;
-	char *cleaned;
-	char *expanded;
-	char *normalized;
-	int status = 0;
-
-    if (argc > 1)
-		return (ft_perror("minishell error: arguments\n"), !status);
-    (void)argv;
-    //CONFIGURAR SEÑALES
+	shell->status = 0;
 	ft_setup_signals();
-    // Copiar el entorno y asignar memoria para el historial
-    env = ft_copy_env(envp);
-    
-    history = (t_History *)malloc(sizeof(t_History));
-    if (!history)
-    	return (ft_perror("Malloc error: History\n"), !status);
-    ft_init_history(history);
-    while (1)
-    {
-        // Construir el prompt
-        prompt = ft_prompt(env);
-		*get_g_in_readline() = 1;
-        input = readline(prompt);
-		*get_g_in_readline() = 0;  // <-- saliste de readline
-        free(prompt);
-        //fprintf(stderr, "\nInput: %s\n", input);
-        // Salir si la entrada es NULL (Ctrl+D)
-        if (!input)
-		{
-			write(1, "exit\n", 5);
-        	break ;
-		}
-		if (input[0] == '\0')
-		{
-			free(input);
-			continue ;
-		}
-		// Agregar la entrada al historial
-		ft_add_entry(history, input);
-		//ft_show_history(history);
-        normalized = ft_normalize_input(input);
-		free(input);
-		
-        if (!normalized || normalized[0] == '\0')
-		{
-			ft_perror("minishell error: normalize\n");
-			continue ;
-		}
-        // Procesar entrada si no está vacía
-		// 1. Validar sintaxis de la línea original
-		if (!validate_syntax(normalized))
-		{
-			ft_perror("minishell: syntax error\n");
-			free(normalized);
-			continue ;
-		}
+	shell->env = ft_copy_env(envp);
+	shell->history = (t_History *)malloc(sizeof(t_History));
+	if (!shell->history)
+		ft_perror("Malloc error: History\n");
+	ft_init_history(shell->history);
+}
 
-		// 2. Expandir variables
-		expanded = ft_expand_variables(normalized, env, status); // suponiendo que tienes last_exit global
-		
-		free(normalized);
-		if (!expanded)
-		{
-			ft_perror("minishell error: expand\n");
-			continue ;
-		}
+int	ft_read_input(t_Minishell *shell)
+{
+	shell->prompt = ft_prompt(shell->env);
+	*get_g_in_readline() = 1;
+	shell->input = readline(shell->prompt);
+	*get_g_in_readline() = 0;
+	free(shell->prompt);
+	if (!shell->input)
+	{
+		write(1, "exit\n", 5);
+		return (0);
+	}
+	if (shell->input[0] == '\0')
+	{
+		free(shell->input);
+		return (1);
+	}
+	return (2);
+}
 
-		// 3. Manejar comillas
-		cleaned = ft_handle_quotes(expanded);
-	
-		free(expanded);
-		if (!cleaned)
-		{
-			ft_perror("minishell error: handle_quotes\n");
+int	ft_process_input(t_Minishell *shell)
+{
+	shell->normalized = ft_normalize_input(shell->input);
+	free(shell->input);
+	if (!shell->normalized)
+		return (ft_perror("minishell error: normalize\n"), 0);
+	if (!validate_syntax(shell->normalized))
+	{
+		(ft_perror("minishell: syntax error\n"), free(shell->normalized));
+		return (0);
+	}
+	shell->expanded = ft_expand_variables(shell->normalized,
+			shell->env, shell->status);
+	free(shell->normalized);
+	if (!shell->expanded)
+		return (ft_perror("minishell error: expand\n"), 0);
+	shell->cleaned = ft_handle_quotes(shell->expanded);
+	free(shell->expanded);
+	if (!shell->cleaned)
+		return (ft_perror("minishell error: handle_quotes\n"), 0);
+	return (1);
+}
+
+void	ft_cleanup_shell(t_Minishell *shell)
+{
+	ft_free_history(shell->history);
+	ft_free_env(shell->env);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_Minishell	shell;
+	int			result;
+
+	(void)argv;
+	if (argc > 1)
+		return (ft_perror("minishell error: arguments\n"), 1);
+	ft_initialize_shell(&shell, envp);
+	while (1)
+	{
+		result = ft_read_input(&shell);
+		if (result == 0)
+			break ;
+		if (result == 1)
 			continue ;
-		}
-	
-		// 4. Ejecutar comandos (pipes o builtin)
-		if (cleaned[0] != '\0')
-			status = ft_handle_pipes(cleaned, history, env);
-    }
-    ft_free_history(history);
-    ft_free_env(env);
-    return (0);
+		ft_add_entry(shell.history, shell.input);
+		if (!ft_process_input(&shell))
+			continue ;
+		if (shell.cleaned && shell.cleaned[0] != '\0')
+			shell.status = ft_handle_pipeline(&shell);
+	}
+	ft_cleanup_shell(&shell);
+	return (0);
 }
