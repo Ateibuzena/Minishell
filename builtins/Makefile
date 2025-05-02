@@ -19,10 +19,11 @@ LIBFT_LIB = $(LIBFT_DIR)/libft.a
 
 # 📂 Directorios de código y objetos
 SRCDIR = src
-SRCS = $(wildcard $(SRCDIR)/*.c)
-
 OBJDIR = obj
-OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
+
+# 🔍 Buscar archivos fuente en subdirectorios
+SRCS := $(shell find $(SRCDIR) -type f -name "*.c")
+OBJS := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 HEADERS = builtinsft.h
 
@@ -36,23 +37,18 @@ WHITE    = \033[0;37m
 RESET    = \033[0m
 
 # 🚀 Compilación principal
-all: $(LIBFT_LIB) $(ENVIROMENT_LIB) $(HISTORY_LIB) $(NAME)
+all: libs $(NAME)
 
 # 🔗 Compilar librerías en orden correcto
-$(LIBFT_LIB):
-	@echo "$(CYAN)📦 Compilando librería libft...$(RESET)"
-	@make -C $(LIBFT_DIR)
-	@echo "$(GREEN)✅ Librería libft compilada.$(RESET)"
-
-$(HISTORY_LIB): $(LIBFT_LIB)
-	@echo "$(CYAN)📦 Compilando librería history...$(RESET)"
-	@make -C $(HISTORY_DIR)
-	@echo "$(GREEN)✅ Librería history compilada.$(RESET)"
-
-$(ENVIROMENT_LIB): $(LIBFT_LIB)
-	@echo "$(CYAN)📦 Compilando librería enviroment...$(RESET)"
-	@make -C $(ENVIROMENT_DIR)
-	@echo "$(GREEN)✅ Librería enviroment compilada.$(RESET)"
+libs:
+	@echo "$(CYAN)📦 Compilando librerías...$(RESET)"
+	@make --no-print-directory -C $(LIBFT_DIR)
+	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
+	@make --no-print-directory -C $(HISTORY_DIR)
+	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
+	@make --no-print-directory -C $(ENVIROMENT_DIR)
+	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
+	@echo "$(GREEN)✅ Librerías compiladas.$(RESET)"
 
 # 🔨 Crear archivo .a (builtins.a)
 $(NAME): $(OBJDIR) $(OBJS)
@@ -110,4 +106,4 @@ fclean: clean
 # 🔄 Recompilación completa
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libs

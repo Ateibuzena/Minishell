@@ -2,18 +2,18 @@ NAME = libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror -I.
 
 AR = ar rcs
 RM = rm -f
 
-# 📂 Directorios de librerías externas
-SRC_DIR = ./src
-OBJ_DIR = ./obj
+# 📂 Directorios de código y objetos
+SRCDIR = src
+OBJDIR = obj
 
-# 📜 Buscar automáticamente todos los archivos fuente en src/ y sus subdirectorios
-SRCS = $(shell find $(SRC_DIR) -type f -name "*.c")
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+# 🔍 Buscar archivos fuente en subdirectorios
+SRCS := $(shell find $(SRCDIR) -type f -name "*.c")
+OBJS := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 HEADERS = libft.h
 
@@ -29,37 +29,38 @@ RESET    = \033[0m
 # 🚀 Compilación principal
 all: $(NAME)
 
-# 🔗 Crear librería .a (libft.a)
-$(NAME): $(OBJ_DIR) $(OBJS)
+# 🔨 Crear archivo .a (builtins.a)
+$(NAME): $(OBJDIR) $(OBJS)
 	@echo "$(CYAN)🔗 Creando $(NAME)...$(RESET)"
 	@$(AR) $(NAME) $(OBJS)
 	@echo "$(GREEN)✅ $(NAME) creado con éxito.$(RESET)"
 
 # 📂 Crear directorio de objetos
-$(OBJ_DIR):
+$(OBJDIR):
 	@echo "$(CYAN)📂 Creando directorios de objetos...$(RESET)"
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJDIR)
 	@echo "$(GREEN)✅ Directorios de objetos creados.$(RESET)"
 
 # 🏗 Compilar archivos `.c` en `.o`, respetando subdirectorios
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) | $(OBJ_DIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
 	@mkdir -p $(dir $@)
 	@echo "$(YELLOW)🔹 Compilando $< -> $@$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(GREEN)✅ Compilado: $@$(RESET)"
 
-# 🧹 Limpiar archivos objeto
+
+# 🧹 Limpieza de objetos
 clean:
 	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
-	@if [ -d "$(OBJ_DIR)" ]; then \
+	@if [ -d "$(OBJDIR)" ]; then \
 		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
-		$(RM) -rf $(OBJ_DIR); \
+		$(RM) -rf $(OBJDIR); \
 		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
 	fi
 
-# 🧹 Limpiar completamente (incluye la librería)
+# 🧹 Limpieza total (elimina objetos y archivo .a)
 fclean: clean
 	@if [ -f "$(NAME)" ]; then \
 		echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"; \

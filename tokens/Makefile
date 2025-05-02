@@ -16,10 +16,11 @@ LIBFT_LIB = $(LIBFT_DIR)/libft.a
 
 # 📂 Directorios de código y objetos
 SRCDIR = src
-SRCS = $(wildcard $(SRCDIR)/*.c)
-
 OBJDIR = obj
-OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
+
+# 🔍 Buscar archivos fuente en subdirectorios
+SRCS := $(shell find $(SRCDIR) -type f -name "*.c")
+OBJS := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 HEADERS = tokensft.h
 
@@ -33,20 +34,18 @@ WHITE    = \033[0;37m
 RESET    = \033[0m
 
 # 🚀 Compilación principal
-all: $(LIBFT_LIB) $(BUILTINS_LIB) $(NAME)
+all: libs $(NAME)
 
 # 🔗 Compilar librerías en orden correcto
-$(LIBFT_LIB):
-	@echo "$(CYAN)📦 Compilando librería libft...$(RESET)"
-	@make -C $(LIBFT_DIR)
-	@echo "$(GREEN)✅ Librería libft compilada.$(RESET)"
+libs:
+	@echo "$(CYAN)📦 Compilando librerías...$(RESET)"
+	@make --no-print-directory -C $(LIBFT_DIR)
+	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
+	@make --no-print-directory -C $(BUILTINS_DIR)
+	@echo "$(CYAN)------------------------------------------------------------$(RESET)"
+	@echo "$(GREEN)✅ Librerías compiladas.$(RESET)"
 
-$(BUILTINS_LIB): $(LIBFT_LIB)
-	@echo "$(CYAN)📦 Compilando librería builtins...$(RESET)"
-	@make -C $(BUILTINS_DIR)
-	@echo "$(GREEN)✅ Librería builtins compilada.$(RESET)"
-
-# 🔨 Crear archivo .a (tokens.a)
+# 🔨 Crear archivo .a (pipex.a)
 $(NAME): $(OBJDIR) $(OBJS)
 	@echo "$(CYAN)🔗 Creando $(NAME)...$(RESET)"
 	@$(AR) $(NAME) $(OBJS)
@@ -66,17 +65,34 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
 
 # 🧹 Limpieza de objetos
 clean:
-	@echo "$(RED)🗑️ Eliminando archivos objeto...$(RESET)"
+	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
+	@if [ -d "$(OBJDIR)" ]; then \
+		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
+		$(RM) -rf $(OBJDIR); \
+		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
+	fi
 
 # 🧹 Limpieza total (elimina objetos y archivo .a)
 fclean: clean
-	@echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"
-	@$(RM) $(NAME)
-	@echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"
+	@if [ -f "$(NAME)" ]; then \
+		echo "$(RED)🚮 Eliminando archivo $(NAME)...$(RESET)"; \
+		$(RM) $(NAME); \
+		echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"; \
+	fi
+	@if [ -f "$(BUILTINS_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(BUILTINS_LIB)...$(RESET)"; \
+		make -C $(BUILTINS_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(BUILTINS_LIB) eliminada.$(RESET)"; \
+	fi
+	@if [ -f "$(LIBFT_LIB)" ]; then \
+		echo "$(RED)🚮 Eliminando librería externa $(LIBFT_LIB)...$(RESET)"; \
+		make -C $(LIBFT_DIR) fclean; \
+		echo "$(MAGENTA)✅ Librería $(LIBFT_LIB) eliminada.$(RESET)"; \
+	fi
 
 # 🔄 Recompilación completa
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libs
