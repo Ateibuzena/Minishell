@@ -602,3 +602,17 @@
    fun:ft_read_input
    fun:main
 }
+
+{
+   readline_leak_41_rl_redisplay_2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:ft_read_input
+   fun:main
+}
