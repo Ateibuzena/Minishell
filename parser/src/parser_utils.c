@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_parser_utils.c                           :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 17:41:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 22:50:46 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 13:44:42 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishellft.h"
+#include "../parserft.h"
 
 void	ft_double_operator(const char *input, char *res, int *i, int *j)
 {

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_quotes.c                                 :+:      :+:    :+:   */
+/*   parser_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:16:11 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 23:22:25 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 13:44:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishellft.h"
+#include "../parserft.h"
 
 char	*handle_no_quote(const char *input, t_quoteState *qstate)
 {

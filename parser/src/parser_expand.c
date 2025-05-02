@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_expand.c                                 :+:      :+:    :+:   */
+/*   parser_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:34:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 22:38:11 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 13:44:54 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishellft.h"
+#include "../parserft.h"
 
 static void	ft_handle_single_quote(const char *line, int *i, char **result)
 {
