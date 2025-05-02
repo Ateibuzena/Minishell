@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:35:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 15:53:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:06:57 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,9 @@ int	ft_handle_pipeline(t_Minishell *shell)
 	ctx.status = 0;
 	if (!shell->cleaned || !shell->cleaned[0])
 		return (ft_perror("Pipex error: NULL input\n"), 1);
-	
 	ctx.argv = ft_group_tokens(shell->cleaned);
 	if (!ctx.argv || !ctx.argv[0] || !ctx.argv[0][0])
 		return (ft_perror("Pipex error: Tokens\n"), 1);
-	
 	if (ft_strchr(shell->cleaned, '|'))
 		status = ft_pipex(ctx.argv, shell->env, shell->history);
 	else

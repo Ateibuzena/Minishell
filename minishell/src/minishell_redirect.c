@@ -6,13 +6,13 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:55:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 23:56:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:08:57 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishellft.h"
 
-int	ft_handle_redirection_type(char *arg, int *i)
+static int	ft_handle_redirection_type(char *arg, int *i)
 {
 	if (ft_strncmp(arg, "<", 1) == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:55:21 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 15:52:47 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:09:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,11 @@ typedef struct s_context
 	int		stdout_backup;
 }	t_context;
 
+/*minishell_pipeline.c*/
+int		ft_handle_pipeline(t_Minishell *shell);
+
 /*minishell_redirect.c*/
 int		ft_handle_redirections(char **argv, int *stdin, int *stdout);
-int		ft_handle_pipeline(t_Minishell *shell);
 
 /*minishell_utils.c*/
 int		ft_redirect_input(char *file, char *heredoc_delim);
