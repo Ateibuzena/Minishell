@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/03 13:56:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:07:54 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void ft_build_prompt(char *prompt, char *user, char *session, char *path)
 {
 	t_colors	colors;
 
-	colors.user_color = PINK;
-	colors.session_color = BLUE;
-	colors.path_color = GREEN;
-	colors.character_color = YELLOW;
-	colors.reset_color = RESET;
+	colors.user_color = S(PINK);
+	colors.session_color = S(BLUE);
+	colors.path_color = S(GREEN);
+	colors.character_color = S(YELLOW);
+	colors.reset_color = S(RESET);
 	ft_strcpy(prompt, colors.user_color);
 	ft_strcat(prompt, user);
 	ft_strcat(prompt, colors.character_color);
@@ -61,29 +61,22 @@ void ft_build_prompt(char *prompt, char *user, char *session, char *path)
 	ft_strcat(prompt, colors.path_color);
 	ft_strcat(prompt, path);
 	ft_strcat(prompt, colors.character_color);
-	ft_strcat(prompt, "$ ");
+	ft_strcat(prompt, "$");
 	ft_strcat(prompt, colors.reset_color);
+	ft_strcat(prompt, " ");
 }
 
-int ft_prompt_size(char *user, char *session, char *path)
+int	ft_prompt_size(char *user, char *session, char *path)
 {
-	int	prompt_size;
+	int	size;
 
-	prompt_size = 0;
-	prompt_size += 5;
-	prompt_size += ft_strlen(user);
-	prompt_size += 5;
-	prompt_size += 1;
-	prompt_size += 5;
-	prompt_size += ft_strlen(session);
-	prompt_size += 5;
-	prompt_size += 1;
-	prompt_size += 5;
-	prompt_size += ft_strlen(path);
-	prompt_size += 5;
-	prompt_size += 2;
-	prompt_size += 4;
-	return (prompt_size);
+	size = 0;
+	size += ft_strlen(user);
+	size += ft_strlen(session);
+	size += ft_strlen(path);
+	size += 1 + 1 + 1 + 1 + 2;
+	size += 5 * 9;
+	return (size);
 }
 
 char *ft_prompt(t_Env *env)
