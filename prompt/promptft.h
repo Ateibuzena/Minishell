@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:02:32 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/03 15:01:42 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:12:53 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@
 # include "../libft/libft.h"
 # include "../builtins/builtinsft.h"
 
-# define S(x) "\001" x "\002"
-# define GREEN "\033[32m"
-# define BLUE "\033[34m"
-# define PINK "\033[35m"
-# define YELLOW "\033[33m"
-# define RESET   "\033[0m"
+# define PINK "\001\033[35m\002"
+# define BLUE "\001\033[34m\002"
+# define GREEN "\001\033[33m\002"
+# define YELLOW "\001\033[33m\002"
+# define RESET "\001\033[0m\002"
 
 typedef struct s_colors
 {

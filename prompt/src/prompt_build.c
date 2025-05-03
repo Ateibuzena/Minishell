@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/03 15:07:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:13:16 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ char	*ft_simplify_path(char *cwd)
 	return (ft_strdup(cwd));
 }
 
-void ft_build_prompt(char *prompt, char *user, char *session, char *path)
+void	ft_build_prompt(char *prompt, char *user, char *session, char *path)
 {
 	t_colors	colors;
 
-	colors.user_color = S(PINK);
-	colors.session_color = S(BLUE);
-	colors.path_color = S(GREEN);
-	colors.character_color = S(YELLOW);
-	colors.reset_color = S(RESET);
+	colors.user_color = PINK;
+	colors.session_color = BLUE;
+	colors.path_color = GREEN;
+	colors.character_color = YELLOW;
+	colors.reset_color = RESET;
 	ft_strcpy(prompt, colors.user_color);
 	ft_strcat(prompt, user);
 	ft_strcat(prompt, colors.character_color);
@@ -79,7 +79,7 @@ int	ft_prompt_size(char *user, char *session, char *path)
 	return (size);
 }
 
-char *ft_prompt(t_Env *env)
+char	*ft_prompt(t_Env *env)
 {
 	t_prompt	p;
 
@@ -93,16 +93,16 @@ char *ft_prompt(t_Env *env)
 		return (free(p.user), NULL);
 	p.cwd = getcwd(NULL, 0);
 	if (!p.cwd)
-        return (free(p.user), free(p.session), NULL);
+		return (free(p.user), free(p.session), NULL);
 	p.path = ft_simplify_path(p.cwd);
 	free(p.cwd);
 	if (!p.path)
 		return (free(p.user), free(p.session), NULL);
-    p.prompt_size = ft_prompt_size(p.user, p.session, p.path);
-    p.prompt = malloc((p.prompt_size + 1) * sizeof(char));
-    if (!p.prompt)
-        return (free(p.user), free(p.session), free(p.path), NULL);
-    ft_build_prompt(p.prompt, p.user, p.session, p.path);
+	p.prompt_size = ft_prompt_size(p.user, p.session, p.path);
+	p.prompt = malloc((p.prompt_size + 1) * sizeof(char));
+	if (!p.prompt)
+		return (free(p.user), free(p.session), free(p.path), NULL);
+	ft_build_prompt(p.prompt, p.user, p.session, p.path);
 	(free(p.user), free(p.session), free(p.path));
-    return (p.prompt);
+	return (p.prompt);
 }
