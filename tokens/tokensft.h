@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:19:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 21:51:59 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:36:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*ft_process_command(char **input, int *i);
 void	ft_remove_pipes(char **result);
 
 /*tokens_group_split.c*/
+int		ft_special_token(const char *token);
 char	**ft_split_command(const char *input);
 char	**ft_group_tokens(char *entry);
 

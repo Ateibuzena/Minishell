@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:35:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 02:51:13 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:29:30 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_process_double_delimiter(const char *current)
 	if (!token)
 	{
 		perror("Tokens: Malloc Error");
-		exit(EXIT_FAILURE);
+		g_exit = 1;
 	}
 	token[0] = *current;
 	token[1] = *(current + 1);

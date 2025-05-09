@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:31:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 02:50:51 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:37:43 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*ft_process_redirect(char **input, int *i)
 	result = malloc(length * sizeof(char));
 	if (!result)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		perror("Tokens: Malloc Error");
+		g_exit = 1;
 	}
 	ft_snprintf(result, length, input[(*i)], input[(*i) + 1]);
 	(*i) += 2;
@@ -44,8 +44,8 @@ char	*ft_process_pipe(char **input, int *i)
 	pipe_token = ft_strdup(input[(*i)]);
 	if (!pipe_token)
 	{
-		perror("strdup");
-		exit(EXIT_FAILURE);
+		perror("Tokens: Dup Error");
+		g_exit = 1;
 	}
 	((*i))++;
 	return (pipe_token);
@@ -59,19 +59,21 @@ char	*ft_process_command(char **input, int *i)
 	length = ft_strlen(input[(*i)]) + 1;
 	command = malloc(length * sizeof(char));
 	if (!command)
-		(perror("Tokens: Realloc Error"), exit(EXIT_FAILURE));
+	{
+		perror("Tokens: Malloc Error");
+		g_exit = 1;
+	}
 	ft_strcpy(command, input[(*i)]);
-	while (input[(*i) + 1] && ft_strcmp(input[(*i) + 1], "|") == 0
-		&& ft_strcmp(input[(*i) + 1], "<") == 0
-		&& ft_strcmp(input[(*i) + 1], ">") == 0
-		&& ft_strcmp(input[(*i) + 1], ">>") == 0)
+	while (ft_special_token(input[(*i) + 1]))
 	{
 		length += ft_strlen(input[(*i) + 1]) + 1;
 		command = realloc(command, length);
 		if (!command)
-			(perror("Tokens: Realloc Error"), exit(EXIT_FAILURE));
-		ft_strcat(command, " ");
-		ft_strcat(command, input[(*i) + 1]);
+		{
+			perror("Tokens: Realloc Error");
+			g_exit = 1;
+		}
+		(ft_strcat(command, " "), ft_strcat(command, input[(*i) + 1]));
 		((*i))++;
 	}
 	((*i))++;

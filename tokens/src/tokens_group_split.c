@@ -6,11 +6,21 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:29:04 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/13 21:55:37 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:33:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../tokensft.h"
+
+int	ft_special_token(const char *token)
+{
+	if (!token)
+        return (0);
+	if (ft_strcmp(token, "|") == 0 && ft_strcmp(token, "<") == 0 && ft_strcmp(token, ">") == 0
+		&& ft_strcmp(token, "<<") == 0 && ft_strcmp(token, ">>") == 0)
+		return (1);
+	return (0);
+}
 
 static void	ft_init_token(t_token *split)
 {
@@ -18,8 +28,8 @@ static void	ft_init_token(t_token *split)
 	split->result = malloc(split->capacity * sizeof(char *));
 	if (!split->result)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		perror("Tokens: Malloc Error");
+		g_exit = 1;
 	}
 	split->start = NULL;
 	split->current = NULL;
@@ -55,6 +65,17 @@ char	**ft_split_command(const char *input)
 	return (s.result);
 }
 
+static void	ft_initialize_group(char **array, int size)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return;
+	while (i < size)
+		array[i++] = NULL;
+}
+
 char	**ft_group_tokens(char *entry)
 {
 	t_group	group;
@@ -63,9 +84,10 @@ char	**ft_group_tokens(char *entry)
 	group.result = malloc(MAX_TOKENS * sizeof(char *));
 	if (!group.result)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		perror("Tokens: Malloc Error");
+		g_exit = 1;
 	}
+	ft_initialize_group(group.result, MAX_TOKENS);
 	group.i = 0;
 	group.j = 0;
 	while (group.input[group.i])
