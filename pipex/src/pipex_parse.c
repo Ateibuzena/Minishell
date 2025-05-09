@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:29:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/30 13:12:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:24:57 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ static t_command	*ft_new_command(t_command *curr, int *i, t_executor *exec)
 static char	*ft_extract_file(char *token)
 {
 	char	*res;
+	char	*file;
 
 	res = ft_strchr(token, ' ');
 	if (!res)
 		return (NULL);
-	return (ft_strdup(res + 1));
+	file = ft_strdup(res + 1);
+	return (file);
 }
 
 static void	ft_add_args(char *argv, t_command *curr, int *i)
@@ -70,6 +72,8 @@ static void	ft_process_token(char *token, t_command *curr, int *i)
 	}
 	else
 		ft_add_args(token, curr, i);
+	free(token);
+	token = NULL;
 }
 
 t_executor	*ft_parse_commands(char **argv)
