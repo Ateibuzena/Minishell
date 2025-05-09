@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:13:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 15:12:32 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:27:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ int			ft_atoi(const char *str);
 char		**ft_split(char const *str, char c);
 char		*ft_itoa(int n);
 void		ft_freedouble(char **ptr);
-void		ft_freedouble_array(int **pipes, int len);
+void		ft_freedouble_array(int **array, int len);
 void		ft_free_partialdouble(char **arr, int size);
 int			ft_strlen_double(char **str);
 long int	ft_strtol(const char *str, char **endptr, int base);
