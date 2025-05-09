@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:40:23 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/12 23:05:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:21:26 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+# include "../signals/signalsft.h"
 
 typedef struct s_HistoryEntry
 {

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:41:49 by azubieta          #+#    #+#             */
-/*   Updated: 2025/01/11 15:19:57 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:21:36 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_HistoryEntry	*ft_new_entry(const char *line)
 	if (!entry)
 	{
 		perror("minishell: Malloc Error");
-		exit(1);
+		g_exit = 1;
 	}
 	entry->line = ft_strdup(line);
 	entry->next = NULL;
@@ -32,7 +32,7 @@ void	ft_init_history(t_History	*history)
 	if (!history)
 	{
 		perror("minishell: Malloc Error");
-		exit(1);
+		g_exit = 1;
 	}
 	history->tail = NULL;
 	history->head = history->tail;
