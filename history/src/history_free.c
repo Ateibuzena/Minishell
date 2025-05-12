@@ -6,13 +6,12 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:58:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 22:03:59 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 22:04:32 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../historyft.h"
 
-// Add a function to free the history
 void	ft_free_history(t_History *history)
 {
 	t_HistoryEntry	*current;
