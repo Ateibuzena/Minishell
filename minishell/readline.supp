@@ -616,3 +616,23 @@
    fun:ft_read_input
    fun:main
 }
+
+{
+   readline_leak_42_rl_redisplay_2
+   Memcheck:Addr1
+   fun:strlen
+   fun:rl_set_prompt
+   fun:readline
+   fun:ft_read_input
+   fun:main
+}
+
+{
+   readline_leak_43_rl_redisplay_2
+   Memcheck:Addr1
+   fun:memmove
+   fun:rl_set_prompt
+   fun:readline
+   fun:ft_read_input
+   fun:main
+}
