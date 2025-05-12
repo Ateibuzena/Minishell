@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:41:49 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 14:21:36 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 22:02:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_HistoryEntry	*ft_new_entry(const char *line)
 	{
 		perror("minishell: Malloc Error");
 		g_exit = 1;
+		return ;
 	}
 	entry->line = ft_strdup(line);
 	entry->next = NULL;
@@ -33,6 +34,7 @@ void	ft_init_history(t_History	*history)
 	{
 		perror("minishell: Malloc Error");
 		g_exit = 1;
+		return ;
 	}
 	history->tail = NULL;
 	history->head = history->tail;
