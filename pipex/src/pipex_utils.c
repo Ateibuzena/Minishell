@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 14:27:48 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 23:23:00 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ int	ft_here_doc(char *delimiter)
 	int		temp_pipe[2];
 
 	if (pipe(temp_pipe) < 0)
-	{
-		ft_perror("Pipex error: Pipe (here_doc)");
-		exit(EXIT_FAILURE);
-	}
+		(ft_perror("Pipex error: Pipe (here_doc)"), exit(EXIT_FAILURE));
 	while (1)
 	{
 		write(1, "heredoc> ", 9);

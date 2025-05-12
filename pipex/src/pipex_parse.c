@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:29:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 15:24:57 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:41:28 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static void	ft_process_token(char *token, t_command *curr, int *i)
 	}
 	else
 		ft_add_args(token, curr, i);
-	free(token);
-	token = NULL;
 }
 
 t_executor	*ft_parse_commands(char **argv)

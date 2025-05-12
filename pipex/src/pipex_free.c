@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:30:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/30 15:35:12 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 23:20:35 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,18 @@
 
 void	ft_free_command(t_command *cmd)
 {
-	int	j;
-
-	if (!cmd)
-		return ;
 	if (cmd->infile)
-		free(cmd->infile);
-	if (cmd->outfile)
-		free(cmd->outfile);
-	if (cmd->cmd)
 	{
-		j = 0;
-		while (cmd->cmd[j])
-		{
-			free(cmd->cmd[j]);
-			j++;
-		}
-		free(cmd->cmd);
+		free(cmd->infile);
+		cmd->infile = NULL;
 	}
-	free(cmd);
+	if (cmd->outfile)
+	{
+		free(cmd->outfile);
+		cmd->outfile = NULL;
+	}
+	if (cmd->cmd)
+		ft_freedouble(cmd->cmd);
 }
 
 void	ft_free_executor(t_executor *exec)
@@ -41,14 +34,23 @@ void	ft_free_executor(t_executor *exec)
 
 	if (!exec)
 		return ;
-	i = 0;
-	while (i < exec->count)
+	if (exec->commands)
 	{
-		ft_free_command(exec->commands[i]);
-		i++;
+		i = 0;
+		while (i < exec->count)
+		{
+			if (exec->commands[i])
+			{
+				ft_free_command(exec->commands[i]);
+				exec->commands[i] = NULL;
+			}
+			i++;
+		}
+		free(exec->commands);
+		exec->commands = NULL;
 	}
-	free(exec->commands);
 	free(exec);
+	exec = NULL;
 }
 
 char	*ft_strjoin_free(char *s1, char *s2)

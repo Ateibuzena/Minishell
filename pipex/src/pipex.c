@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/09 14:23:00 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:44:26 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ int	ft_pipex(char **argv, t_Env *env, t_History *history)
 	t_pipex		pipex;
 
 	if (!argv || !argv[0])
-	return (ft_perror("Pipex error: No input\n"), 1);
+		return (ft_perror("Pipex error: No input\n"), ft_freedouble(argv), 1);
 	pipex.exec = ft_parse_commands(argv);
+	if (!pipex.exec)
+		return (ft_perror("Pipex error: NULL exec\n"), 1);
 	pipex.env_array = ft_envtoarray(env);
 	if (!pipex.env_array)
-	(ft_perror("malloc\n"), exit(EXIT_FAILURE));
+		(ft_perror("malloc\n"), exit(EXIT_FAILURE));
 	pipex.history = history;
 	pipex.env = &env;
 	pipex.i = 0;
@@ -53,5 +55,6 @@ int	ft_pipex(char **argv, t_Env *env, t_History *history)
 	last_pid = ft_process_pipeline(&pipex);
 	last_status = ft_waitpid(&last_pid);
 	ft_free_executor(pipex.exec);
+	ft_freedouble(pipex.env_array);
 	return (last_status);
 }
