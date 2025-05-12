@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 19:22:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/03 15:13:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:03:03 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_prompt_size(char *user, char *session, char *path)
 	size += ft_strlen(user);
 	size += ft_strlen(session);
 	size += ft_strlen(path);
-	size += 1 + 1 + 1 + 1 + 2;
+	size += 1 + 1 + 1 + 1 + 1 + 2;
 	size += 5 * 9;
 	return (size);
 }
