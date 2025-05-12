@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:16:11 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 13:44:47 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 23:14:32 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ char	*handle_double_quote(const char *input, t_quoteState *qstate)
 	return (NULL);
 }
 
+static void	ft_init_state(t_quoteState *qstate)
+{
+	qstate->state = NO_QUOTE;
+	qstate->i = 0;
+	qstate->j = 0;
+}
+
 char	*ft_handle_quotes(const char *input)
 {
 	t_quoteState	qstate;
@@ -60,9 +67,7 @@ char	*ft_handle_quotes(const char *input)
 	if (!input)
 		return (NULL);
 	len = ft_strlen(input);
-	qstate.state = NO_QUOTE;
-	qstate.i = 0;
-	qstate.j = 0;
+	ft_init_state(&qstate);
 	qstate.output = malloc(len + 1);
 	if (!qstate.output)
 		return (NULL);
@@ -76,6 +81,8 @@ char	*ft_handle_quotes(const char *input)
 			handle_double_quote(input, &qstate);
 		qstate.i++;
 	}
+	if (qstate.state != NO_QUOTE)
+		return (free(qstate.output), NULL);
 	qstate.output[qstate.j] = '\0';
 	return (qstate.output);
 }
