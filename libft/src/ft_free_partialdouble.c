@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_partialdouble.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:27:08 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/30 12:27:32 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 22:01:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,17 @@
 
 void	ft_free_partialdouble(char **arr, int size)
 {
-	while (--size >= 0)
-		free(arr[size]);
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (i < size)
+	{
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
 	free(arr);
+	arr = NULL;
 }

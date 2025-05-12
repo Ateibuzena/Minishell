@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_freedouble.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:10:52 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/09 14:27:21 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:36:56 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,20 @@ void	ft_freedouble(char **ptr)
 	if (!ptr)
 		return ;
 	i = 0;
-	while (ptr[i])
+	if (ptr)
 	{
-		free(ptr[i]);
-		i++;
+		while (ptr[i])
+		{
+			if (ptr[i])
+			{
+				free(ptr[i]);
+				ptr[i] = NULL;
+			}
+			i++;
+		}
+		free(ptr);
+		ptr = NULL;
 	}
-	free(ptr);
 }
 
 void	ft_freedouble_array(int **array, int len)
@@ -37,7 +45,9 @@ void	ft_freedouble_array(int **array, int len)
 	while (j < len)
 	{
 		free(array[j]);
+		array[j] = 0;
 		j++;
 	}
 	free(array);
+	array = 0;
 }
