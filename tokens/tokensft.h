@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokensft.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:19:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 14:36:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 22:35:37 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include "../builtins/builtinsft.h"
 
 # define INITIAL_CAPACITY 10
-# define MAX_TOKENS 100
 
 # ifndef S_TOKEN
 #  define S_TOKEN
@@ -70,6 +69,10 @@ void	ft_remove_pipes(char **result);
 /*tokens_group_split.c*/
 int		ft_special_token(const char *token);
 char	**ft_split_command(const char *input);
-char	**ft_group_tokens(char *entry);
+char	**ft_group_tokens(char **entry, int len);
+
+/*tokens_free.c*/
+void	ft_free_token(t_token *token);
+void	ft_free_group(t_group *group);
 
 #endif

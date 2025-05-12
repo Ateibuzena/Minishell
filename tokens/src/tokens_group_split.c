@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_group_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:29:04 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 16:33:47 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 22:46:19 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 int	ft_special_token(const char *token)
 {
 	if (!token)
-        return (0);
-	if (ft_strcmp(token, "|") == 0 && ft_strcmp(token, "<") == 0 && ft_strcmp(token, ">") == 0
-		&& ft_strcmp(token, "<<") == 0 && ft_strcmp(token, ">>") == 0)
+		return (0);
+	if (ft_strcmp(token, "|") == 0
+		&& ft_strcmp(token, "<") == 0
+		&& ft_strcmp(token, ">") == 0
+		&& ft_strcmp(token, "<<") == 0
+		&& ft_strcmp(token, ">>") == 0)
 		return (1);
 	return (0);
 }
@@ -30,6 +33,7 @@ static void	ft_init_token(t_token *split)
 	{
 		perror("Tokens: Malloc Error");
 		g_exit = 1;
+		return ;
 	}
 	split->start = NULL;
 	split->current = NULL;
@@ -71,36 +75,36 @@ static void	ft_initialize_group(char **array, int size)
 
 	i = 0;
 	if (!array)
-		return;
+		return ;
 	while (i < size)
 		array[i++] = NULL;
 }
 
-char	**ft_group_tokens(char *entry)
+char	**ft_group_tokens(char **entry, int len)
 {
 	t_group	group;
 
-	group.input = ft_split_command(entry);
-	group.result = malloc(MAX_TOKENS * sizeof(char *));
+	group.result = ft_calloc(len, sizeof(char *));
 	if (!group.result)
 	{
 		perror("Tokens: Malloc Error");
+		ft_freedouble(entry);
 		g_exit = 1;
+		return (NULL);
 	}
-	ft_initialize_group(group.result, MAX_TOKENS);
+	ft_initialize_group(group.result, len);
 	group.i = 0;
 	group.j = 0;
-	while (group.input[group.i])
+	while (entry[group.i])
 	{
-		if (ft_is_redirect(group.input[group.i]))
-			group.result[group.j] = ft_process_redirect(group.input, &group.i);
-		else if (ft_strcmp(group.input[group.i], "|") != 0)
-			group.result[group.j] = ft_process_pipe(group.input, &group.i);
+		if (ft_is_redirect(entry[group.i]))
+			group.result[group.j] = ft_process_redirect(entry, &group.i);
+		else if (ft_strcmp(entry[group.i], "|") != 0)
+			group.result[group.j] = ft_process_pipe(entry, &group.i);
 		else
-			group.result[group.j] = ft_process_command(group.input, &group.i);
+			group.result[group.j] = ft_process_command(entry, &group.i);
 		group.j++;
 	}
-	group.result[group.j] = NULL;
-	ft_freedouble(group.input);
+	ft_freedouble(entry);
 	return (group.result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils_group.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:31:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 14:37:43 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 22:47:03 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*ft_process_redirect(char **input, int *i)
 	{
 		perror("Tokens: Malloc Error");
 		g_exit = 1;
+		return (NULL);
 	}
 	ft_snprintf(result, length, input[(*i)], input[(*i) + 1]);
 	(*i) += 2;
@@ -46,6 +47,7 @@ char	*ft_process_pipe(char **input, int *i)
 	{
 		perror("Tokens: Dup Error");
 		g_exit = 1;
+		return (NULL);
 	}
 	((*i))++;
 	return (pipe_token);
@@ -60,8 +62,8 @@ char	*ft_process_command(char **input, int *i)
 	command = malloc(length * sizeof(char));
 	if (!command)
 	{
-		perror("Tokens: Malloc Error");
 		g_exit = 1;
+		return (perror("Tokens: Malloc Error"), NULL);
 	}
 	ft_strcpy(command, input[(*i)]);
 	while (ft_special_token(input[(*i) + 1]))
@@ -70,8 +72,8 @@ char	*ft_process_command(char **input, int *i)
 		command = realloc(command, length);
 		if (!command)
 		{
-			perror("Tokens: Realloc Error");
 			g_exit = 1;
+			return (perror("Tokens: Malloc Error"), NULL);
 		}
 		(ft_strcat(command, " "), ft_strcat(command, input[(*i) + 1]));
 		((*i))++;

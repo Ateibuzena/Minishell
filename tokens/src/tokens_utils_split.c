@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:35:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 14:29:30 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/12 22:27:28 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*ft_process_double_delimiter(const char *current)
 	{
 		perror("Tokens: Malloc Error");
 		g_exit = 1;
+		return (NULL);
 	}
 	token[0] = *current;
 	token[1] = *(current + 1);
@@ -38,7 +39,8 @@ char	*ft_process_token(const char *start, const char *current)
 	if (!token)
 	{
 		perror("Tokens: Malloc Error");
-		exit(EXIT_FAILURE);
+		g_exit = 1;
+		return (NULL);
 	}
 	ft_strncpy(token, start, length);
 	token[length] = '\0';
@@ -53,7 +55,8 @@ char	*ft_process_delimiter(const char *current)
 	if (!token)
 	{
 		perror("Tokens: Malloc Error");
-		exit(EXIT_FAILURE);
+		g_exit = 1;
+		return (NULL);
 	}
 	token[0] = *current;
 	token[1] = '\0';
@@ -70,7 +73,8 @@ char	**ft_resize_result(char **result, int *capacity)
 	if (!new_result)
 	{
 		perror("Tokens: Malloc Error");
-		exit(EXIT_FAILURE);
+		g_exit = 1;
+		return (NULL);
 	}
 	i = 0;
 	while (i < *capacity / 2)
