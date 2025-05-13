@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:29:04 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 22:46:19 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:36:35 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**ft_group_tokens(char **entry, int len)
 {
 	t_group	group;
 
-	group.result = ft_calloc(len, sizeof(char *));
+	group.result = ft_calloc(len + 1, sizeof(char *));
 	if (!group.result)
 	{
 		perror("Tokens: Malloc Error");
@@ -92,7 +92,7 @@ char	**ft_group_tokens(char **entry, int len)
 		g_exit = 1;
 		return (NULL);
 	}
-	ft_initialize_group(group.result, len);
+	ft_initialize_group(group.result, len + 1);
 	group.i = 0;
 	group.j = 0;
 	while (entry[group.i])
