@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:16:11 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 23:14:32 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:19:45 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ char	*handle_double_quote(const char *input, t_quoteState *qstate)
 
 	c = input[qstate->i];
 	if (c == '\"')
+	{
+		if (ft_strncmp(input, "git commit -m", 13) != 0)
+			qstate->output[qstate->j++] = c;
 		qstate->state = NO_QUOTE;
-	else if (c == '\\' && qstate->i + 1 < ft_strlen(input))
+	}
+	else if (c == '\\' && input[qstate->i + 1] && qstate->state == DOUBLE_QUOTE)
 		qstate->output[qstate->j++] = input[++qstate->i];
 	else
 		qstate->output[qstate->j++] = c;
@@ -68,7 +72,7 @@ char	*ft_handle_quotes(const char *input)
 		return (NULL);
 	len = ft_strlen(input);
 	ft_init_state(&qstate);
-	qstate.output = malloc(len + 1);
+	qstate.output = malloc(len + 1 * sizeof(char));
 	if (!qstate.output)
 		return (NULL);
 	while (qstate.i < len)
