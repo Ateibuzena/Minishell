@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_pipes.c                                  :+:      :+:    :+:   */
+/*   minishell_pipeline.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:35:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 16:06:57 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:54:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ static int	ft_builtin(t_context *ctx, t_Minishell *shell)
 
 	if (ft_handle_redirections(ctx->argv, &ctx->stdin_backup,
 			&ctx->stdout_backup) == -1)
-		return (ft_freedouble(ctx->argv), 1);
+		return (1);
 	split = ft_split(ctx->argv[ctx->builtin], ' ');
+	if (!split)
+		return (ft_perror("Pipex error: NULL split\n"), 1);
 	status = ft_execute_builtins(split, shell->history, &shell->env);
 	ft_freedouble(split);
 	dup2(ctx->stdin_backup, STDIN_FILENO);
@@ -55,26 +57,43 @@ static int	ft_find_builtin(char **argv, t_context *ctx)
 	return (0);
 }
 
+void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx)
+{
+	char	*temp;
+
+	temp = ft_strchr((*shell)->cleaned, '|');
+	if (temp)
+	{
+		free((*shell)->cleaned);
+		(*shell)->cleaned = NULL;
+		ctx->status = ft_pipex(ctx->argv, (*shell)->env, (*shell)->history);
+	}
+	else
+	{
+		free((*shell)->cleaned);
+		(*shell)->cleaned = NULL;
+		if (ft_find_builtin(ctx->argv, ctx))
+			ctx->status = ft_builtin(ctx, (*shell));
+		else
+			ctx->status = ft_pipex(ctx->argv, (*shell)->env, (*shell)->history);
+	}
+	ft_free_partialdouble(ctx->argv, ctx->len);
+}
+
 int	ft_handle_pipeline(t_Minishell *shell)
 {
 	t_context	ctx;
-	int			status;
 
-	ctx.status = 0;
 	if (!shell->cleaned || !shell->cleaned[0])
 		return (ft_perror("Pipex error: NULL input\n"), 1);
-	ctx.argv = ft_group_tokens(shell->cleaned);
-	if (!ctx.argv || !ctx.argv[0] || !ctx.argv[0][0])
-		return (ft_perror("Pipex error: Tokens\n"), 1);
-	if (ft_strchr(shell->cleaned, '|'))
-		status = ft_pipex(ctx.argv, shell->env, shell->history);
-	else
-	{
-		if (ft_find_builtin(ctx.argv, &ctx))
-			status = ft_builtin(&ctx, shell);
-		else
-			status = ft_pipex(ctx.argv, shell->env, shell->history);
-	}
-	ft_freedouble(ctx.argv);
-	return (status);
+	ctx.status = 0;
+	ctx.input = ft_split_command(shell->cleaned);
+	ctx.len = ft_strlen_double(ctx.input);
+	ctx.argv = ft_group_tokens(ctx.input, ctx.len);
+	if (!ctx.argv)
+		return (ft_perror("Pipex error: NULL argv\n"), 1);
+	if (!ctx.argv[0] || !ctx.argv[0][0])
+		return (ft_perror("Pipex error: Tokens\n"), ft_freedouble(ctx.argv), 1);
+	ft_execute_pipeline(&shell, &ctx);
+	return (ctx.status);
 }

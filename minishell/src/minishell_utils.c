@@ -41,7 +41,6 @@ int	ft_redirect_input(char *file, char *heredoc_delim)
 	return (0);
 }
 
-// Función que maneja la redirección de salida
 int	ft_redirect_output(char *file)
 {
 	int	fd;
@@ -62,7 +61,6 @@ int	ft_redirect_output(char *file)
 	return (0);
 }
 
-// Función que maneja la redirección de salida con append
 int	ft_redirect_append(char *file)
 {
 	int	fd;

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:55:21 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/13 00:09:49 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:55:19 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		ft_process_input(t_Minishell *shell);
 void	ft_cleanup_shell(t_Minishell *shell);
 
 /*minishell_pipeline.c*/
-void	ft_execute_pipeline(t_context *ctx, t_Minishell **shell);
+void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx);
 int		ft_handle_pipeline(t_Minishell *shell);
 
 /*minishell_redirect.c*/
