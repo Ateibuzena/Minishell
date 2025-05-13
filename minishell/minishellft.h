@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishellft.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:55:21 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 16:09:40 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/13 00:09:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,24 @@ typedef struct s_Minishell
 typedef struct s_context
 {
 	char	**argv;
+	char	**input;
+	int		len;
 	int		status;
 	int		builtin;
 	int		stdin_backup;
 	int		stdout_backup;
 }	t_context;
 
+/*main.c*/
+void	ft_initialize_shell(t_Minishell *shell, char **envp);
+int		ft_read_input(t_Minishell *shell);
+int		ft_process_input(t_Minishell *shell);
+
+/*minishell_free.c*/
+void	ft_cleanup_shell(t_Minishell *shell);
+
 /*minishell_pipeline.c*/
+void	ft_execute_pipeline(t_context *ctx, t_Minishell **shell);
 int		ft_handle_pipeline(t_Minishell *shell);
 
 /*minishell_redirect.c*/
