@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_redirect_utils.c                         :+:      :+:    :+:   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 17:24:07 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 16:09:24 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:57:53 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ int	ft_redirect_output(char *file)
 {
 	int	fd;
 
+	if  (!file)
+	{
+		perror("file is NULL");
+		return (-1);
+	}
+	while (*file && *file == ' ')
+		file++;
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
