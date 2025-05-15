@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 10:00:00 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 21:59:21 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:26:37 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ void	run_minishell_tests(char **envp)
 //../pipex/pipex.a ../tokens/tokens.a ../prompt/prompt.a 
 //../builtins/builtins.a ../enviroment/enviroment.a ../history/history.a 
 //../signals/signals.a  ../libft/libft.a -lreadline
+
+//valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
+//--suppressions=readline.supp --gen-suppressions=all ./minishell 
 
 // Main function to execute the test suite
 int	main(int argc, char **argv, char **envp)
