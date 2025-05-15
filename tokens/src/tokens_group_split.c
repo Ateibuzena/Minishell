@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:29:04 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/13 12:36:35 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:25:59 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	ft_special_token(const char *token)
 static void	ft_init_token(t_token *split)
 {
 	split->capacity = INITIAL_CAPACITY;
-	split->result = malloc(split->capacity * sizeof(char *));
+	split->result = ft_calloc(split->capacity, sizeof(char *));
 	if (!split->result)
 	{
-		perror("Tokens: Malloc Error");
+		perror("Tokens: Calloc Error");
 		g_exit = 1;
 		return ;
 	}
@@ -69,17 +69,6 @@ char	**ft_split_command(const char *input)
 	return (s.result);
 }
 
-static void	ft_initialize_group(char **array, int size)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return ;
-	while (i < size)
-		array[i++] = NULL;
-}
-
 char	**ft_group_tokens(char **entry, int len)
 {
 	t_group	group;
@@ -92,7 +81,6 @@ char	**ft_group_tokens(char **entry, int len)
 		g_exit = 1;
 		return (NULL);
 	}
-	ft_initialize_group(group.result, len + 1);
 	group.i = 0;
 	group.j = 0;
 	while (entry[group.i])

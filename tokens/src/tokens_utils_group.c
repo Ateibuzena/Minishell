@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:31:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 22:47:03 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:29:07 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*ft_process_pipe(char **input, int *i)
 	char	*pipe_token;
 
 	pipe_token = ft_strdup(input[(*i)]);
+	//printf("Pipe token: %p\n", pipe_token);
+	//printf("input[%d]: %p\n", (*i), input[(*i)]);
 	if (!pipe_token)
 	{
 		perror("Tokens: Dup Error");
@@ -69,7 +71,7 @@ char	*ft_process_command(char **input, int *i)
 	while (ft_special_token(input[(*i) + 1]))
 	{
 		length += ft_strlen(input[(*i) + 1]) + 1;
-		command = realloc(command, length);
+		command = realloc(command, length); //cambiar por ft_realloc
 		if (!command)
 		{
 			g_exit = 1;
