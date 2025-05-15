@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:27:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 14:14:12 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:47:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	ft_execute(t_pipex *pipex)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (ft_execute_builtins(cmd->cmd, pipex->history, pipex->env))
-			(ft_errno(cmd->cmd[0]), exit(EXIT_FAILURE));
+			(ft_errno(cmd->cmd[0]), ft_free_pipex(pipex), exit(EXIT_FAILURE));
+		ft_free_pipex(pipex);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -71,12 +72,14 @@ void	ft_execute(t_pipex *pipex)
 		{
 			(ft_perror("pipex: "), ft_perror(cmd->cmd[0]));
 			ft_perror(": command not found\n");
-			(ft_freedouble(pipex->env_array), exit(127));
+			ft_free_pipex(pipex);
+			exit(127);
 		}
 		signal(SIGINT, SIG_DFL);
 		execve(path, cmd->cmd, pipex->env_array);
 		ft_errno(cmd->cmd[0]);
-		(ft_freedouble(pipex->env_array), exit(EXIT_FAILURE));
+		ft_free_pipex(pipex);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -107,10 +110,16 @@ pid_t	ft_process_pipeline(t_pipex *pipex)
 		pipex->fd[0] = -1;
 		pipex->fd[1] = -1;
 		if (pipex->i < pipex->exec->count - 1 && pipe(pipex->fd) == -1)
-			(ft_perror("pipe\n"), exit(EXIT_FAILURE));
+		{
+			g_exit = 1;
+			return (ft_perror("pipe\n"), EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
-			(ft_perror("fork\n"), exit(EXIT_FAILURE));
+		{
+			g_exit = 1;
+			return (ft_perror("fork\n"), EXIT_FAILURE);
+		}
 		if (pid == 0)
 			ft_child_process(pipex);
 		if (pipex->prev_fd != -1)

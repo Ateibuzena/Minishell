@@ -6,13 +6,13 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 23:23:00 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:45:20 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
-static int	ft_count_vars(t_Env *env)
+int	ft_count_vars(t_Env *env)
 {
 	int		count;
 
@@ -31,18 +31,18 @@ char	**ft_envtoarray(t_Env *env)
 	char	**env_array;
 	int		i;
 
-	env_array = malloc(sizeof(char *) * (ft_count_vars(env) + 1));
-	i = 0;
+	env_array = ft_calloc(sizeof(char *), ft_count_vars(env) + 1);
 	if (!env_array)
 		return (NULL);
+	i = 0;
 	while (env)
 	{
 		if (env->key && env->value)
 		{
-			env_array[i] = malloc(sizeof(char)
-					* (ft_strlen(env->key) + ft_strlen(env->value) + 2));
+			env_array[i] = ft_calloc(sizeof(char),
+					(ft_strlen(env->key) + ft_strlen(env->value) + 2));
 			if (!env_array[i])
-				return (ft_free_partialdouble(env_array, i), NULL);
+				return (ft_free_partialdouble(env_array, i + 1), NULL);
 			ft_strcpy(env_array[i], env->key);
 			ft_strcat(env_array[i], "=");
 			ft_strcat(env_array[i], env->value);
@@ -50,7 +50,6 @@ char	**ft_envtoarray(t_Env *env)
 		}
 		env = env->next;
 	}
-	env_array[i] = NULL;
 	return (env_array);
 }
 
@@ -81,4 +80,24 @@ int	ft_here_doc(char *delimiter)
 	}
 	close(temp_pipe[WRITE]);
 	return (temp_pipe[READ]);
+}
+
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char	*result;
+	size_t	len1;
+	size_t	len2;
+
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = malloc(len1 + len2 + 1);
+	if (!result)
+		return (NULL);
+	ft_memcpy(result, s1, len1);
+	ft_memcpy(result + len1, s2, len2);
+	result[len1 + len2] = '\0';
+	free(s1);
+	return (result);
 }

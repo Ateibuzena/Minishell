@@ -6,37 +6,21 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:29:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 18:41:28 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:10:17 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
 
-static t_command	*ft_new_command(t_command *curr, int *i, t_executor *exec)
-{
-	curr->cmd[(*i)] = NULL;
-	exec->commands[exec->count++] = curr;
-	curr = malloc(sizeof(t_command));
-	if (!curr)
-		return (NULL);
-	ft_memset(curr, 0, sizeof(t_command));
-	curr->cmd = malloc(sizeof(char *) * 256);
-	if (!curr->cmd)
-	{
-		free(curr);
-		return (NULL);
-	}
-	(*i) = 0;
-	return (curr);
-}
-
-static char	*ft_extract_file(char *token)
+static char	*ft_extract_file(char *str, char *token)
 {
 	char	*res;
 	char	*file;
 
+	if (str)
+		free(str);
 	res = ft_strchr(token, ' ');
-	if (!res)
+	if (!res || !*(res + 1))
 		return (NULL);
 	file = ft_strdup(res + 1);
 	return (file);
@@ -52,22 +36,24 @@ static void	ft_add_args(char *argv, t_command *curr, int *i)
 	while (split[k])
 		curr->cmd[(*i)++] = ft_strdup(split[k++]);
 	ft_freedouble(split);
+	//free(argv);
+	//argv = NULL;
 }
 
 static void	ft_process_token(char *token, t_command *curr, int *i)
 {
 	if (ft_strncmp(token, "<<", 2) == 0)
-		curr->heredoc = ft_extract_file(token);
+		curr->heredoc = ft_extract_file(curr->heredoc, token);
 	else if (ft_strncmp(token, "<", 1) == 0)
-		curr->infile = ft_extract_file(token);
+		curr->infile = ft_extract_file(curr->infile, token);
 	else if (ft_strncmp(token, ">>", 2) == 0)
 	{
-		curr->outfile = ft_extract_file(token);
+		curr->outfile = ft_extract_file(curr->outfile, token);
 		curr->append = 1;
 	}
 	else if (ft_strncmp(token, ">", 1) == 0)
 	{
-		curr->outfile = ft_extract_file(token);
+		curr->outfile = ft_extract_file(curr->outfile, token);
 		curr->append = 0;
 	}
 	else
@@ -77,25 +63,30 @@ static void	ft_process_token(char *token, t_command *curr, int *i)
 t_executor	*ft_parse_commands(char **argv)
 {
 	t_executor	*exec;
-	t_command	*curr;
+	int			len;
 	int			i;
 	int			j;
 
-	exec = ft_init_executor();
-	curr = ft_init_command();
-	if (!curr)
-		return (ft_free_executor(exec), NULL);
+	len = ft_strlen_double(argv);
+	exec = ft_init_executor(len);
+	if (!exec)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (argv[j])
 	{
 		if (ft_strncmp(argv[j], "|", 1) == 0)
-			curr = ft_new_command(curr, &i, exec);
+		{
+			exec->commands[exec->count]->cmd[i] = NULL;
+			exec->count++;
+			i = 0;
+		}
 		else
-			ft_process_token(argv[j], curr, &i);
+			ft_process_token(argv[j], exec->commands[exec->count], &i);
 		j++;
 	}
-	curr->cmd[i] = NULL;
-	exec->commands[exec->count++] = curr;
+	ft_freedouble(argv);
+	exec->commands[exec->count]->cmd[i] = NULL;
+	exec->count++;
 	return (exec);
 }
