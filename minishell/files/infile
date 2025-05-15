@@ -1,6 +1,8 @@
+hola
 files
 Makefile
 minishell
 minishellft.h
 obj
+readline.supp
 src
