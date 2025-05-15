@@ -6,12 +6,12 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:10:52 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 18:36:56 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:37:56 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-
+#include <stdio.h>
 void	ft_freedouble(char **ptr)
 {
 	int	i;
@@ -19,20 +19,17 @@ void	ft_freedouble(char **ptr)
 	if (!ptr)
 		return ;
 	i = 0;
-	if (ptr)
+	while (ptr[i])
 	{
-		while (ptr[i])
+		if (ptr[i])
 		{
-			if (ptr[i])
-			{
-				free(ptr[i]);
-				ptr[i] = NULL;
-			}
-			i++;
+			free(ptr[i]);
+			ptr[i] = NULL;
 		}
-		free(ptr);
-		ptr = NULL;
+		i++;
 	}
+	free(ptr);
+	ptr = NULL;
 }
 
 void	ft_freedouble_array(int **array, int len)
@@ -44,8 +41,11 @@ void	ft_freedouble_array(int **array, int len)
 	j = 0;
 	while (j < len)
 	{
-		free(array[j]);
-		array[j] = 0;
+		if (array[j])
+		{
+			free(array[j]);
+			array[j] = 0;
+		}
 		j++;
 	}
 	free(array);

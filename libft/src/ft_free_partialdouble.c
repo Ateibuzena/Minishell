@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:27:08 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 22:01:13 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:24:50 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	ft_free_partialdouble(char **arr, int size)
 		return ;
 	while (i < size)
 	{
-		free(arr[i]);
-		arr[i] = NULL;
+		if (arr[i])
+		{
+			free(arr[i]);
+			arr[i] = NULL;
+		}
 		i++;
 	}
 	free(arr);
