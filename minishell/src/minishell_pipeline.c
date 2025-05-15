@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:35:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/13 12:54:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:20:01 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx)
 	{
 		free((*shell)->cleaned);
 		(*shell)->cleaned = NULL;
+		printf("pipeline\n");
 		ctx->status = ft_pipex(ctx->argv, (*shell)->env, (*shell)->history);
 	}
 	else
@@ -73,11 +74,18 @@ void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx)
 		free((*shell)->cleaned);
 		(*shell)->cleaned = NULL;
 		if (ft_find_builtin(ctx->argv, ctx))
+		{
+			printf("builtin\n");
 			ctx->status = ft_builtin(ctx, (*shell));
+			ft_freedouble(ctx->argv);
+		}
 		else
+		{
+			printf("command\n");
 			ctx->status = ft_pipex(ctx->argv, (*shell)->env, (*shell)->history);
+		}
 	}
-	ft_free_partialdouble(ctx->argv, ctx->len);
+	//ft_free_partialdouble(ctx->argv, ctx->len);
 }
 
 int	ft_handle_pipeline(t_Minishell *shell)

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:37:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/13 12:33:41 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:42:01 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		shell.status = ft_handle_pipeline(&shell);
+		printf("freeing env\n");
 	}
 	return (ft_cleanup_shell(&shell), 0);
 }
