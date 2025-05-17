@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 17:24:07 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/13 21:57:53 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:15:34 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	ft_redirect_input(char *file, char *heredoc_delim)
 {
 	int	fd;
 
+	if (!file && !heredoc_delim)
+	{
+		perror("file and heredoc_delim are NULL");
+		return (-1);
+	}
 	if (heredoc_delim)
 	{
 		fd = ft_here_doc(heredoc_delim);
@@ -50,8 +55,6 @@ int	ft_redirect_output(char *file)
 		perror("file is NULL");
 		return (-1);
 	}
-	while (*file && *file == ' ')
-		file++;
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -72,6 +75,11 @@ int	ft_redirect_append(char *file)
 {
 	int	fd;
 
+	if (!file)
+	{
+		perror("file is NULL");
+		return (-1);
+	}
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{

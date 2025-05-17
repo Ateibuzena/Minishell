@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:35:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/14 22:20:01 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:16:05 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx)
 			ctx->status = ft_pipex(ctx->argv, (*shell)->env, (*shell)->history);
 		}
 	}
-	//ft_free_partialdouble(ctx->argv, ctx->len);
 }
 
 int	ft_handle_pipeline(t_Minishell *shell)
@@ -98,6 +97,12 @@ int	ft_handle_pipeline(t_Minishell *shell)
 	ctx.input = ft_split_command(shell->cleaned);
 	ctx.len = ft_strlen_double(ctx.input);
 	ctx.argv = ft_group_tokens(ctx.input, ctx.len);
+	int i = 0;
+	while (ctx.argv[i])
+	{
+		printf("argv[%d]: '%s'\n", i, ctx.argv[i]);
+		i++;
+	}
 	if (!ctx.argv)
 		return (ft_perror("Pipex error: NULL argv\n"), 1);
 	if (!ctx.argv[0] || !ctx.argv[0][0])
