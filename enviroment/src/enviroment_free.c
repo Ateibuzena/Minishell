@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 15:55:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 20:46:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:52:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../enviromentft.h"
 
-void ft_free_env(t_Env *env)
+void	ft_free_env(t_Env *env)
 {
-    t_Env *temp;
+	t_Env	*temp;
 
-    while (env)
-    {
-        temp = env;
-        env = env->next;
-        free(temp->key);
-        free(temp->value);
-        free(temp);
-    }
+	while (env)
+	{
+		temp = env;
+		env = env->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+	}
 }
