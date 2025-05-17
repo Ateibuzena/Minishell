@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:03:22 by azubieta          #+#    #+#             */
-/*   Updated: 2025/04/22 20:21:59 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:26:44 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ void	ft_errno(char *argument)
 	else if (errno == ETXTBSY)
 		ft_perror("pipex: Text file busy\n");
 	else
-		ft_perror("pipex: Open failed\n");
+		return ;
 }
