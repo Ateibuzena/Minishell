@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:55:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/17 18:10:27 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:34:47 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	ft_handle_redirection_type(char *arg, int *i)
 		if (!filename || ft_redirect_output(filename) < 0)
 			return (free(filename), -1);
 	}
+	free(filename);
 	return (0);
 }
 
