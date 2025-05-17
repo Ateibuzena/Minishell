@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:37:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/17 18:16:11 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:28:58 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_initialize_shell(&shell, envp);
 	while (1)
 	{
-		if (g_exit || g_exit == -1)
+		if (g_exit)
 			break ;
 		result = ft_read_input(&shell);
 		if (result == 0)

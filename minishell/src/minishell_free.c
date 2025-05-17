@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 23:27:12 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/14 19:36:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:54:35 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	ft_shellclean_structures(t_Minishell **shell)
 	}
 	if ((*shell)->env)
 	{
-		printf("freeing env\n");
 		ft_free_env((*shell)->env);
 		(*shell)->env = NULL;
 	}
