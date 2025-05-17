@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:54:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/07 14:27:04 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 17:42:18 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_handle_input(t_pipex *pipex)
 		if (infile < 0)
 		{
 			ft_errno(cmd->infile);
+			ft_free_pipex(pipex);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -53,6 +54,7 @@ int	ft_handle_output(t_pipex *pipex)
 		if (outfile < 0)
 		{
 			ft_errno(cmd->outfile);
+			ft_free_pipex(pipex);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -64,25 +66,25 @@ void	ft_handle_dup2(t_pipex *pipex, int infile, int outfile)
 	if (infile != -1)
 	{
 		if (dup2(infile, STDIN_FILENO) < 0)
-			(ft_perror("dup2 in\n"), exit(EXIT_FAILURE));
+			(ft_perror("dup2 in\n"), ft_free_pipex(pipex), exit(EXIT_FAILURE));
 		close(infile);
 	}
 	else if (pipex->prev_fd != -1)
 	{
 		if (dup2(pipex->prev_fd, STDIN_FILENO) < 0)
-			(ft_perror("dup2 prev_fd\n"), exit(EXIT_FAILURE));
+			(ft_perror("dup2 prev_fd\n"), ft_free_pipex(pipex), exit(EXIT_FAILURE));
 		close(pipex->prev_fd);
 	}
 	if (outfile != -1)
 	{
 		if (dup2(outfile, STDOUT_FILENO) < 0)
-			(ft_perror("dup2 out\n"), exit(EXIT_FAILURE));
+			(ft_perror("dup2 out\n"), ft_free_pipex(pipex), exit(EXIT_FAILURE));
 		close(outfile);
 	}
 	else if (pipex->fd[1] != -1)
 	{
 		if (dup2(pipex->fd[1], STDOUT_FILENO) < 0)
-			(ft_perror("dup2 pipe out\n"), exit(EXIT_FAILURE));
+			(ft_perror("dup2 pipe out\n"), ft_free_pipex(pipex), exit(EXIT_FAILURE));
 		close(pipex->fd[1]);
 	}
 }

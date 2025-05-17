@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:27:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/15 13:47:40 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 17:47:28 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ void	ft_execute(t_pipex *pipex)
 	t_command	*cmd;
 
 	cmd = pipex->exec->commands[pipex->i];
+	if (!cmd->cmd || !cmd->cmd[0])
+	{
+		ft_perror("pipex: ");
+		ft_perror("command not found\n");
+		ft_free_pipex(pipex);
+		exit(EXIT_FAILURE);
+	}
 	if (ft_is_builtins(cmd->cmd[0]))
 	{
 		signal(SIGINT, SIG_DFL);

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:29:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/14 22:10:17 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:19:45 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static void	ft_add_args(char *argv, t_command *curr, int *i)
 	while (split[k])
 		curr->cmd[(*i)++] = ft_strdup(split[k++]);
 	ft_freedouble(split);
-	//free(argv);
-	//argv = NULL;
 }
 
 static void	ft_process_token(char *token, t_command *curr, int *i)
