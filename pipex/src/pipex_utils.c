@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/17 18:21:37 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/19 00:28:28 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,15 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	result[len1 + len2] = '\0';
 	free(s1);
 	return (result);
+}
+
+void	ft_cmd_not_found(t_pipex *pipex, char *cmd)
+{
+	if (!cmd)
+	{
+		ft_perror("pipex: ");
+		ft_perror("command not found\n");
+		ft_free_pipex(pipex);
+		exit(EXIT_FAILURE);
+	}
 }

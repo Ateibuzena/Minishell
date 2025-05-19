@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/15 13:45:31 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/19 00:24:32 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define MIN_ARGS 5
 # define READ 0
 # define WRITE 1
 
@@ -84,6 +83,7 @@ int			ft_count_vars(t_Env *env);
 int			ft_here_doc(char *delimiter);
 char		**ft_envtoarray(t_Env *env);
 char		*ft_strjoin_free(char *s1, char *s2);
+void		ft_cmd_not_found(t_pipex *pipex, char *cmd);
 
 /*pipex_error.c*/
 void		ft_perror(const char *str);
