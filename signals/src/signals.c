@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:24:14 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 21:18:17 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:38:09 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../signalsft.h"
 
-volatile sig_atomic_t g_exit = 0;
+volatile sig_atomic_t	g_exit = 0;
 
 int	*get_g_in_readline(void)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signalsft.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:28:51 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 21:16:36 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:55:12 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <readline/history.h>
 # include <stdlib.h>
 
-extern volatile sig_atomic_t g_exit;
+extern volatile sig_atomic_t	g_exit;
 
 /*signals_sigint.c*/
 void	sigint_handler(int sig);
