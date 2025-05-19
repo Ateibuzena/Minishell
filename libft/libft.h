@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:13:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/09 14:27:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/18 22:15:17 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ void		ft_freedouble_array(int **array, int len);
 void		ft_free_partialdouble(char **arr, int size);
 int			ft_strlen_double(char **str);
 long int	ft_strtol(const char *str, char **endptr, int base);
+void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // End of LIBFT_H
 #endif
