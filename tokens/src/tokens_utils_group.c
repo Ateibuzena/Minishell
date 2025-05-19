@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:31:16 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/14 14:29:07 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/19 00:02:31 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ char	*ft_process_pipe(char **input, int *i)
 	char	*pipe_token;
 
 	pipe_token = ft_strdup(input[(*i)]);
-	//printf("Pipe token: %p\n", pipe_token);
-	//printf("input[%d]: %p\n", (*i), input[(*i)]);
 	if (!pipe_token)
 	{
 		perror("Tokens: Dup Error");
@@ -55,55 +53,43 @@ char	*ft_process_pipe(char **input, int *i)
 	return (pipe_token);
 }
 
-char	*ft_process_command(char **input, int *i)
+char	*ft_init_cmd(char *str, int len)
 {
-	int		length;
 	char	*command;
 
-	length = ft_strlen(input[(*i)]) + 1;
-	command = malloc(length * sizeof(char));
+	command = malloc(len);
 	if (!command)
 	{
 		g_exit = 1;
-		return (perror("Tokens: Malloc Error"), NULL);
+		perror("Tokens: Malloc Error");
+		return (NULL);
 	}
-	ft_strcpy(command, input[(*i)]);
+	ft_strcpy(command, str);
+	return (command);
+}
+
+char	*ft_process_command(char **input, int *i)
+{
+	int		length;
+	int		old_length;
+	char	*command;
+
+	length = ft_strlen(input[(*i)]) + 1;
+	old_length = length;
+	command = ft_init_cmd(input[(*i)], length);
 	while (ft_special_token(input[(*i) + 1]))
 	{
 		length += ft_strlen(input[(*i) + 1]) + 1;
-		command = realloc(command, length); //cambiar por ft_realloc
+		command = ft_realloc(command, old_length, length);
 		if (!command)
 		{
 			g_exit = 1;
 			return (perror("Tokens: Malloc Error"), NULL);
 		}
 		(ft_strcat(command, " "), ft_strcat(command, input[(*i) + 1]));
+		old_length = length;
 		((*i))++;
 	}
 	((*i))++;
 	return (command);
-}
-
-void	ft_remove_pipes(char **result)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (result[i])
-	{
-		if (ft_strcmp(result[i], "|") == 0)
-		{
-			result[j] = result[i];
-			j++;
-		}
-		else
-		{
-			free(result[i]);
-			result[i] = NULL;
-		}
-		i++;
-	}
-	result[j] = NULL;
 }

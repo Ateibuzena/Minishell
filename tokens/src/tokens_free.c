@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:37:38 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 22:58:52 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/18 23:58:57 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,28 @@ void	ft_free_group(t_group *group)
 	}
 	free(group);
 	group = NULL;
+}
+
+void	ft_remove_pipes(char **result)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (result[i])
+	{
+		if (ft_strcmp(result[i], "|") == 0)
+		{
+			result[j] = result[i];
+			j++;
+		}
+		else
+		{
+			free(result[i]);
+			result[i] = NULL;
+		}
+		i++;
+	}
+	result[j] = NULL;
 }

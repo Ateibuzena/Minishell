@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:19:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/12 22:35:37 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/19 00:02:12 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int		ft_handle_delimiter(const char **current, char **result, int i);
 int		ft_is_redirect(const char *token);
 char	*ft_process_redirect(char **input, int *i);
 char	*ft_process_pipe(char **input, int *i);
+char	*ft_init_cmd(char *str, int len);
 char	*ft_process_command(char **input, int *i);
-void	ft_remove_pipes(char **result);
 
 /*tokens_group_split.c*/
 int		ft_special_token(const char *token);
@@ -74,5 +74,6 @@ char	**ft_group_tokens(char **entry, int len);
 /*tokens_free.c*/
 void	ft_free_token(t_token *token);
 void	ft_free_group(t_group *group);
+void	ft_remove_pipes(char **result);
 
 #endif
