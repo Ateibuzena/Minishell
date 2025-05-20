@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:55:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/17 18:34:47 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:32:26 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,16 @@ static char	*get_redirection_target(char *arg)
 
 static int	ft_handle_redirection_type(char *arg, int *i)
 {
-	char	*filename;
-
-	filename = NULL;
 	if (!arg || !*arg)
 		return (-1);
 	if (ft_strncmp(arg, "<<", 2) == 0)
-	{
-		filename = get_redirection_target(arg + 2);
-		if (!filename || ft_redirect_input(filename, filename) < 0)
-			return (free(filename), -1);
-		(*i)++;
-	}
+		return (handle_heredoc(arg, i));
 	else if (ft_strncmp(arg, "<", 1) == 0)
-	{
-		filename = get_redirection_target(arg + 1);
-		if (!filename || ft_redirect_input(filename, NULL) < 0)
-			return (free(filename), -1);
-	}
+		return (handle_input_redir(arg));
 	else if (ft_strncmp(arg, ">>", 2) == 0)
-	{
-		filename = get_redirection_target(arg + 2);
-		if (!filename || ft_redirect_append(filename) < 0)
-			return (free(filename), -1);
-	}
+		return (handle_append_redir(arg));
 	else if (ft_strncmp(arg, ">", 1) == 0)
-	{
-		filename = get_redirection_target(arg + 1);
-		if (!filename || ft_redirect_output(filename) < 0)
-			return (free(filename), -1);
-	}
-	free(filename);
+		return (handle_output_redir(arg));
 	return (0);
 }
 

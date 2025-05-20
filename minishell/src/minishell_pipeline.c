@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:35:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/17 18:54:14 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:03:59 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx)
 	{
 		free((*shell)->cleaned);
 		(*shell)->cleaned = NULL;
-		ctx->status = ft_pipex(ctx->argv, (*shell)->env, (*shell)->history);
+		ctx->exit = ft_pipex(ctx->argv, &(*shell)->env, (*shell)->history);
 	}
 	else
 	{
@@ -74,11 +74,11 @@ void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx)
 		(*shell)->cleaned = NULL;
 		if (ft_find_builtin(ctx->argv, ctx))
 		{
-			ctx->status = ft_builtin(ctx, (*shell));
+			ctx->exit = ft_builtin(ctx, (*shell));
 			ft_freedouble(ctx->argv);
 		}
 		else
-			ctx->status = ft_pipex(ctx->argv, (*shell)->env, (*shell)->history);
+			ctx->exit = ft_pipex(ctx->argv, &(*shell)->env, (*shell)->history);
 	}
 }
 
@@ -88,7 +88,7 @@ int	ft_handle_pipeline(t_Minishell *shell)
 
 	if (!shell->cleaned || !shell->cleaned[0])
 		return (ft_perror("Pipex error: NULL input\n"), 1);
-	ctx.status = 0;
+	ctx.exit = 0;
 	ctx.input = ft_split_command(shell->cleaned);
 	ctx.len = ft_strlen_double(ctx.input);
 	ctx.argv = ft_group_tokens(ctx.input, ctx.len);
@@ -97,5 +97,5 @@ int	ft_handle_pipeline(t_Minishell *shell)
 	if (!ctx.argv[0] || !ctx.argv[0][0])
 		return (ft_perror("Pipex error: Tokens\n"), ft_freedouble(ctx.argv), 1);
 	ft_execute_pipeline(&shell, &ctx);
-	return (ctx.status);
+	return (ctx.exit);
 }

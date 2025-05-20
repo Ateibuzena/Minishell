@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/19 00:03:53 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:01:27 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_waitpid(pid_t *last_pid)
 	return (last_status);
 }
 
-static void	ft_init_pipex(t_pipex *pipex, t_Env *env, t_History *history)
+static void	ft_init_pipex(t_pipex *pipex, t_Env **env, t_History *history)
 {
 	pipex->i = 0;
 	pipex->len = 0;
@@ -42,15 +42,13 @@ static void	ft_init_pipex(t_pipex *pipex, t_Env *env, t_History *history)
 	pipex->fd[READ] = -1;
 	pipex->fd[WRITE] = -1;
 	pipex->history = history;
-	pipex->env = &env;
+	pipex->env = env;
 	pipex->exec = NULL;
 	pipex->env_array = NULL;
 }
 
-int	ft_pipex(char **argv, t_Env *env, t_History *history)
+int	ft_pipex(char **argv, t_Env **env, t_History *history)
 {
-	pid_t		last_pid;
-	int			last_status;
 	t_pipex		pipex;
 
 	if (!argv || !argv[0])
@@ -63,15 +61,16 @@ int	ft_pipex(char **argv, t_Env *env, t_History *history)
 		g_exit = 1;
 		return (ft_perror("Pipex error: NULL exec\n"), 1);
 	}
-	pipex.env_array = ft_envtoarray(env);
+	pipex.env_array = ft_envtoarray((*env));
 	if (!pipex.env_array)
 	{
 		ft_free_executor(pipex.exec, pipex.len);
 		g_exit = 1;
 		return (ft_perror("Pipex error: NULL env_array\n"), 1);
 	}
-	last_pid = ft_process_pipeline(&pipex);
-	last_status = ft_waitpid(&last_pid);
-	ft_free_pipex(&pipex);
-	return (last_status);
+	pipex.last_pid = ft_process_pipeline(&pipex);
+	pipex.last_status = ft_waitpid(&(pipex.last_pid));
+	ft_free_executor(pipex.exec, pipex.len);
+	ft_freedouble(pipex.env_array);
+	return (pipex.last_status);
 }

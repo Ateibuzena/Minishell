@@ -1,6 +1,8 @@
 {
 	"files.associations": {
 		"signalsft.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"builtinsft.h": "c",
+		"readline.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:54:39 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/17 19:13:39 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:49:16 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,26 @@ int	ft_handle_output(t_pipex *pipex)
 	return (outfile);
 }
 
-void	ft_handle_dup2(t_pipex *pipex, int infile, int outfile)
+static void	ft_dup_infile(t_pipex *pipex, int infile)
 {
 	if (infile != -1)
 	{
 		if (dup2(infile, STDIN_FILENO) < 0)
-			(ft_perror("dup2 in\n"), ft_free_pipex(pipex), exit(EXIT_FAILURE));
+			(ft_perror("dup2 in\n"),
+				ft_free_pipex(pipex), exit(EXIT_FAILURE));
 		close(infile);
 	}
 	else if (pipex->prev_fd != -1)
 	{
 		if (dup2(pipex->prev_fd, STDIN_FILENO) < 0)
-			(ft_perror("dup2 prev_fd\n"), ft_free_pipex(pipex), exit(EXIT_FAILURE));
+			(ft_perror("dup2 prev_fd\n"),
+				ft_free_pipex(pipex), exit(EXIT_FAILURE));
 		close(pipex->prev_fd);
 	}
+}
+
+static void	ft_dup_outfile(t_pipex *pipex, int outfile)
+{
 	if (outfile != -1)
 	{
 		if (dup2(outfile, STDOUT_FILENO) < 0)
@@ -84,7 +90,14 @@ void	ft_handle_dup2(t_pipex *pipex, int infile, int outfile)
 	else if (pipex->fd[1] != -1)
 	{
 		if (dup2(pipex->fd[1], STDOUT_FILENO) < 0)
-			(ft_perror("dup2 pipe out\n"), ft_free_pipex(pipex), exit(EXIT_FAILURE));
+			(ft_perror("dup2 pipe out\n"),
+				ft_free_pipex(pipex), exit(EXIT_FAILURE));
 		close(pipex->fd[1]);
 	}
+}
+
+void	ft_handle_dup2(t_pipex *pipex, int infile, int outfile)
+{
+	ft_dup_infile(pipex, infile);
+	ft_dup_outfile(pipex, outfile);
 }

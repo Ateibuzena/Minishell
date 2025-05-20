@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:29:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/17 18:19:45 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:18:46 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,33 +58,42 @@ static void	ft_process_token(char *token, t_command *curr, int *i)
 		ft_add_args(token, curr, i);
 }
 
-t_executor	*ft_parse_commands(char **argv)
+static t_executor	*ft_init_parser(char **argv, t_par *par)
 {
 	t_executor	*exec;
 	int			len;
-	int			i;
-	int			j;
 
+	par->i = 0;
+	par->j = 0;
+	if (!argv || !argv[0])
+		return (NULL);
 	len = ft_strlen_double(argv);
 	exec = ft_init_executor(len);
+	return (exec);
+}
+
+t_executor	*ft_parse_commands(char **argv)
+{
+	t_executor	*exec;
+	t_par		par;
+
+	exec = ft_init_parser(argv, &par);
 	if (!exec)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (argv[j])
+	while (argv[par.j])
 	{
-		if (ft_strncmp(argv[j], "|", 1) == 0)
+		if (ft_strncmp(argv[par.j], "|", 1) == 0)
 		{
-			exec->commands[exec->count]->cmd[i] = NULL;
+			exec->commands[exec->count]->cmd[par.i] = NULL;
 			exec->count++;
-			i = 0;
+			par.i = 0;
 		}
 		else
-			ft_process_token(argv[j], exec->commands[exec->count], &i);
-		j++;
+			ft_process_token(argv[par.j], exec->commands[exec->count], &par.i);
+		par.j++;
 	}
 	ft_freedouble(argv);
-	exec->commands[exec->count]->cmd[i] = NULL;
+	exec->commands[exec->count]->cmd[par.i] = NULL;
 	exec->count++;
 	return (exec);
 }

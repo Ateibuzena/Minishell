@@ -64,7 +64,7 @@ clean:
 	@echo "$(RED)🗑️  Eliminando archivos objeto...$(RESET)"
 	@$(RM) $(OBJS)
 	@echo "$(MAGENTA)✅ Limpieza de objetos completada.$(RESET)"
-	@if [ -d "$(OBJDIR)" ]; then \
+	@if [ -f "$(OBJDIR)" ]; then \
 		echo "$(RED)🚮 Eliminando directorio de objetos...$(RESET)"; \
 		$(RM) -rf $(OBJDIR); \
 		echo "$(MAGENTA)✅ Directorio obj eliminado.$(RESET)"; \
@@ -77,7 +77,7 @@ fclean: clean
 		$(RM) $(NAME); \
 		echo "$(MAGENTA)✅ $(NAME) eliminado.$(RESET)"; \
 	fi
-	@if [ -d "$(LIBFT_DIR)" ]; then \
+	@if [ -f "$(LIBFT_DIR)" ]; then \
 		echo "$(RED)🚮 Eliminando librería externa $(LIBFT_LIB)...$(RESET)"; \
 		make -C $(LIBFT_DIR) fclean; \
 		echo "$(MAGENTA)✅ Librería externa $(LIBFT_LIB) eliminada.$(RESET)"; \

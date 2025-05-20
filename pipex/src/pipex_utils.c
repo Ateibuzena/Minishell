@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:43:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/19 00:28:28 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:51:38 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	ft_here_doc(char *delimiter)
 	char	*line;
 	int		temp_pipe[2];
 
-	printf("Pipex: Here_doc delimiter: '%s'\n", delimiter);
 	if (pipe(temp_pipe) < 0)
 		(ft_perror("Pipex error: Pipe (here_doc)"), exit(EXIT_FAILURE));
 	while (1)
@@ -103,9 +102,9 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (result);
 }
 
-void	ft_cmd_not_found(t_pipex *pipex, char *cmd)
+void	ft_cmd_not_found(t_pipex *pipex, t_command *cmd)
 {
-	if (!cmd)
+	if (!cmd->cmd || !cmd->cmd[0])
 	{
 		ft_perror("pipex: ");
 		ft_perror("command not found\n");

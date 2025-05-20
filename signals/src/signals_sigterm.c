@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_sigterm.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:24:53 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/02 21:32:54 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:44:13 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,5 @@
 void	sigterm_handler(int sig)
 {
 	(void)sig;
-	write(1, "Terminating shell...\n", 21);
 	g_exit = 1;
 }

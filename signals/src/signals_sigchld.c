@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_sigchld.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:25:04 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 23:48:41 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:44:09 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

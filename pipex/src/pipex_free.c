@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:30:02 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/15 13:45:11 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:11:12 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ void	ft_free_executor(t_executor *exec, int len)
 
 void	ft_free_pipex(t_pipex *pipex)
 {
+	if (!pipex)
+		return ;
 	ft_free_executor(pipex->exec, pipex->len);
+	ft_freedouble(pipex->env_array);
 	ft_free_history(pipex->history);
 	ft_free_env((*pipex->env));
-	ft_freedouble(pipex->env_array);
 }

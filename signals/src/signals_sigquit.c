@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_sigquit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:24:57 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 23:51:16 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:43:31 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,4 @@
 void	sigquit_handler(int sig)
 {
 	(void)sig;
-	write(1, "Quit (core dumped)\n", 19);
 }

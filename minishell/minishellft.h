@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:55:21 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/13 12:55:19 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:33:15 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_context
 	char	**argv;
 	char	**input;
 	int		len;
-	int		status;
+	int		exit;
 	int		builtin;
 	int		stdin_backup;
 	int		stdout_backup;
@@ -75,6 +75,12 @@ void	ft_cleanup_shell(t_Minishell *shell);
 /*minishell_pipeline.c*/
 void	ft_execute_pipeline(t_Minishell **shell, t_context *ctx);
 int		ft_handle_pipeline(t_Minishell *shell);
+
+/*minishell_handle.c*/
+int		handle_heredoc(char *arg, int *i);
+int		handle_input_redir(char *arg);
+int		handle_append_redir(char *arg);
+int		handle_output_redir(char *arg);
 
 /*minishell_redirect.c*/
 int		ft_handle_redirections(char **argv, int *stdin, int *stdout);

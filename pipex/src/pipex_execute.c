@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:27:13 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/19 00:29:00 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:57:49 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,35 +53,11 @@ char	*ft_resolve_path(char *cmd, char **env)
 
 void	ft_execute(t_pipex *pipex)
 {
-	char		*path;
 	t_command	*cmd;
 
 	cmd = pipex->exec->commands[pipex->i];
-	ft_cmd_not_found(pipex, cmd);
-	if (ft_is_builtins(cmd->cmd[0]))
-	{
-		signal(SIGINT, SIG_DFL);
-		if (ft_execute_builtins(cmd->cmd, pipex->history, pipex->env))
-			(ft_errno(cmd->cmd[0]), ft_free_pipex(pipex), exit(EXIT_FAILURE));
-		ft_free_pipex(pipex);
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		path = ft_resolve_path(cmd->cmd[0], pipex->env_array);
-		if (!path)
-		{
-			(ft_perror("pipex: "), ft_perror(cmd->cmd[0]));
-			ft_perror(": command not found\n");
-			ft_free_pipex(pipex);
-			exit(127);
-		}
-		signal(SIGINT, SIG_DFL);
-		execve(path, cmd->cmd, pipex->env_array);
-		ft_errno(cmd->cmd[0]);
-		ft_free_pipex(pipex);
-		exit(EXIT_FAILURE);
-	}
+	ft_execute_builtin_or_error(pipex, cmd);
+	ft_execute_external(pipex, cmd);
 }
 
 void	ft_child_process(t_pipex *pipex)
@@ -108,28 +84,14 @@ pid_t	ft_process_pipeline(t_pipex *pipex)
 
 	while (pipex->i < pipex->exec->count)
 	{
-		pipex->fd[0] = -1;
-		pipex->fd[1] = -1;
-		if (pipex->i < pipex->exec->count - 1 && pipe(pipex->fd) == -1)
-		{
-			g_exit = 1;
-			return (ft_perror("pipe\n"), EXIT_FAILURE);
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			g_exit = 1;
-			return (ft_perror("fork\n"), EXIT_FAILURE);
-		}
+		if (ft_setup_pipe(pipex) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		pid = ft_fork_process();
+		if (pid == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		if (pid == 0)
 			ft_child_process(pipex);
-		if (pipex->prev_fd != -1)
-			close(pipex->prev_fd);
-		if (pipex->i < pipex->exec->count - 1)
-		{
-			close(pipex->fd[1]);
-			pipex->prev_fd = pipex->fd[0];
-		}
+		ft_close_fds(pipex);
 		pipex->i++;
 	}
 	return (pid);

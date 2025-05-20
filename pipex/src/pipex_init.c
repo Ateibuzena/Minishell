@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:05:37 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/14 21:48:34 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:46:28 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_command	*ft_init_command(int len)
 
 static int	ft_init_commands(t_executor **exec, int len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < len)
@@ -70,7 +70,6 @@ t_executor	*ft_init_executor(int len)
 	}
 	if (!ft_init_commands(&exec, len))
 		return (NULL);
-
 	exec->count = 0;
 	return (exec);
 }
