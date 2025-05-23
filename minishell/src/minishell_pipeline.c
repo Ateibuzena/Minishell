@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:35:24 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/20 20:03:59 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:07:52 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	ft_handle_pipeline(t_Minishell *shell)
 	if (!shell->cleaned || !shell->cleaned[0])
 		return (ft_perror("Pipex error: NULL input\n"), 1);
 	ctx.exit = 0;
+	fprintf(stderr, "cleaned: %s\n", shell->cleaned);
 	ctx.input = ft_split_command(shell->cleaned);
 	ctx.len = ft_strlen_double(ctx.input);
 	ctx.argv = ft_group_tokens(ctx.input, ctx.len);

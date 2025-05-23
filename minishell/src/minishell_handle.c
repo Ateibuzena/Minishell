@@ -6,11 +6,21 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:32:03 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/20 22:37:06 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:28:01 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishellft.h"
+
+static char	*get_redirection_target(char *arg)
+{
+	char	*res;
+
+	while (*arg == ' ' || *arg == '\t')
+		arg++;
+	res = ft_strtrim(arg, " \t");
+	return (res);
+}
 
 int	handle_heredoc(char *arg, int *i)
 {

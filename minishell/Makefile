@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -I. -I../parser -I../pipex -I../tokens -I../prompt -I../builtins -I../enviroment -I../history -I../signals -I../libft
+CFLAGS = -g -Wall -Wextra -Werror -I. -I../parser -I../pipex -I../tokens -I../prompt -I../builtins -I../enviroment -I../history -I../signals -I../libft
 
 RM = rm -f
 

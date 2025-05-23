@@ -6,21 +6,11 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:55:27 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/20 22:32:26 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:27:53 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishellft.h"
-
-static char	*get_redirection_target(char *arg)
-{
-	char	*res;
-
-	while (*arg == ' ' || *arg == '\t')
-		arg++;
-	res = ft_strtrim(arg, " \t");
-	return (res);
-}
 
 static int	ft_handle_redirection_type(char *arg, int *i)
 {
