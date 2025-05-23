@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/20 20:01:27 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:36:14 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	ft_pipex(char **argv, t_Env **env, t_History *history)
 	if (!argv || !argv[0])
 		return (ft_perror("Pipex error: No input\n"), ft_freedouble(argv), 1);
 	ft_init_pipex(&pipex, env, history);
-	pipex.len = ft_strlen_double(argv);
 	pipex.exec = ft_parse_commands(argv);
 	if (!pipex.exec)
 	{
@@ -64,13 +63,13 @@ int	ft_pipex(char **argv, t_Env **env, t_History *history)
 	pipex.env_array = ft_envtoarray((*env));
 	if (!pipex.env_array)
 	{
-		ft_free_executor(pipex.exec, pipex.len);
+		ft_free_executor(pipex.exec);
 		g_exit = 1;
 		return (ft_perror("Pipex error: NULL env_array\n"), 1);
 	}
 	pipex.last_pid = ft_process_pipeline(&pipex);
 	pipex.last_status = ft_waitpid(&(pipex.last_pid));
-	ft_free_executor(pipex.exec, pipex.len);
+	ft_free_executor(pipex.exec);
 	ft_freedouble(pipex.env_array);
 	return (pipex.last_status);
 }

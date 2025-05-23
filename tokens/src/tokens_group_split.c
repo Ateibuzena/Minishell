@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:29:04 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/15 14:25:59 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:49:56 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char	**ft_group_tokens(char **entry, int len)
 			group.result[group.j] = ft_process_command(entry, &group.i);
 		group.j++;
 	}
+	group.result[group.j] = NULL;
 	ft_freedouble(entry);
 	return (group.result);
 }

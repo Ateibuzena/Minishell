@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen_double.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:12:28 by azubieta          #+#    #+#             */
-/*   Updated: 2025/03/31 19:12:31 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:47:09 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strlen_double(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 		i++;
 	return (i);
 }

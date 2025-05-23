@@ -6,11 +6,25 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 20:29:09 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/20 19:18:46 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:37:40 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipexft.h"
+
+/*static void ft_print(char **argv)
+{
+	int i;
+	int len;
+
+	i = 0;
+	len = ft_strlen_double(argv);
+	while (i < len)
+	{
+		fprintf(stderr, "argv[%d] : %s\n", i, argv[i]);
+		i++;
+	}
+}*/
 
 static char	*ft_extract_file(char *str, char *token)
 {
@@ -34,7 +48,11 @@ static void	ft_add_args(char *argv, t_command *curr, int *i)
 	k = 0;
 	split = ft_split(argv, ' ');
 	while (split[k])
-		curr->cmd[(*i)++] = ft_strdup(split[k++]);
+	{
+		curr->cmd[(*i)] = ft_strdup(split[k++]);
+		(*i)++;
+	}
+	curr->cmd[*i] = NULL;
 	ft_freedouble(split);
 }
 
@@ -61,14 +79,15 @@ static void	ft_process_token(char *token, t_command *curr, int *i)
 static t_executor	*ft_init_parser(char **argv, t_par *par)
 {
 	t_executor	*exec;
-	int			len;
+	char		**split;
 
 	par->i = 0;
 	par->j = 0;
 	if (!argv || !argv[0])
 		return (NULL);
-	len = ft_strlen_double(argv);
-	exec = ft_init_executor(len);
+	split = ft_split(argv[0], ' ');
+	exec = ft_init_executor(ft_strlen_double(argv), ft_strlen_double(split));
+	ft_freedouble(split);
 	return (exec);
 }
 

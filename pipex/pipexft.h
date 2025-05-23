@@ -6,7 +6,7 @@
 /*   By: azubieta <azubieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 22:13:34 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/20 20:00:33 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:52:07 by azubieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_command
 typedef struct s_executor
 {
 	t_command	**commands;
+	int			len;
+	int			len_commands;
 	int			count;
 }	t_executor;
 
@@ -62,8 +64,8 @@ typedef struct s_pipex
 }	t_pipex;
 
 /*pipex_init.c*/
-t_command	*ft_init_command(int len);
-t_executor	*ft_init_executor(int len);
+t_command	*ft_init_command(int len_commands);
+t_executor	*ft_init_executor(int len, int len_commands);
 
 /*pipex_redcirect.c*/
 int			ft_handle_input(t_pipex *pipex);
@@ -100,7 +102,7 @@ void		ft_errno(char *argument);
 
 /*pipex_free.c*/
 void		ft_free_command(t_command *cmd, int len);
-void		ft_free_executor(t_executor *exec, int len);
+void		ft_free_executor(t_executor *exec);
 void		ft_free_pipex(t_pipex *pipex);
 
 /*pipex.c*/
