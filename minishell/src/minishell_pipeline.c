@@ -89,7 +89,6 @@ int	ft_handle_pipeline(t_Minishell *shell)
 	if (!shell->cleaned || !shell->cleaned[0])
 		return (ft_perror("Pipex error: NULL input\n"), 1);
 	ctx.exit = 0;
-	fprintf(stderr, "cleaned: %s\n", shell->cleaned);
 	ctx.input = ft_split_command(shell->cleaned);
 	ctx.len = ft_strlen_double(ctx.input);
 	ctx.argv = ft_group_tokens(ctx.input, ctx.len);
