@@ -3,36 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: chanin <chanin@student.42malaga.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:40:33 by azubieta          #+#    #+#             */
-/*   Updated: 2024/11/22 21:30:42 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:03:38 by chanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-t_list	*ft_newnode(int fd)
+size_t	ft_strlen_getnextline_bonus(const char *s)
 {
-	t_list	*node;
+	int	i;
 
-	node = malloc(sizeof(t_list));
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin_getnextline_bonus(char *s1, char *s2)
+{
+	char	*join;
+	size_t	i;
+	size_t	j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	join = malloc((ft_strlen_getnextline_bonus(s1)
+				+ ft_strlen_getnextline_bonus(s2) + 1) * sizeof(char));
+	if (!join)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1 && s1[i])
+	{
+		join[i] = s1[i];
+		i++;
+	}
+	while (s2 && s2[j])
+	{
+		join[i + j] = s2[j];
+		j++;
+	}
+	join[i + j] = '\0';
+	return (join);
+}
+
+char	*ft_strchr_getnextline_bonus(const char *str, int c)
+{
+	if (!str || !(*str))
+		return (NULL);
+	while (*str)
+	{
+		if (*str == (char)c)
+			return ((char *)str);
+		str++;
+	}
+	if (c == '\0')
+		return ((char *)str);
+	return (NULL);
+}
+
+t_fdnode	*ft_newnode_getnextline_bonus(int fd)
+{
+	t_fdnode	*node;
+
+	node = malloc(sizeof(t_fdnode));
 	if (!node)
 		return (NULL);
 	node->fd = fd;
-	node->buffer = malloc(1 * sizeof(char));
+	node->buffer = malloc(1);
 	if (!node->buffer)
-		ft_freenode(&node, fd);
+	{
+		free(node);
+		node = NULL;
+		return (NULL);
+	}
 	node->buffer[0] = '\0';
 	node->next = NULL;
 	return (node);
 }
 
-char	*ft_freenode(t_list **list, int fd)
+char	*ft_freenode_getnextline_bonus(t_fdnode **list, int fd)
 {
-	t_list	*actual;
-	t_list	*previous;
+	t_fdnode	*actual;
+	t_fdnode	*previous;
 
+	if (!list || !*list)
+		return (NULL);
 	actual = *list;
 	previous = NULL;
 	while (actual && actual->fd != fd)
@@ -46,26 +107,9 @@ char	*ft_freenode(t_list **list, int fd)
 		previous->next = actual->next;
 	else
 		*list = actual->next;
-	if (actual->buffer)
-		free(actual->buffer);
+	free(actual->buffer);
+	actual->buffer = NULL;
 	free(actual);
+	actual = NULL;
 	return (NULL);
 }
-
-/*ft_freenode:
-Si prev es NULL, significa que el nodo a eliminar es el primer nodo 
-de la lista. Por lo tanto, *list (el inicio de la lista) se actualiza 
-para que apunte al siguiente nodo (current->next).
-Si prev no es NULL, se actualiza el puntero next del nodo anterior 
-(prev->next) para que apunte al siguiente nodo de current (current->next), 
-efectivamente eliminando current de la lista.
-*/
-/*Por qué ft_remove_node recibe un doble puntero?
-La función ft_remove_node recibe un doble puntero porque se necesita
-modificar el puntero que apunta al inicio de la lista (list) si el nodo a 
-eliminar es el primer nodo de la lista. Si solo se pasara un puntero simple,
-no se podría modificar el puntero original que apunta a la lista.
-
-En cambio, ft_remove_list no necesita modificar el puntero que apunta a la
-lista, ya que solo se utiliza para recorrer la lista y liberar cada nodo. 
-Por lo tanto, solo necesita un puntero simple.*/

@@ -57,49 +57,6 @@ typedef struct s_list_42
 
 # endif
 
-// Struct to get_netx_line_bonus
-# ifndef S_LIST
-#  define S_LIST
-
-typedef struct s_list
-{
-	char			*buffer;
-	int				fd;
-	struct s_list	*next;
-}	t_list;
-
-# endif
-
-// Struct to ft_printf
-# ifndef S_SPECIFIER
-#  define S_SPECIFIER
-
-typedef struct s_Specifier
-{
-	char	key;
-	void	(*ft_ft)(va_list *, int, int *);
-}	t_Specifier;
-
-# endif
-
-// Struct to ft_printf
-# ifndef S_PRINTF
-#  define S_PRINTF
-
-typedef struct s_Printf
-{
-	int			count;
-	int			i;
-	t_Specifier	*specifier;
-}	t_Printf;
-
-# endif
-
-// Buffer to get_next_line
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 45
-# endif
-
 // Struct to ft_itoa
 # ifndef ITOA
 #  define ITOA
@@ -113,6 +70,38 @@ typedef struct Itoa
 }	t_Itoa;
 
 # endif
+
+// Struct to ft_printf
+# ifndef S_FORMAT
+#  define S_FORMAT
+
+typedef struct s_format
+{
+    char				id;
+    int					(*func)(va_list args);
+    struct s_format		*next;
+}	t_format;
+
+# endif
+
+// Struct to get_netx_line_bonus
+# ifndef S_FDNODE
+#  define S_FDNODE
+
+typedef struct s_fdnode
+{
+	char			*buffer;
+	int				fd;
+	struct s_fdnode	*next;
+}	t_fdnode;
+
+# endif
+
+// Buffer to get_next_line
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 45
+# endif
+
 
 /*SRC/D_ASCII/*/
 int			ft_isalpha(int c);
@@ -129,19 +118,18 @@ void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
 
 /*SRC/D_GET_NEXT_LINE/*/
-char		*get_next_line(int fd);
-char		*ft_read_fd(int fd, char *buffer);
-char		*ft_line(char *line);
-char		*ft_buffer_update(char *buffer);
-
-char		*ft_free(char *ptr);
-char		*ft_free_staticbuffer(char *buffer);
 char		*get_next_line_bonus(int fd);
-char		*ft_read_fd_bonus(int fd, char *buffer);
-char		*ft_line(char *line);
-char		*ft_buffer_update_bonus(char *buffer);
-t_list		*ft_newnode(int fd);
-char		*ft_freenode(t_list **list, int fd);
+char		*ft_free_getnextline_bonus(char *ptr);
+size_t		ft_strlen_getnextline_bonus(const char *s);
+char		*ft_strjoin_getnextline_bonus(char *s1, char *s2);
+char		*ft_strchr_getnextline_bonus(const char *str, int c);
+t_fdnode	*ft_newnode_getnextline_bonus(int fd);
+char		*ft_freenode_getnextline_bonus(t_fdnode **list, int fd);
+char		*get_next_line(int fd);
+char		*ft_strjoin_getnextline(char *s1, char *s2);
+char		*ft_strchr_getnextline(const char *s, int c);
+size_t		ft_strlen_getnextline(const char *s);
+char		*ft_free(char *ptr);
 
 /*SRC/D_LISTS/*/
 t_list_42	*ft_lstnew(void *ptr);
@@ -164,21 +152,23 @@ int			ft_memcmp(const void *s1, const void *s2, t_size n);
 void		*ft_calloc(t_size count, t_size size);
 
 /*SRC/D_PRINTF/*/
-void		ft_call_putchar_printf(va_list *args, int fd, int *count);
-void		ft_putchar_printf(char c, int fd, int *count);
-void		ft_call_putstr_printf(va_list *args, int fd, int *count);
-void		ft_putstr_printf(char *str, int fd, int *count);
-void		ft_call_putnbr_printf(va_list *args, int fd, int *count);
-void		ft_putnbr_printf(long int i, int fd, int *count);
-void		ft_call_putnbr_u(va_list *args, int fd, int *count);
-void		ft_putnbr_u(unsigned int i, int fd, int *count);
-void		ft_call_puthex_upper(va_list *args, int fd, int *count);
-void		ft_puthex_upper(unsigned int i, int fd, int *count);
-void		ft_call_puthex_lower(va_list *args, int fd, int *count);
-void		ft_puthex_lower(unsigned int i, int fd, int *count);
-void		ft_call_puthex_nil(va_list *args, int fd, int *count);
-void		ft_puthex_nil(unsigned long int i, int fd, int *count);
-void		ft_call_putchar_percent(va_list *args, int fd, int *count);
+int			ft_printf(const char *format, ...);
+int         ft_init_handlers(t_format **head);
+int         ft_add_handler(t_format **lst, char id, int (*func)(va_list));
+void		ft_free_handlers(t_format *list);
+int			ft_call_handler(t_format *formats, char id, va_list args);
+int         ft_putchar_printf(char c);
+int			ft_handle_char(va_list args);
+int         ft_putstr_printf(char *s);
+int			ft_handle_string(va_list args);
+int			ft_handle_digits(va_list args);
+int			ft_handle_integer(va_list args);
+int			ft_handle_unsigned(va_list args);
+int         ft_puthex_printf(unsigned long n, int uppercase);
+int			ft_handle_hex_lower(va_list args);
+int			ft_handle_hex_upper(va_list args);
+int			ft_handle_pointer(va_list args);
+int			ft_handle_percent(va_list args);
 
 /*SRC/D_STRINGS/*/
 char		*ft_strncpy(char *dest, const char *src, size_t n);
@@ -204,7 +194,6 @@ void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 int			ft_strcmp(const char *s1, const char *s2);
 
 /*SRC/*/
-int			ft_printf(char const *format, ...);
 int			ft_atoi(const char *str);
 char		**ft_split(char const *str, char c);
 char		*ft_itoa(int n);

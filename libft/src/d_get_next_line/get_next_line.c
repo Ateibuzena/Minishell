@@ -3,48 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azubieta <azubieta@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: chanin <chanin@student.42malaga.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 21:47:26 by azubieta          #+#    #+#             */
-/*   Updated: 2025/05/01 16:09:10 by azubieta         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:16:02 by chanin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-char	*ft_buffer_update(char *buffer)
+static char	*ft_read_fd(int fd, char *buffer)
 {
-	int		i;
-	int		j;
-	char	*ptr;
+	char	*temp;
+	char	*chunk;
+	int		bytes;
 
-	i = 0;
-	while (buffer[i] != '\0' && buffer[i] != '\n')
-		i++;
-	if (buffer[i] == '\0')
+	chunk = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!chunk)
 		return (NULL);
-	ptr = malloc(((ft_strlen(buffer) - i) + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	i++;
-	j = 0;
-	while (buffer[i])
-		ptr[j++] = buffer[i++];
-	ptr[j] = '\0';
-	return (ptr);
+	bytes = 1;
+	while (!ft_strchr_getnextline(buffer, '\n') && bytes > 0)
+	{
+		bytes = read(fd, chunk, BUFFER_SIZE);
+		if (bytes == -1)
+		{
+			free(buffer);
+			return (ft_free(chunk));
+		}
+		chunk[bytes] = '\0';
+		temp = buffer;
+		buffer = ft_strjoin_getnextline(buffer, chunk);
+		free(temp);
+		if (!buffer)
+			return (ft_free(chunk));
+	}
+	free(chunk);
+	return (buffer);
 }
 
-char	*ft_line(char *buffer)
+static char	*ft_extract_line(char *buffer)
 {
 	int		i;
 	char	*line;
+	int		len;
 
-	i = 0;
-	if (!buffer[i])
+	if (!buffer || buffer[0] == '\0')
 		return (NULL);
+	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = malloc((i + 2) * sizeof(char));
+	len = i;
+	if (buffer[i] == '\n')
+		len++;
+	line = malloc((len + 1) * sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -54,62 +65,58 @@ char	*ft_line(char *buffer)
 		i++;
 	}
 	if (buffer[i] == '\n')
-	{
-		line[i] = '\n';
-		i++;
-	}
+		line[i++] = '\n';
 	line[i] = '\0';
 	return (line);
 }
 
-char	*ft_read_fd(int fd, char *buffer)
+static char	*ft_update_buffer(char *buffer)
 {
-	char	*ptr;
-	int		bytes;
-	char	*temp;
+	int		i;
+	int		j;
+	char	*new;
 
-	bytes = 1;
-	ptr = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!ptr)
+	i = 0;
+	j = 0;
+	if (!buffer)
 		return (NULL);
-	while ((!buffer) || (!ft_strchr(buffer, '\n') && bytes != 0))
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (!buffer[i])
 	{
-		bytes = read(fd, ptr, BUFFER_SIZE);
-		if (bytes == -1)
-			return (ft_free(ptr));
-		ptr[bytes] = '\0';
-		temp = buffer;
-		buffer = ft_strjoin(buffer, ptr);
-		free(temp);
-		if (!buffer)
-			return (ft_free(ptr));
+		free(buffer);
+		return (NULL);
 	}
-	free(ptr);
-	return (buffer);
+	new = malloc((ft_strlen_getnextline(buffer) - i + 1) * sizeof(char));
+	if (!new)
+		return (NULL);
+	i++;
+	while (buffer[i])
+		new[j++] = buffer[i++];
+	new[j] = '\0';
+	free(buffer);
+	buffer = NULL;
+	return (new);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*buffer = NULL;
 	char		*line;
-	char		*new_buffer;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		if (buffer)
+		{
+			free(buffer);
+			buffer = NULL;
+		}
 		return (NULL);
-	if (!buffer)
-		buffer = ft_strdup("");
+	}
 	buffer = ft_read_fd(fd, buffer);
 	if (!buffer)
 		return (NULL);
-	line = ft_line(buffer);
-	if (!line)
-	{
-		free(buffer);
-		buffer = NULL;
-		return (NULL);
-	}
-	new_buffer = ft_buffer_update(buffer);
-	free(buffer);
-	buffer = ft_free_staticbuffer(new_buffer);
+	line = ft_extract_line(buffer);
+	buffer = ft_update_buffer(buffer);
 	return (line);
 }
