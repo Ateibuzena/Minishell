@@ -45,6 +45,7 @@ minishell/
 cd ./minishell
 
 make
+
 ./minishell
 ```
 
