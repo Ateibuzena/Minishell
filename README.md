@@ -42,6 +42,8 @@ minishell/
 ## 🔧 Compilación
 
 ```bash
+cd ./minishell
+
 make
 ./minishell
 ```
